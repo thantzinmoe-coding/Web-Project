@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Amita:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.text {
+    font-family: "Amita", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.navbar-toggler-icon {
+    transition: transform 0.3s ease; /* Smooth rotation */
+  }
+
+  .navbar-toggler.collapsed .navbar-toggler-icon {
+    transform: rotate(0deg); /* Default state */
+  }
+
+  .navbar-toggler:not(.collapsed) .navbar-toggler-icon {
+    transform: rotate(180deg); /* Rotated state */
+  }
