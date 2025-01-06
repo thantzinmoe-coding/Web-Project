@@ -30,11 +30,19 @@
             transform: rotate(90deg);
         }
 
-        .main-page img{
+        .main-page img {
             width: 350px;
             height: 350px;
             object-fit: cover;
         }
+
+        .container textarea{
+            width: 100vw;
+            height: 30vh;
+            border: 3px solid #000;
+            border-radius: 20px;
+        }
+
     </style>
 </head>
 
@@ -105,6 +113,20 @@
             </div>
         </div>
     </div>
+    <div class="container">
+        <h1 class="text-center">Health Article</h1>
+        <div class="d-flex justify-content-center align-items-center">
+            <textarea name="article" class="m-3"></textarea>
+        </div>
+    </div>
+    <nav class="navbar bg-body-tertiary mx-5">
+        <form class="container-fluid">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Enter Your Input(Doctor, Hospital,...)" aria-describedby="basic-addon1">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </div>
+        </form>
+      </nav>
     <footer>
         <div class="container">
             <div class="row">
