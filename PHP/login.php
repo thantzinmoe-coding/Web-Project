@@ -1,0 +1,60 @@
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+    $password = htmlspecialchars($_POST['password']);
+
+    if ($email !== false && !empty($password)) {
+        $servername = "localhost";
+        $db_username = "root";
+        $db_password = "";
+        $dbname = "project";
+
+        $conn = new mysqli($servername, $db_username, $db_password, $dbname);
+
+        if ($conn->connect_error) {
+            error_log("Connection failed: " . $conn->connect_error);
+            echo json_encode(['status' => 'error', 'message' => 'Connection failed: ' . $conn->connect_error]);
+            exit;
+        }
+
+        $stmt = $conn->prepare("SELECT userID, password FROM users WHERE email = ?");
+        if (!$stmt) {
+            error_log("Prepare failed: " . $conn->error);
+            echo json_encode(['status' => 'error', 'message' => 'Prepare failed: ' . $conn->error]);
+            exit;
+        }
+
+        $stmt->bind_param("s", $email);
+        if (!$stmt->execute()) {
+            error_log("Execute failed: " . $stmt->error);
+            echo json_encode(['status' => 'error', 'message' => 'Execute failed: ' . $stmt->error]);
+            exit;
+        }
+
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $stmt->bind_result($id, $hashed_password);
+            $stmt->fetch();
+
+            if (password_verify($password, $hashed_password)) {
+                session_start();
+                $_SESSION['user_id'] = $id;
+                $_SESSION['loggedin'] = true;
+                echo json_encode(['status' => 'success', 'message' => 'Login successful']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'No user found with this email']);
+        }
+
+        $stmt->close();
+        $conn->close();
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid input data']);
+    }
+    exit;
+}
+?>

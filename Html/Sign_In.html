@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/Sign_In.css">
+    <script src="../JS/jquery.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Sign In</title>
+    <style>
+        .strength-meter {
+            width: 100%;
+            display: flex;
+            height: 5px;
+            margin-top: 5px;
+        }
+
+        .strength-meter div {
+            flex: 1;
+            height: 100%;
+            margin: 0 1px;
+        }
+
+        .strength-meter div:nth-child(1) {
+            background-color: #ff3e36;
+        }
+
+        .strength-meter div:nth-child(2) {
+            background-color: #ff691f;
+        }
+
+        .strength-meter div:nth-child(3) {
+            background-color: #ffda36;
+        }
+
+        .strength-meter div:nth-child(4) {
+            background-color: #0be881;
+        }
+
+        .strength-meter div.inactive {
+            background-color: #e0e0e0;
+        }
+
+        .password-container {
+            width: 100%;
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form id="signupForm">
+                <h1>Create Account</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registration</span>
+                <input type="text" placeholder="Name" id="username" name="username" required>
+                <input type="email" placeholder="Email" id="email" name="email" required>
+                <div class="password-container">
+                    <input type="password" placeholder="Password" id="password" name="password" required>
+                    <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                </div>
+                <div class="strength-meter" id="strengthMeter">
+                    <div class="inactive"></div>
+                    <div class="inactive"></div>
+                    <div class="inactive"></div>
+                    <div class="inactive"></div>
+                </div>
+                <div id="passwordStrength"></div>
+                <button type="submit" class="signup">Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form id="loginForm">
+                <h1>Sign In</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email password</span>
+                <input type="email" placeholder="Email" id="loginEmail" name="email" required>
+                <div class="password-container">
+                    <input type="password" placeholder="Password" id="loginPassword" name="password" required>
+                    <i class="fas fa-eye toggle-password" id="toggleLoginPassword"></i>
+                </div>
+                <a href="#">Forget Your Password?</a>
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Register with your personal details to use all of site features</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="response"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/notiflix"></script>
+    <script>
+        const passwordInput = document.getElementById('password');
+        const strengthMeter = document.getElementById('strengthMeter');
+        const strengthMeterBars = strengthMeter.querySelectorAll('div');
+        const togglePassword = document.getElementById('togglePassword');
+        const loginPasswordInput = document.getElementById('loginPassword');
+        const toggleLoginPassword = document.getElementById('toggleLoginPassword');
+
+        passwordInput.addEventListener('input', updateStrengthMeter);
+        togglePassword.addEventListener('click', togglePasswordVisibility);
+        toggleLoginPassword.addEventListener('click', toggleLoginPasswordVisibility);
+
+        function updateStrengthMeter() {
+            const weaknesses = calculatePasswordStrength(passwordInput.value);
+            let strength = 4 - weaknesses.length;
+            strengthMeterBars.forEach((bar, index) => {
+                if (index < strength) {
+                    bar.classList.remove('inactive');
+                } else {
+                    bar.classList.add('inactive');
+                }
+            });
+            switch (strength) {
+                case 0:
+                    document.getElementById('passwordStrength').textContent = 'Very Weak';
+                    break;
+                case 1:
+                    document.getElementById('passwordStrength').textContent = 'Weak';
+                    break;
+                case 2:
+                    document.getElementById('passwordStrength').textContent = 'Fair';
+                    break;
+                case 3:
+                    document.getElementById('passwordStrength').textContent = 'Good';
+                    break;
+                case 4:
+                    document.getElementById('passwordStrength').textContent = 'Strong';
+                    break;
+                default:
+                    document.getElementById('passwordStrength').textContent = '';
+            }
+        }
+
+        function calculatePasswordStrength(password) {
+            const weaknesses = [];
+            if (password.length < 8) {
+                weaknesses.push('Password is too short');
+            }
+            if (!/[A-Z]/.test(password)) {
+                weaknesses.push('Password must contain at least one uppercase letter');
+            }
+            if (!/[a-z]/.test(password)) {
+                weaknesses.push('Password must contain at least one lowercase letter');
+            }
+            if (!/[0-9]/.test(password)) {
+                weaknesses.push('Password must contain at least one number');
+            }
+            if (!/[^A-Za-z0-9]/.test(password)) {
+                weaknesses.push('Password must contain at least one special character');
+            }
+            return weaknesses;
+        }
+
+        function togglePasswordVisibility() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePassword.classList.remove('fa-eye');
+                togglePassword.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                togglePassword.classList.remove('fa-eye-slash');
+                togglePassword.classList.add('fa-eye');
+            }
+        }
+
+        function toggleLoginPasswordVisibility() {
+            if (loginPasswordInput.type === 'password') {
+                loginPasswordInput.type = 'text';
+                toggleLoginPassword.classList.remove('fa-eye');
+                toggleLoginPassword.classList.add('fa-eye-slash');
+            } else {
+                loginPasswordInput.type = 'password';
+                toggleLoginPassword.classList.remove('fa-eye-slash');
+                toggleLoginPassword.classList.add('fa-eye');
+            }
+        }
+
+        document.getElementById('signupForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            Notiflix.Loading.standard('Loading...');
+
+            const formData = new FormData(this);
+
+            fetch('../PHP/createAccount.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    Notiflix.Loading.remove();
+                    if (data.status === 'success') {
+                        Notiflix.Report.success('Success', data.message, 'Okay', () => {
+                            window.location.href = '../PHP/Home_Page.php';
+                        });
+                        console.log(data.message);
+                        // Clear form inputs
+                        document.getElementById('signupForm').reset();
+                        strengthMeterBars.forEach(bar => bar.classList.add('inactive'));
+                    } else {
+                        Notiflix.Report.failure('Error', data.message, 'Okay');
+                        console.log(data.message);
+                    }
+                })
+                .catch(error => {
+                    Notiflix.Loading.remove();
+                    Notiflix.Report.failure('Error', 'An error occurred while creating the account.', 'Okay');
+                    console.log('An error occurred:', error);
+                });
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            Notiflix.Loading.standard('Loading...');
+
+            const formData = new FormData(this);
+
+            fetch('../PHP/login.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    Notiflix.Loading.remove();
+                    if (data.status === 'success') {
+                        Notiflix.Report.success('Success', data.message, 'Okay', () => {
+                            window.location.href = '../PHP/Home_Page.php';
+                        });
+                        console.log(data.message);
+                        document.getElementById('loginForm').reset();
+                    } else {
+                        Notiflix.Report.failure('Error', data.message, 'Okay');
+                        console.log(data.message);
+                    }
+                })
+                .catch(error => {
+                    Notiflix.Loading.remove();
+                    Notiflix.Report.failure('Error', 'An error occurred while logging in.', 'Okay');
+                    console.log('An error occurred:', error);
+                });
+        });
+    </script>
+</body>
+<script src="../JS/Sign_In.js"></script>
+<script src="https://kit.fontawesome.com/900da7ce66.js" crossorigin="anonymous"></script>
+
+</html>
