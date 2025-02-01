@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit;
         }
 
-        $stmt = $conn->prepare("SELECT userID, password FROM users WHERE email = ?");
+        $stmt = $conn->prepare("SELECT userID, password, status FROM users WHERE email = ?");
         if (!$stmt) {
             error_log("Prepare failed: " . $conn->error);
             echo json_encode(['status' => 'error', 'message' => 'Prepare failed: ' . $conn->error]);
@@ -35,8 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
-            $stmt->bind_result($id, $hashed_password);
+            $stmt->bind_result($id, $hashed_password, $status);
             $stmt->fetch();
+
+            if ($status !== 'verified') {
+                echo json_encode(['status' => 'verify', 'message' => 'Please verify your account first']);
+                exit;
+            }
 
             if (password_verify($password, $hashed_password)) {
                 session_start();

@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Appointment System</title>
     <link rel="stylesheet" href="../CSS/Home_page.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/dist/notiflix-3.2.7.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="../JS/jquery.js"></script>
     <style>
         .profile-icon {
             width: 40px;
@@ -19,6 +21,23 @@
             align-items: center;
             padding: 14px 16px;
         }
+
+        .logout {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px;
+            margin-top: -100px;
+            margin-left: 10px;
+        }
+
+        .logout button {
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -29,8 +48,8 @@
             <div class="logo">DAS</div>
             <ul>
                 <li><a href="Home_page.php">Home</a></li>
-                <li><a href="./Find_Doctor.php">Find Doctor</a></li>
-                <li><a href="./Find_Hospital.php">Find Hospital</a></li>
+                <li><a href="Find_Doctor.php">Find Doctor</a></li>
+                <li><a href="Find_Hospital.php">Find Hospital</a></li>
                 <?php
                 session_start();
                 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
@@ -163,7 +182,45 @@
         <!-- time running -->
         <div class="time"></div>
     </div>
+    <?php
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+        echo    '<div class="logout">
+                    <form action="" id="logout">
+                        <button type="submit">Log out</button>
+                    </form>
+                </div>';
+    } else {
+        echo '';
+    }
+    ?>
+
+    <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/dist/notiflix-3.2.7.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#logout').submit(function(e) {
+                e.preventDefault();
+                Notiflix.Loading.standard('Logging out...');
+                $.ajax({
+                    type: 'POST',
+                    url: '../PHP/logout.php',
+                    success: function(response) {
+                        if (response.status == 'success') {
+                            Notiflix.Report.success('Success', response.message, 'OK', function() {
+                                window.location.href = 'Home_Page.php';
+                            });
+                        } else {
+                            Notiflix.Report.failure('Error', response.message, 'OK');
+                        }
+                    },
+                    error: function(err) {
+                        Notiflix.Report.failure('Error', 'An error occurred, please try again later.', 'OK');
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="../JS/Home_Page.js"></script>
+
 </body>
-<script src="../JS/Home_Page.js"></script>
 
 </html>

@@ -73,6 +73,7 @@
                 <span>or use your email for registration</span>
                 <input type="text" placeholder="Name" id="username" name="username" required>
                 <input type="email" placeholder="Email" id="email" name="email" required>
+                <input type="hidden" name="otp" id="otp" value="123456">
                 <div class="password-container">
                     <input type="password" placeholder="Password" id="password" name="password" required>
                     <i class="fas fa-eye toggle-password" id="togglePassword"></i>
@@ -102,7 +103,17 @@
                     <input type="password" placeholder="Password" id="loginPassword" name="password" required>
                     <i class="fas fa-eye toggle-password" id="toggleLoginPassword"></i>
                 </div>
-                <a href="#">Forget Your Password?</a>
+                <a href="#" id="forget_password">Forget Your Password?</a>
+                <script>
+                    document.getElementById('forget_password').addEventListener('click', function (event) {
+                        event.preventDefault();
+                        Notiflix.Loading.standard('Loading...');
+                        setTimeout(() => {
+                            Notiflix.Loading.remove();
+                            window.location.href = 'forget-password.html';
+                        }, 2000);
+                    });
+                </script>
                 <button type="submit">Sign In</button>
             </form>
         </div>
@@ -215,6 +226,17 @@
             event.preventDefault();
             Notiflix.Loading.standard('Loading...');
 
+            function getRandomInt(min, max) {
+                min = Math.ceil(min);  // Round up to the nearest integer
+                max = Math.floor(max); // Round down to the nearest integer
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            const otp = getRandomInt(100000, 999999);
+            console.log(otp);
+            document.getElementById('otp').value = otp;
+            const email = document.getElementById('email').value;
+
             const formData = new FormData(this);
 
             fetch('../PHP/createAccount.php', {
@@ -226,8 +248,9 @@
                     Notiflix.Loading.remove();
                     if (data.status === 'success') {
                         Notiflix.Report.success('Success', data.message, 'Okay', () => {
-                            window.location.href = '../PHP/Home_Page.php';
+                            window.location.href = '../Html/verify.html';
                         });
+                        localStorage.setItem('email', email);
                         console.log(data.message);
                         // Clear form inputs
                         document.getElementById('signupForm').reset();
@@ -248,6 +271,9 @@
             event.preventDefault();
             Notiflix.Loading.standard('Loading...');
 
+            const email = document.getElementById("loginEmail").value;
+            console.log(email);
+
             const formData = new FormData(this);
 
             fetch('../PHP/login.php', {
@@ -263,7 +289,14 @@
                         });
                         console.log(data.message);
                         document.getElementById('loginForm').reset();
-                    } else {
+                    } if(data.status === 'verify') {
+                        Notiflix.Report.failure('Error', data.message, 'Okay', () => {
+                            localStorage.setItem('email', email);
+                            window.location.href = '../Html/verify.html';
+                        });
+                        console.log(data.message);
+                    }
+                    else {
                         Notiflix.Report.failure('Error', data.message, 'Okay');
                         console.log(data.message);
                     }

@@ -1,11 +1,16 @@
 <?php
 
+header('Content-Type: application/json');
+ob_start();
+session_start();
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $start_time = microtime(true);
 
     $username = htmlspecialchars($_POST['username']);
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
     $password = htmlspecialchars($_POST['password']);
+    $otp = filter_var($_POST['otp'], FILTER_VALIDATE_INT);
 
     if (!empty($username) && $email !== false && !empty($password) && strlen($password) >= 8) {
         $servername = "localhost";
@@ -41,15 +46,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Hash the password
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $status = "unverified";
 
-        $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $username, $email, $hashed_password);
+        $stmt = $conn->prepare("INSERT INTO users (username, email, password, otp, status) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $username, $email, $hashed_password, $otp, $status);
 
         if ($stmt->execute()) {
-            session_start();
-            $_SESSION['message'] = 'Account created successfully';
-            $_SESSION['loggedin'] = true;
-            echo json_encode(['status' => 'success', 'message' => 'Account created successfully']);
+            require 'send_mail.php';
+            if(sendMail($email, $otp)) {
+                ob_end_clean();
+                echo json_encode(['status' => 'success', 'message' => 'Please verify your account!']);
+            } else {
+                ob_end_clean();
+                echo json_encode(['status' => 'error', 'message' => 'Failed to send verification email']);
+            }
         } else {
             error_log("Error: " . $stmt->error);
             echo json_encode(['status' => 'error', 'message' => 'Error: ' . $stmt->error]);
@@ -72,4 +82,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     error_log("Total script execution time: " . (microtime(true) - $start_time) . " seconds");
     exit;
 }
+
 ?>
