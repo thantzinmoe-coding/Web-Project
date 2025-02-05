@@ -150,31 +150,40 @@
 
             document.getElementById("email").value = email;
 
-            const status = localStorage.getItem("content");
+            const content = localStorage.getItem("content");
 
             fetch('../PHP/verify.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ source: "verify", email: email, otp: document.getElementById("otp").value })
+                body: JSON.stringify({ source: "verify", email: email, otp: document.getElementById("otp").value, content: content })
             })
                 .then(response => response.text())
+                .then(text => {
+                    console.log("Raw response:", text);  // Debugging
+                    return JSON.parse(text);
+                })
                 .then(data => {
                     Notiflix.Loading.remove();
                     console.log("Response from verify:", data);
-                    Notiflix.Report.success('Success', 'Email verified successfully!', 'Okay', function () {
-                        if(status === 'forget'){
-                            window.location.href = "reset-password.html";
-                            exit;
-                        }
-                        localStorage.removeItem("email");
-                        window.location.href = "../PHP/Home_page.php";
-                    });
+                    if (data.status === 'success') {
+                        Notiflix.Report.success('Success', 'Your account verified successfully!', 'Okay', function () {
+                            if (content === 'forget') {
+                                window.location.href = "reset-password.html";
+                                exit;
+                            }
+                            localStorage.removeItem("email");
+                            window.location.href = "../PHP/Home_page.php";
+                        });
+                    } else {
+                        Notiflix.Loading.remove();
+                        Notiflix.Report.failure('Fail', 'Wrong OTP', 'okay');
+                    }
                 })
                 .catch(error => {
                     Notiflix.Loading.remove();
-                    console.error('Error:', error);
+                    console.error('Error:', error.message);
                     Notiflix.Notify.failure('Failed to verify OTP.');
                 });
         });

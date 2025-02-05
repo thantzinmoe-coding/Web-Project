@@ -55,6 +55,15 @@
             transform: translateY(-50%);
             cursor: pointer;
         }
+
+        .toggle {
+            background-color: #28a745;
+            background: linear-gradient(to right, #28a745, #898989);
+        }
+
+        .container button {
+            background-color: #28a745;
+        }
     </style>
 </head>
 
@@ -64,12 +73,6 @@
         <div class="form-container sign-up">
             <form id="signupForm">
                 <h1>Create Account</h1>
-                <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div>
                 <span>or use your email for registration</span>
                 <input type="text" placeholder="Name" id="username" name="username" required>
                 <input type="email" placeholder="Email" id="email" name="email" required>
@@ -91,12 +94,6 @@
         <div class="form-container sign-in">
             <form id="loginForm">
                 <h1>Sign In</h1>
-                <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div>
                 <span>or use your email password</span>
                 <input type="email" placeholder="Email" id="loginEmail" name="email" required>
                 <div class="password-container">
@@ -289,7 +286,7 @@
                         });
                         console.log(data.message);
                         document.getElementById('loginForm').reset();
-                    } if(data.status === 'verify') {
+                    } if (data.status === 'verify') {
                         Notiflix.Report.failure('Error', data.message, 'Okay', () => {
                             localStorage.setItem('email', email);
                             window.location.href = '../Html/verify.html';

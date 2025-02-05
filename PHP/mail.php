@@ -5,18 +5,16 @@ use PHPMailer\PHPMailer\Exception;
 
 require '../vendor/autoload.php';
 
-session_start();
-
-function sendMail($recipientEmail, $otp)
+function registerMail($recipientEmail)
 {
-    $htmlTemplate = file_get_contents('../Html/otp_email_template.html');
-    $message = str_replace('{{ OTP }}', $otp, $htmlTemplate);
+    $htmlTemplate = file_get_contents('../Html/mail.html');
+    $message = $htmlTemplate;
 
     $mail = new PHPMailer(true);
 
     try {
         // Server settings
-        $mail->SMTPDebug = 2;                                       // Enable verbose debug output
+        $mail->SMTPDebug = 0;                                       // Enable verbose debug output
         $mail->isSMTP();                                            // Set mailer to use SMTP
         $mail->Host       = 'smtp.gmail.com';                     // Specify main and backup SMTP servers
         $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
@@ -31,14 +29,11 @@ function sendMail($recipientEmail, $otp)
 
         // Content
         $mail->isHTML(true);                                        // Set email format to HTML
-        $mail->Subject = 'Your OTP for Doctor Appointment System';
+        $mail->Subject = 'Registration';
         $mail->Body    = $message;
 
         $mail->send();
-        $_SESSION['loggedin'] = true;
-        return true;
     } catch (Exception $e) {
         error_log("Mailer Error: {$mail->ErrorInfo}");
-        return false;
     }
 }
