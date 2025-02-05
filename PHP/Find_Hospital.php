@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find Hospital - DAS</title>
+    <title>Find Hospital</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../CSS/Find_Hospital.css">
 </head>
 
@@ -20,64 +21,82 @@
             </ul>
         </nav>
     </header>
+    <div class="container my-4">
+        <h1 class="text-center mb-4">Find Your Healthcare Here</h1>
 
-    <div class="container">
-        <aside class="filters">
-            <h2>Specialties</h2>
-            <div>
-                <h3>Specialty</h3>
-                <label><input type="radio" name="specialty"> Cardiology</label>
-                <label><input type="radio" name="specialty"> Neurology</label>
-                <label><input type="radio" name="specialty"> Pediatrics</label>
-                <label><input type="radio" name="specialty"> Orthopedics</label>
-            </div>
-            <div>
-                <h3>Gender</h3>
-                <label><input type="radio" name="gender"> Male</label>
-                <label><input type="radio" name="gender"> Female</label>
-            </div>
-        </aside>
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" id="searchHospital" class="form-control" placeholder="Search hospital by name...">
+            <input type="text" id="filterLocation" class="form-control" placeholder="Add city or region">
+            <button class="btn btn-primary" onclick="fetchHospitals()">Search</button>
+        </div>
 
-        <main class="results">
-            <div class="search-bar">
-                <input type="text" id="search" placeholder="Search hospitals...">
-                <button onclick="searchHospitals()">Search</button>
+        <!-- Filters -->
+        <div class="filter-section mt-4">
+            <h5>Filter By:</h5>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="24/7" id="emergencyFilter">
+                <label class="form-check-label" for="emergencyFilter">24/7 Emergency Services</label>
             </div>
-            <h2>Hospital - Search Results</h2>
-
-            <div class="hospital-list">
-                <?php
-                include 'connection.php';
-                include 'Hospital.php';
-
-                $conn = connect();
-                if ($conn == null) {
-                    die("Database Connection Failed");
-                } else {
-                    $hospital = new Hospital($conn);
-                    $result = $hospital->fetchAll();
-                    foreach ($result as $row) {
-                        echo '<div class="hospital-card">';
-                        echo '<h3>' . htmlspecialchars($row['name']) . '</h3>';
-                        echo '<p><strong>Address:</strong> ' . htmlspecialchars($row['address']) . '</p>';
-                        echo '<p><strong>City:</strong> ' . htmlspecialchars($row['city']) . '</p>';
-                        echo '<p><strong>Phone Number:</strong> ' . htmlspecialchars($row['phone_number']) . '</p>';
-                        echo '<p><strong>Email:</strong> <a href="mailto:' . htmlspecialchars($row['email']) . '">' . htmlspecialchars($row['email']) . '</a></p>';
-                        echo '<p><strong>Website:</strong> <a href="' . htmlspecialchars($row['website']) . '" target="_blank">' . htmlspecialchars($row['website']) . '</a></p>';
-                        echo '<button>Book Now</button>';
-                        echo '</div>';
-                    }
-                }
-                ?>
+            <div class="mt-2">
+                <label for="filterSpecialty">Specialty:</label>
+                <select id="filterSpecialty" class="form-select">
+                    <option value="">All Specialties</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Pediatrics">Pediatrics</option>
+                    <option value="Neurology">Neurology</option>
+                </select>
             </div>
-        </main>
+        </div>
+
+        <!-- Hospital List -->
+        <div id="hospitalList" class="mt-4">
+            <!-- Hospital Cards Will Be Injected Here -->
+        </div>
     </div>
 
     <script>
-        function searchHospitals() {
-            alert("Search functionality coming soon!");
+        function fetchHospitals() {
+            const search = document.getElementById('searchHospital').value;
+            const location = document.getElementById('filterLocation').value;
+            const specialty = document.getElementById('filterSpecialty').value;
+            const emergency = document.getElementById('emergencyFilter').checked;
+
+            fetch(`fetch_hospitals.php?search=${search}&location=${location}&specialty=${specialty}&emergency=${emergency}`)
+                .then(response => response.json())
+                .then(data => displayHospitals(data))
+                .catch(error => console.error('Error fetching hospitals:', error));
         }
+
+        function displayHospitals(hospitals) {
+            const hospitalList = document.getElementById('hospitalList');
+            hospitalList.innerHTML = '';
+
+            if (hospitals.length === 0) {
+                hospitalList.innerHTML = '<p>No hospitals found.</p>';
+                return;
+            }
+
+            hospitals.forEach(hospital => {
+                const card = `
+            <div class="hospital-card">
+                <h4>${hospital.name}</h4>
+                <p>Location: ${hospital.location}</p>
+                <p>Specialty: ${hospital.specialty}</p>
+                <p>Contact: ${hospital.contact}</p>
+                <p>Rating: ${hospital.rating} ⭐</p>
+                ${hospital.emergency_services == 1 ? '<p>24/7 Emergency Available 🚑</p>' : ''}
+                <button class="btn btn-primary">Book Appointment</button>
+            </div>`;
+                hospitalList.innerHTML += card;
+            });
+        }
+
+        // Initial Load
+        fetchHospitals();
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
