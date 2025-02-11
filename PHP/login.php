@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if (password_verify($password, $hashed_password)) {
                 session_start();
-                $_SESSION['user_id'] = $id;
+                $_SESSION['email'] = $email;
                 $_SESSION['loggedin'] = true;
                 echo json_encode(['status' => 'success', 'message' => 'Login successful']);
             } else {

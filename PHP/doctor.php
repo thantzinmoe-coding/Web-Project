@@ -73,6 +73,9 @@
                                 <option value="hospital2" class="ms-3">Thamine General Hospital</option>
                             </select>
                         </div>
+                        <div class="mb-3">
+                            
+                        </div>
                         <button class="btn btn-primary w-100">Update</button>
                     </form>
                 </div>

@@ -42,7 +42,7 @@ if ($data["source"] === "verify") {
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $_SESSION['loggedin'] = true;
-
+        $_SESSION['email'] = $email;
         echo json_encode(["status" => "success", "message" => "OTP verified!"]);
 
         ob_end_flush();

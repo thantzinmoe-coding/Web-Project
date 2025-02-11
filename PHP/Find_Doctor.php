@@ -1,5 +1,6 @@
 <?php
 // Database connection
+session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -8,6 +9,10 @@ $dbname = "project";
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
+}
+
+if(isset($_SESSION['email'])){
+    $useremail = $_SESSION['email'];
 }
 
 // Fetch unique job types
@@ -27,6 +32,7 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DAS - Find Doctor</title>
     <link rel="stylesheet" href="../CSS/Find_Doctor.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -79,20 +85,43 @@ $result = $conn->query($sql);
                 <?php
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
+                        $doctor_id = $row['doctor_id'];
                         echo "<div class='job-card'>";
                         echo "<h3>" . htmlspecialchars($row['name']) . "</h3>";
                         echo "<p>" . htmlspecialchars($row['credential']) . "</p>";
                         echo "<div class='details'>";
                         echo "<span>Consultation Fee: " . number_format($row['consultation_fee']) . " MMK</span>";
-                        echo "<button>Book Now</button>";
+                        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+                            // If user is logged in, allow booking
+                            echo '<form method="POST" action="booking.php">';
+                            echo '<input type="hidden" name="doctor_id" value="' . $doctor_id . '">';
+                            echo '<input type="hidden" name="email" value="' . $useremail . '">';
+                            echo '<button type="submit">Book Now</button>';
+                            echo '</form>';
+                        } else {
+                            // If user is not logged in, show alert and redirect using JavaScript
+                            echo '<button onclick="redirectToLogin()">Book Now</button>';
+                        }
+                        echo '</form>';
                         echo "</div>";
                         echo "</div>";
+                    }
+                    if (isset($_POST['doctor_id'])) {
+                        exit;
                     }
                 } else {
                     echo "<p>No doctors found.</p>";
                 }
                 ?>
             </div>
+            <script>
+                function redirectToLogin() {
+                    Notiflix.Report.warning('Warning', 'You need to login first to make appointment!', 'Okay', () => {
+                        window.location.href = "../Html/Sign_In.html"; // Redirect after alert
+                    });
+                }
+            </script>
+
             <button id="load-more" style="display: block; margin: 20px auto;">See More</button>
         </main>
     </div>
@@ -170,6 +199,7 @@ $result = $conn->query($sql);
             });
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/notiflix"></script>
 </body>
 
 </html>
