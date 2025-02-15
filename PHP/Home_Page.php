@@ -203,7 +203,7 @@
                         }
                     },
                     error: function(err) {
-                        Notiflix.Report.failure('Error', 'An error occurred, please try again later.', 'OK');
+                        Notiflix.Report.failure('Error', 'An error occurred, please try again.', 'OK');
                     }
                 });
             });

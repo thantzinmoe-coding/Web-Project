@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -17,4 +17,44 @@
     </script>
 </body>
 
-</html>
+</html> -->
+
+<?php
+
+// $filename = "Report.txt";
+
+// if(!file_exists($filename)){
+//     $file = fopen($filename, "w");
+// } else {
+//     $file = fopen($filename, "w");
+// }
+
+// if($file){
+//     for($i = 'A'; $i <= 'Z'; $i++){
+//         fwrite($file, ($i));
+//         if($i === 'Z'){
+//             break;
+//         }
+//     }
+//     fclose($file);
+//     echo "Report.txt has been created (or cleared) and written with letters A-Z.</br>";
+// } else {
+//     echo "Unable to open the files";
+// }
+
+// $fr = fopen("Report.txt", "r");
+// if($fr){
+//     $content = fread($fr, filesize("Report.txt"));
+//     echo $content;
+// }
+
+// $date = "2025-02-15";
+// $day = date('d M Y', strtotime($date));
+// echo $day;
+
+// Creating an object
+require_once 'patient.php';
+$patient = new Patient("John Doe","tmoe8123@gmail.com", "Dr. Smith", "City Hospital", "123 Main St", "Fever, Cough", "20th Feb 2025");
+
+// Passing the object to function
+sendAppointmentEmail($patient);

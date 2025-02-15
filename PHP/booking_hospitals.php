@@ -9,53 +9,53 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$doctorData = [];
+$hospitalData = [];
 $doctorAvailableDays = [];
 $doctorAvailableTimes = [];
-$selected_hospital_id = [];
-$selected_hospital_name = [];
+$selected_doctor_id = [];
+$selected_doctor_name = [];
 
-if (isset($_POST['doctor_id']) && isset($_POST['email'])) {
-    $doctor_id = intval($_POST['doctor_id']);
+if (isset($_POST['hospital_id']) && isset($_POST['email'])) {
+    $hospital_id = intval($_POST['hospital_id']);
     $useremail = htmlspecialchars($_POST['email']);
 
     // Fetch doctor details
-    $sql = "SELECT d.name, d.profile, d.experience, d.cost 
-            FROM doctors d 
-            JOIN doctor_hospital dh ON d.doctor_id = dh.doctor_id 
-            WHERE d.doctor_id = ?";
+    $sql = "SELECT h.name, h.location, h.specialty, h.contact, h.rating
+            FROM hospitals h 
+            JOIN doctor_hospital dh ON h.hospital_id = dh.hospital_id 
+            WHERE h.hospital_id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $doctor_id);
+    $stmt->bind_param("i", $hospital_id);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        $doctorData = $result->fetch_assoc();
+        $hospitalData = $result->fetch_assoc();
     }
     $stmt->close();
 
     // Fetch available days & times
-    $sql = "SELECT available_day, available_time, hospital_id FROM doctor_hospital WHERE doctor_id = ?";
+    $sql = "SELECT available_day, available_time, doctor_id FROM doctor_hospital WHERE hospital_id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $doctor_id);
+    $stmt->bind_param("i", $hospital_id);
     $stmt->execute();
     $result = $stmt->get_result();
 
     while ($row = $result->fetch_assoc()) {
         $day = strtoupper($row['available_day']); // Convert day to uppercase (MON, TUE, etc.)
-        $doctorAvailableDays[$day][] = $row['available_time']; // Store time slots under respective day
-        $selected_hospital_id[] = $row['hospital_id'];
+        $hospitalAvailableDays[$day][] = $row['available_time']; // Store time slots under respective day
+        $selected_doctor_id[] = $row['doctor_id'];
     }
     $stmt->close();
 
-    $sql = "SELECT name FROM hospitals WHERE hospital_id IN (" . implode(',', $selected_hospital_id) . ") ORDER BY FIELD(hospital_id, " . implode(',', $selected_hospital_id) . ")";
+    $sql = "SELECT name FROM doctors WHERE doctor_id IN (" . implode(',', $selected_doctor_id) . ") ORDER BY FIELD(doctor_id, " . implode(',', $selected_doctor_id) . ")";
 
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $result = $stmt->get_result();
 
     while ($row = $result->fetch_assoc()) {
-        $selected_hospital_name[] = $row['name'];
+        $selected_doctor_name[] = $row['name'];
     }
     $stmt->close();
 }
@@ -71,20 +71,20 @@ $current_day = strtoupper(date('D')); // Example: "MON"
 $selected_date = $current_date;
 $selected_times = [];
 
-if (!array_key_exists($current_day, $doctorAvailableDays)) {
+if (!array_key_exists($current_day, $hospitalAvailableDays)) {
     // If today is not available, find the next available date
     for ($i = 1; $i <= 7; $i++) {
         $next_date = date('Y-m-d', strtotime("+$i days"));
         $next_day = strtoupper(date('D', strtotime("+$i days")));
 
-        if (array_key_exists($next_day, $doctorAvailableDays)) {
+        if (array_key_exists($next_day, $hospitalAvailableDays)) {
             $selected_date = $next_date;
-            $selected_times = $doctorAvailableDays[$next_day]; // Get time slots for that day
+            $selected_times = $hospitalAvailableDays[$next_day]; // Get time slots for that day
             break;
         }
     }
 } else {
-    $selected_times = $doctorAvailableDays[$current_day]; // Use today's time slots if available
+    $selected_times = $hospitalAvailableDays[$current_day]; // Use today's time slots if available
 }
 
 // Format selected date as "FEB 12 WED"
@@ -276,29 +276,38 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
     <div class="container">
         <div class="card">
             <div class="doctor-info">
-                <img id="doctor-img" src="https://via.placeholder.com/150" alt="Doctor Image" class="rounded-circle mb-3" width="150">
-                <h4 id="doctor"><?php echo $doctorData['name'] ?? 'Doctor Name'; ?></h4>
-                <p><?php echo $doctorData['profile'] ?? 'Doctor Profile'; ?></p>
+                <img id="doctor-img" src="https://via.placeholder.com/150" alt="Hospital Image" class="rounded-circle mb-3" width="150">
+                <h4 id="doctor"><?php echo $hospitalData['name'] ?? 'Hospital Name'; ?></h4>
             </div>
 
             <div class="info-box">
-                <div class="label">Doctor Experience</div>
-                <div class="content"><?php echo $doctorData['experience'] ?? 'Experience details'; ?></div>
+                <div class="label">Hospital Speciality</div>
+                <div class="content"><?php echo $hospitalData['specialty'] ?? 'Hospital Speciality'; ?></div>
             </div>
 
             <div class="info-box">
-                <div class="label">Estimated Cost</div>
-                <div class="content"><?php echo $doctorData['cost'] ?? 'Cost details'; ?></div>
+                <div class="label">Contact number</div>
+                <div class="content"><?php echo $hospitalData['contact'] ?? 'Contact number'; ?></div>
+            </div>
+
+            <div class="info-box">
+                <div class="label">Rating</div>
+                <div class="content"><?php echo $hospitalData['rating'] ?? 'rating'; ?></div>
+            </div>
+
+            <div class="info-box">
+                <div class="label">Location</div>
+                <div class="content"><?php echo $hospitalData['location'] ?? 'location'; ?></div>
             </div>
 
             <div class="form-section">
-                <label class="form-label">Available Hospitals</label>
+                <label class="form-label">Available Doctors</label>
                 <div class="hospital-box" id="hospital">
-                    <?php foreach ($selected_hospital_name as $index => $hospital_name):
+                    <?php foreach ($selected_doctor_name as $index => $doctor_name):
                     ?>
-                        <div class="option-box" data-hospital-id="<?php echo $selected_hospital_id[$index]; ?>">
+                        <div class="option-box" data-doctor-id="<?php echo $selected_doctor_id[$index]; ?>">
                             <span class="hospital-name">
-                                <?php echo $hospital_name ?? 'Hospital Name'; ?>
+                                <?php echo $doctor_name ?? 'Hospital Name'; ?>
                             </span>
                         </div>
                     <?php endforeach;
@@ -328,9 +337,9 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                 </div>
 
                 <!-- Hidden inputs to store selections -->
-                <input type="hidden" name="doctor_id" id="doctor_id" value="<?php echo $doctor_id; ?>">
+                <input type="hidden" name="hospital_id" id="hospital_id" value="<?php echo $hospital_id; ?>">
                 <input type="hidden" name="useremail" id="useremail" value="<?php echo $useremail; ?>">
-                <input type="hidden" name="hospital_id" id="hospital_id" value="">
+                <input type="hidden" name="doctor_id" id="doctor_id" value="">
                 <input type="hidden" name="appointment_date" id="appointment_date" value="">
                 <input type="hidden" name="appointment_time" id="appointment_time" value="">
                 <div id="message-box"></div>
@@ -353,20 +362,20 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                     Notiflix.Loading.standard("Getting available dates...");
                     hospitalBoxes.forEach(b => b.classList.remove('selected'));
                     this.classList.add('selected');
-                    const hospitalId = this.getAttribute('data-hospital-id');
-                    console.log(hospitalId);
+                    const doctorId = this.getAttribute('data-doctor-id');
+                    console.log(doctorId);
                     setTimeout(() => {
                         Notiflix.Loading.remove();
-                        fetchDates(hospitalId);
+                        fetchDates(doctorId);
                     }, 1000);
                     // Also update a hidden input if needed (see form below)
-                    document.getElementById('hospital_id').value = hospitalId;
+                    document.getElementById('doctor_id').value = doctorId;
                 });
             });
 
             // Get doctorId from PHP output.
-            var doctorId = document.getElementById("doctor_id").value;
-            console.log(doctorId);
+            var hospitalId = document.getElementById("hospital_id").value;
+            console.log(hospitalId);
 
             function getNextDateFromDay(dayStr) {
                 const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
@@ -380,14 +389,14 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                 return result;
             }
 
-            function fetchDates(hospitalId) {
+            function fetchDates(doctorId) {
                 // Clear previous dates and times
                 dateBox.innerHTML = '';
                 timeBox.innerHTML = '';
                 let check = "";
                 let checkTemp = new Date();
                 (async () => {
-                    check = await fetchBookedDates(hospitalId);
+                    check = await fetchBookedDates(doctorId);
                     console.log(check);
 
                     let book_date = check.map(date => new Date(date));
@@ -460,7 +469,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                                     this.classList.add('selected');
                                     setTimeout(() => {
                                         Notiflix.Loading.remove();
-                                        fetchTimes(hospitalId, date, d);
+                                        fetchTimes(doctorId, date, d);
                                     }, 1000);
                                 });
 
@@ -531,7 +540,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                                     this.classList.add('selected');
                                     setTimeout(() => {
                                         Notiflix.Loading.remove();
-                                        fetchTimes(hospitalId, date, d);
+                                        fetchTimes(doctorId, date, d);
                                     }, 1000);
 
                                 });
@@ -544,7 +553,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                 })();
             }
 
-            function fetchTimes(hospitalId, date, d) {
+            function fetchTimes(doctorId, date, d) {
                 // Clear previous times
                 timeBox.innerHTML = '';
                 fetch(`fetch_times.php?hospital_id=${hospitalId}&date=${date}&doctor_id=${doctorId}&day=${d.toLocaleString('default', { weekday: 'short' })}`)
@@ -566,32 +575,34 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
             document.getElementById("booking-form").addEventListener("submit", function(event) {
                 event.preventDefault(); // Prevent page reload
 
-                // Start loading indicator
                 Notiflix.Loading.standard("Making appointment...");
 
-                const doctorId = document.querySelector("#doctor_id").value;
-                const useremail = document.querySelector("#useremail").value;
                 const hospitalId = document.querySelector("#hospital_id").value;
+                const useremail = document.querySelector("#useremail").value;
+                const doctorId = document.querySelector("#doctor_id").value;
                 const selectedDate = document.querySelector(".date-box .option-box.selected")?.dataset.date;
+
                 const selectedTimeElement = document.querySelector(".time-box .option-box.selected");
                 const selectedTime = selectedTimeElement ? (selectedTimeElement.dataset.time || selectedTimeElement.innerText.trim()) : null;
+
                 const patientName = document.querySelector("#patient_name").value;
                 const symptoms = document.querySelector("#symptoms").value;
 
                 console.log("Selected Date:", selectedDate);
                 console.log("Selected Time:", selectedTime);
+                console.log("Email: ", useremail);
 
                 if (!selectedDate || !selectedTime) {
                     messageBox.innerHTML = "<p style='color:red;'>Please select a valid date and time.</p>";
-                    Notiflix.Loading.remove(); // Remove loading indicator if no date/time is selected
+                    Notiflix.Loading.remove();
                     return;
                 }
 
                 // Prepare form data
                 const formData = new FormData();
+                formData.append("hospital_id", hospitalId);
                 formData.append("doctor_id", doctorId);
                 formData.append("useremail", useremail);
-                formData.append("hospital_id", hospitalId);
                 formData.append("date", selectedDate);
                 formData.append("time", selectedTime);
                 formData.append("patient_name", patientName);
@@ -604,8 +615,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                     })
                     .then(response => response.json())
                     .then(data => {
-                        Notiflix.Loading.remove(); // Always remove the loading indicator after the response
-
+                        Notiflix.Loading.remove();
                         if (data.error) {
                             messageBox.innerHTML = `<p style='color:red;'>${data.error}</p>`;
                         } else {
@@ -618,12 +628,11 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        Notiflix.Loading.remove(); // Remove loading if an error occurs
                         messageBox.innerHTML = "<p style='color:red;'>Something went wrong. Please try again.</p>";
                     });
             });
 
-            async function fetchBookedDates(hospitalId) {
+            async function fetchBookedDates(doctorId) {
                 try {
                     const response = await fetch(`fetch_booked_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`);
                     const data = await response.text();

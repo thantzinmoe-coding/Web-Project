@@ -1,3 +1,8 @@
+<?php
+
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,64 +10,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find Hospital</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../CSS/Find_Hospital.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .nav-brand {
+            font-family: 'Amita', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #28a745;
+        }
+
+        .navbar-toggler i {
+            transition: transform 0.3s ease;
+        }
+
+        .rotate {
+            transform: rotate(90deg);
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+    </style>
 </head>
 
 <body>
-    <header>
-        <nav>
-            <div class="logo">DAS</div>
-            <ul>
-                <li><a href="Home_page.php">Home</a></li>
-                <li><a href="Find_Doctor.php">Find Doctor</a></li>
-                <li><a href="Find_Hospital.php">Find Hospital</a></li>
-                <li><a href="Sign_In.php">Sign In</a></li>
-            </ul>
-        </nav>
-    </header>
-    <div class="container my-4">
-        <h1 class="text-center mb-4">Find Your Healthcare Here</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand nav-brand" href="#">DAS</a>
+            <span class="text-muted ms-3">WE VALUE YOUR HEALTH</span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fa fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="Home_page.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Find_Doctor.php">Find Doctor</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Find_Hospital.php">Find Hospital</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) { ?>
+                        <li class="nav-item"><a href="#"><img src="../Image/profile2.png" class="profile-icon"></a></li>
+                    <?php } else { ?>
+                        <a href="../Html/Sign_In.html" class="btn btn-success ms-3">Sign In</a>
+                    <?php } ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-        <!-- Search Bar -->
+    <form>
+        <input type="hidden" name="" id="useremail" value="<?php
+                                                            if (isset($_SESSION['email'])) {
+                                                                $useremail = $_SESSION['email'];
+                                                                echo $useremail;
+                                                            }
+                                                            ?>">
+    </form>
+
+    <div class="container">
+        <h1 class="text-center mb-4">Find Your Healthcare Here</h1>
         <div class="search-bar">
             <input type="text" id="searchHospital" class="form-control" placeholder="Search hospital by name...">
             <input type="text" id="filterLocation" class="form-control" placeholder="Add city or region">
-            <button class="btn btn-primary" onclick="fetchHospitals()">Search</button>
+            <button onclick="fetchHospitals()">Search</button>
         </div>
-
-        <!-- Filters -->
-        <div class="filter-section mt-4">
-            <h5>Filter By:</h5>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="24/7" id="emergencyFilter">
-                <label class="form-check-label" for="emergencyFilter">24/7 Emergency Services</label>
-            </div>
-            <div class="mt-2">
-                <label for="filterSpecialty">Specialty:</label>
-                <select id="filterSpecialty" class="form-select">
-                    <option value="">All Specialties</option>
-                    <option value="Cardiology">Cardiology</option>
-                    <option value="Pediatrics">Pediatrics</option>
-                    <option value="Neurology">Neurology</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Hospital List -->
-        <div id="hospitalList" class="mt-4">
-            <!-- Hospital Cards Will Be Injected Here -->
-        </div>
+        <div id="hospitalList" class="mt-4"></div>
     </div>
 
     <script>
         function fetchHospitals() {
             const search = document.getElementById('searchHospital').value;
             const location = document.getElementById('filterLocation').value;
-            const specialty = document.getElementById('filterSpecialty').value;
-            const emergency = document.getElementById('emergencyFilter').checked;
 
-            fetch(`fetch_hospitals.php?search=${search}&location=${location}&specialty=${specialty}&emergency=${emergency}`)
+            fetch(`fetch_hospitals.php?search=${search}&location=${location}`)
                 .then(response => response.json())
                 .then(data => displayHospitals(data))
                 .catch(error => console.error('Error fetching hospitals:', error));
@@ -77,26 +106,54 @@
                 return;
             }
 
+            const useremail = document.getElementById("useremail").value;
+            console.log(useremail);
+
             hospitals.forEach(hospital => {
                 const card = `
-            <div class="hospital-card">
-                <h4>${hospital.name}</h4>
-                <p>Location: ${hospital.location}</p>
-                <p>Specialty: ${hospital.specialty}</p>
-                <p>Contact: ${hospital.contact}</p>
-                <p>Rating: ${hospital.rating} ⭐</p>
-                ${hospital.emergency_services == 1 ? '<p>24/7 Emergency Available 🚑</p>' : ''}
-                <button class="btn btn-primary">Book Appointment</button>
-            </div>`;
+                <div class="hospital-card">
+                    <h4>${hospital.name}</h4>
+                    <p><strong>Location:</strong> ${hospital.location}</p>
+                    <p><strong>Specialty:</strong> ${hospital.specialty}</p>
+                    <p><strong>Contact:</strong> ${hospital.contact}</p>
+                    <p><strong>Rating:</strong> ${hospital.rating} ⭐</p>
+                    ${hospital.emergency_services == 1 ? '<p><strong>24/7 Emergency Available 🚑</strong></p>' : ''}
+                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true): ?>
+                    <form method="POST" action="booking_hospitals.php">
+                        <input type="hidden" name="hospital_id" value="${hospital.hospital_id}">
+                        <input type="hidden" name="email" value="${useremail}">
+                        <button type="submit" class="btn btn-success">Book Appointment</button>
+                    </form>
+                    <?php else: ?>
+                        <button type="submit" class="btn btn-warning" onclick="redirectToLogin()">Book Appointment</button>
+                        </form>
+                    <?php endif ?>
+                </div>`;
                 hospitalList.innerHTML += card;
             });
         }
 
-        // Initial Load
         fetchHospitals();
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const toggler = document.querySelector('.navbar-toggler');
+        const togglerIcon = toggler.querySelector('i');
+
+        toggler.addEventListener('click', () => {
+            togglerIcon.classList.toggle('rotate');
+            togglerIcon.classList.toggle('fa-bars');
+            togglerIcon.classList.toggle('fa-times');
+        });
+
+        function redirectToLogin() {
+            Notiflix.Report.warning('Warning', 'You need to login first to make appointment!', 'Okay', () => {
+                window.location.href = "../Html/Sign_In.html";
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/notiflix"></script>
 </body>
 
 </html>

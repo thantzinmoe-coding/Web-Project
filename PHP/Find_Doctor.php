@@ -11,7 +11,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-if(isset($_SESSION['email'])){
+if (isset($_SESSION['email'])) {
     $useremail = $_SESSION['email'];
 }
 
@@ -32,23 +32,148 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DAS - Find Doctor</title>
     <link rel="stylesheet" href="../CSS/Find_Doctor.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .nav-brand {
+            font-family: 'Amita', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #28a745;
+        }
+
+        .navbar-toggler i {
+            transition: transform 0.3s ease;
+        }
+
+        .rotate {
+            transform: rotate(90deg);
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        /* Responsive Styles */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            /* Allow wrapping of filters and results */
+            gap: 20px;
+            /* Space between filters and results */
+        }
+
+        .filters {
+            flex: 1 1 250px;
+            /* Filters take up a fixed width or 250px, whichever is larger */
+        }
+
+        .results {
+            flex: 3 1 500px;
+            /* Results take up remaining space */
+        }
+
+        .job-card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .job-card:hover {
+            transform: scale(1.02);
+        }
+
+        .job-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .job-card p {
+            margin-bottom: 5px;
+        }
+
+        .job-card .details {
+            display: flex;
+            justify-content: space-between;
+            /* Align items on opposite ends */
+            align-items: center;
+            /* Vertically center items */
+        }
+
+        .job-card .details span {
+            font-weight: bold;
+        }
+
+        <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']): ?>.job-card .details button {
+            background-color: #28a745;
+        }
+
+        <?php else: ?>.job-card .details button {
+            background-color: #ffc107;
+        }
+
+        <?php endif ?>@media (max-width: 768px) {
+            .filters {
+                flex: 1 1 100%;
+                /* Filters take full width on smaller screens */
+                margin-bottom: 20px;
+                /* Add margin below filters */
+            }
+
+            .results {
+                flex: 1 1 100%;
+                /* Results also take full width */
+            }
+        }
+    </style>
 </head>
 
 <body>
-
-    <header>
-        <nav>
-            <div class="logo">DAS</div>
-            <ul>
-                <li><a href="Home_page.php">Home</a></li>
-                <li><a href="Find_Doctor.php">Find Doctor</a></li>
-                <li><a href="Find_Hospital.php">Find Hospital</a></li>
-                <li><a href="Sign_In.php">Sign In</a></li>
-            </ul>
-        </nav>
-    </header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand nav-brand" href="#">DAS</a>
+            <span class="text-muted ms-3">WE VALUE YOUR HEALTH</span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="Home_page.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Find_Doctor.php">Find Doctor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Find_Hospital.php">Find Hospital</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) { ?>
+                        <li class="nav-item">
+                            <a href="#"><img src="../Image/profile2.png" class="profile-icon"></a>
+                        </li>
+                    <?php } else { ?>
+                        <li class="nav-item"> <a href="../Html/Sign_In.html" class="btn btn-success ms-3">Sign In</a>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <div class="container">
         <!-- Filters Section -->
@@ -200,6 +325,18 @@ $result = $conn->query($sql);
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/notiflix"></script>
+    <script>
+        const toggler = document.querySelector('.navbar-toggler');
+        const togglerIcon = toggler.querySelector('i');
+
+        toggler.addEventListener('click', () => {
+            togglerIcon.classList.toggle('rotate');
+            togglerIcon.classList.toggle('fa-bars');
+            togglerIcon.classList.toggle('fa-times');
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
