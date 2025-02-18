@@ -1,1 +1,1 @@
-{"source":"verify","email":"kohtet.ttan112@gmail.com","otp":966149}
+{"source":"verify","email":"yenandahtet@uit.edu.mm","otp":906328}

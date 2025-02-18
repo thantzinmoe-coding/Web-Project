@@ -1,3 +1,8 @@
+<?php
+
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,12 +20,6 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-        }
-
-        .profile-icon-container {
-            display: flex;
-            align-items: center;
-            padding: 14px 16px;
         }
 
         .logout {
@@ -47,14 +46,13 @@
         <div class="container">
             <a class="navbar-brand nav-brand" href="#">DAS</a>
             <span class="text-muted ms-3">WE VALUE YOUR HEALTH</span>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="Home_page.php">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="Find_Doctor.php">Find Doctor</a>
@@ -65,14 +63,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
                     </li>
-                    <?php
-                    session_start();
-                    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-                        echo '<li class="profile-icon-container"><a href="#"><img src="../Image/profile2.png" alt="Profile" class="profile-icon"></a></li>';
-                    } else {
-                        echo '<a href="../Html/Sign_In.html"><button class="btn btn-success ms-3">Sign In</button></a>';
-                    }
-                    ?>
+                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) { ?>
+                        <li class="nav-item">
+                            <a href="#"><img src="../Image/profile2.png" class="profile-icon"></a>
+                        </li>
+                    <?php } else { ?>
+                        <li class="nav-item"> <a href="../Html/Sign_In.html" class="btn btn-success ms-3">Sign In</a>
+                        </li>
+                    <?php } ?>
                 </ul>
             </div>
         </div>
