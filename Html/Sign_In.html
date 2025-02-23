@@ -280,9 +280,15 @@
                 .then(response => response.json())
                 .then(data => {
                     Notiflix.Loading.remove();
-                    if (data.status === 'success') {
+                    if (data.status === 'user') {
                         Notiflix.Report.success('Success', data.message, 'Okay', () => {
                             window.location.href = '../PHP/Home_Page.php';
+                        });
+                        console.log(data.message);
+                        document.getElementById('loginForm').reset();
+                    } else if (data.status === 'doctor') {
+                        Notiflix.Report.success('Success', data.message, 'Okay', () => {
+                            window.location.href = '../PHP/doctor.php';
                         });
                         console.log(data.message);
                         document.getElementById('loginForm').reset();

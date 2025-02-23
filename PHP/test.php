@@ -53,8 +53,22 @@
 // echo $day;
 
 // Creating an object
-require_once 'patient.php';
-$patient = new Patient("John Doe","tmoe8123@gmail.com", "Dr. Smith", "City Hospital", "123 Main St", "Fever, Cough", "20th Feb 2025");
+// require_once 'patient.php';
+// $patient = new Patient("John Doe","tmoe8123@gmail.com", "Dr. Smith", "City Hospital", "123 Main St", "Fever, Cough", "20th Feb 2025");
 
-// Passing the object to function
-sendAppointmentEmail($patient);
+// // Passing the object to function
+// sendAppointmentEmail($patient);
+
+$passwords = [
+    "DrJohn123",
+    "DrSarah123",
+    "DrEmily123",
+    "DrMichael123",
+    "DrRachel123"
+];
+
+foreach ($passwords as $password) {
+    echo "Plain: $password<br>";
+    echo "Hashed: " . password_hash($password, PASSWORD_DEFAULT) . "<br><br>";
+}
+?>

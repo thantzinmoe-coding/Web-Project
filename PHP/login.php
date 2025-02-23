@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit;
         }
 
+        // Check in users table
         $stmt = $conn->prepare("SELECT userID, password, status FROM users WHERE email = ?");
         if (!$stmt) {
             error_log("Prepare failed: " . $conn->error);
@@ -47,12 +48,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 session_start();
                 $_SESSION['email'] = $email;
                 $_SESSION['loggedin'] = true;
-                echo json_encode(['status' => 'success', 'message' => 'Login successful']);
+                echo json_encode(['status' => 'user', 'message' => 'Login successful']);
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
             }
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'No user found with this email']);
+            // Check in doctors table
+            $stmt->close();
+            $stmt = $conn->prepare("SELECT doctor_id, password FROM doctors WHERE email = ?");
+            if (!$stmt) {
+                error_log("Prepare failed: " . $conn->error);
+                echo json_encode(['status' => 'error', 'message' => 'Prepare failed: ' . $conn->error]);
+                exit;
+            }
+
+            $stmt->bind_param("s", $email);
+            if (!$stmt->execute()) {
+                error_log("Execute failed: " . $stmt->error);
+                echo json_encode(['status' => 'error', 'message' => 'Execute failed: ' . $stmt->error]);
+                exit;
+            }
+
+            $stmt->store_result();
+
+            if ($stmt->num_rows > 0) {
+                $stmt->bind_result($id, $hashed_password);
+                $stmt->fetch();
+
+                if (password_verify($password, $hashed_password)) {
+                    session_start();
+                    $_SESSION['email'] = $email;
+                    $_SESSION['loggedin'] = true;
+                    echo json_encode(['status' => 'doctor', 'message' => 'Login successful']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
+                }
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Invalid email!']);
+            }
         }
 
         $stmt->close();
