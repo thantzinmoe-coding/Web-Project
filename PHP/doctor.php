@@ -7,44 +7,44 @@
     <title>Doctor Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f4f6f9;
-        }
+    body {
+        background-color: #f4f6f9;
+    }
 
-        .container {
-            max-width: 1000px;
-            position: relative;
-            min-height: 100vh;
-            padding-bottom: 60px;
-        }
+    .container {
+        max-width: 1000px;
+        position: relative;
+        min-height: 100vh;
+        padding-bottom: 60px;
+    }
 
-        .card {
-            border-radius: 15px;
-            background: white;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            height: 100%;
-        }
+    .card {
+        border-radius: 15px;
+        background: white;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        height: 100%;
+    }
 
-        .btn {
-            border-radius: 8px;
-        }
+    .btn {
+        border-radius: 8px;
+    }
 
-        h2 {
-            font-weight: bold;
-            color: #343a40;
-        }
+    h2 {
+        font-weight: bold;
+        color: #343a40;
+    }
 
-        .full-height {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+    .full-height {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
 
-        .logout-btn {
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-        }
+    .logout-btn {
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 20px;
+    }
     </style>
 </head>
 
@@ -74,7 +74,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            
+
                         </div>
                         <button class="btn btn-primary w-100">Update</button>
                     </form>
@@ -87,7 +87,8 @@
             <div class="col-md-12">
                 <div class="card p-4 text-center">
                     <h5 class="mb-3">Patient Records</h5>
-                    <button class="btn btn-info w-100" data-bs-toggle="collapse" data-bs-target="#patientRecords">View Patient Records</button>
+                    <button class="btn btn-info w-100" data-bs-toggle="collapse" data-bs-target="#patientRecords">View
+                        Patient Records</button>
 
                     <!-- Collapsible Patient Records -->
                     <div id="patientRecords" class="collapse mt-3">
@@ -105,17 +106,17 @@
                                 require 'connection.php';
                                 $conn = connect();
 
-                                $sql = $conn->prepare("select * from patients");
+                                $sql = $conn->prepare('select * from patients');
                                 $sql->execute();
                                 $result = $sql->fetchAll(PDO::FETCH_ASSOC);
-                                
-                                foreach($result as $row) {
-                                    echo "<tr>";
-                                    echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['age']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Con_dition']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['last_visit']) . "</td>";
-                                    echo "</tr>";
+
+                                foreach ($result as $row) {
+                                    echo '<tr>';
+                                    echo '<td>' . htmlspecialchars($row['name']) . '</td>';
+                                    echo '<td>' . htmlspecialchars($row['age']) . '</td>';
+                                    echo '<td>' . htmlspecialchars($row['Con_dition']) . '</td>';
+                                    echo '<td>' . htmlspecialchars($row['last_visit']) . '</td>';
+                                    echo '</tr>';
                                 }
                                 ?>
                             </tbody>

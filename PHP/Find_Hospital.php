@@ -12,34 +12,36 @@ session_start();
     <title>Find Hospital</title>
     <link rel="stylesheet" href="../CSS/Find_Hospital.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
 
-        .nav-brand {
-            font-family: 'Amita', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: #28a745;
-        }
+    .nav-brand {
+        font-family: 'Amita', serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #28a745;
+    }
 
-        .navbar-toggler i {
-            transition: transform 0.3s ease;
-        }
+    .navbar-toggler i {
+        transition: transform 0.3s ease;
+    }
 
-        .rotate {
-            transform: rotate(90deg);
-        }
+    .rotate {
+        transform: rotate(90deg);
+    }
 
-        .profile-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
+    .profile-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
     </style>
 </head>
 
@@ -56,12 +58,41 @@ session_start();
                     <li class="nav-item"><a class="nav-link active" href="Home_page.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="Find_Doctor.php">Find Doctor</a></li>
                     <li class="nav-item"><a class="nav-link" href="Find_Hospital.php">Find Hospital</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) { ?>
-                        <li class="nav-item"><a href="#"><img src="../Image/profile2.png" class="profile-icon"></a></li>
+                    <?php
+                    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) {
+                        // Database Connection
+                        $conn = new mysqli('localhost', 'root', '', 'project');
+
+                        if ($conn->connect_error) {
+                            die('Connection failed: ' . $conn->connect_error);
+                        }
+
+                        $user_id = $_SESSION['user_id'];
+
+                        // Fetch user profile image from database
+                        $stmt = $conn->prepare('SELECT profile_image FROM users WHERE userID = ?');
+                        $stmt->bind_param('i', $user_id);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $user = $result->fetch_assoc();
+                        $stmt->close();
+                        $conn->close();
+
+                        // Set profile image path (Use default image if none exists)
+                        $profileImage = (!empty($user['profile_image'])) ? 'uploads/' . $user['profile_image'] : 'uploads/bx-user-circle.svg';
+                        ?>
+                    <li class="nav-item">
+                        <a href="user_profile.php">
+                            <img src="<?php echo htmlspecialchars($profileImage); ?>?t=<?php echo time(); ?>"
+                                class="profile-icon rounded-circle" width="40" height="40" style="object-fit: cover;">
+                        </a>
+                    </li>
                     <?php } else { ?>
+                    <li class="nav-item">
                         <a href="../Html/Sign_In.html" class="btn btn-success ms-3">Sign In</a>
+                    </li>
                     <?php } ?>
+
                 </ul>
             </div>
         </div>
@@ -69,11 +100,11 @@ session_start();
 
     <form>
         <input type="hidden" name="" id="useremail" value="<?php
-                                                            if (isset($_SESSION['email'])) {
-                                                                $useremail = $_SESSION['email'];
-                                                                echo $useremail;
-                                                            }
-                                                            ?>">
+if (isset($_SESSION['email'])) {
+    $useremail = $_SESSION['email'];
+    echo $useremail;
+}
+?>">
     </form>
 
     <div class="container">
@@ -87,30 +118,30 @@ session_start();
     </div>
 
     <script>
-        function fetchHospitals() {
-            const search = document.getElementById('searchHospital').value;
-            const location = document.getElementById('filterLocation').value;
+    function fetchHospitals() {
+        const search = document.getElementById('searchHospital').value;
+        const location = document.getElementById('filterLocation').value;
 
-            fetch(`fetch_hospitals.php?search=${search}&location=${location}`)
-                .then(response => response.json())
-                .then(data => displayHospitals(data))
-                .catch(error => console.error('Error fetching hospitals:', error));
+        fetch(`fetch_hospitals.php?search=${search}&location=${location}`)
+            .then(response => response.json())
+            .then(data => displayHospitals(data))
+            .catch(error => console.error('Error fetching hospitals:', error));
+    }
+
+    function displayHospitals(hospitals) {
+        const hospitalList = document.getElementById('hospitalList');
+        hospitalList.innerHTML = '';
+
+        if (hospitals.length === 0) {
+            hospitalList.innerHTML = '<p>No hospitals found.</p>';
+            return;
         }
 
-        function displayHospitals(hospitals) {
-            const hospitalList = document.getElementById('hospitalList');
-            hospitalList.innerHTML = '';
+        const useremail = document.getElementById("useremail").value;
+        console.log(useremail);
 
-            if (hospitals.length === 0) {
-                hospitalList.innerHTML = '<p>No hospitals found.</p>';
-                return;
-            }
-
-            const useremail = document.getElementById("useremail").value;
-            console.log(useremail);
-
-            hospitals.forEach(hospital => {
-                const card = `
+        hospitals.forEach(hospital => {
+            const card = `
                 <div class="hospital-card">
                     <h4>${hospital.name}</h4>
                     <p><strong>Location:</strong> ${hospital.location}</p>
@@ -129,29 +160,29 @@ session_start();
                         </form>
                     <?php endif ?>
                 </div>`;
-                hospitalList.innerHTML += card;
-            });
-        }
+            hospitalList.innerHTML += card;
+        });
+    }
 
-        fetchHospitals();
+    fetchHospitals();
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const toggler = document.querySelector('.navbar-toggler');
-        const togglerIcon = toggler.querySelector('i');
+    const toggler = document.querySelector('.navbar-toggler');
+    const togglerIcon = toggler.querySelector('i');
 
-        toggler.addEventListener('click', () => {
-            togglerIcon.classList.toggle('rotate');
-            togglerIcon.classList.toggle('fa-bars');
-            togglerIcon.classList.toggle('fa-times');
+    toggler.addEventListener('click', () => {
+        togglerIcon.classList.toggle('rotate');
+        togglerIcon.classList.toggle('fa-bars');
+        togglerIcon.classList.toggle('fa-times');
+    });
+
+    function redirectToLogin() {
+        Notiflix.Report.warning('Warning', 'You need to login first to make appointment!', 'Okay', () => {
+            window.location.href = "../Html/Sign_In.html";
         });
-
-        function redirectToLogin() {
-            Notiflix.Report.warning('Warning', 'You need to login first to make appointment!', 'Okay', () => {
-                window.location.href = "../Html/Sign_In.html";
-            });
-        }
+    }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/notiflix"></script>
 </body>
