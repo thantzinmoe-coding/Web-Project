@@ -84,15 +84,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
                 }
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Invalid email!']);
+                $stmt->close();
+
+                $stmt = $conn->prepare("SELECT adminID, password FROM admins WHERE email = ?");
+                if (!$stmt) {
+                    error_log("Prepare failed: " . $conn->error);
+                    echo json_encode(['status' => 'error', 'message' => 'Prepare failed: ' . $conn->error]);
+                    exit;
+                }
+
+                $stmt->bind_param("s", $email);
+                if (!$stmt->execute()) {
+                    error_log("Execute failed: " . $stmt->error);
+                    echo json_encode(['status' => 'error', 'message' => 'Execute failed: ' . $stmt->error]);
+                    exit;
+                }
+
+                $stmt->store_result();
+
+                if($stmt->num_rows > 0){
+                    $stmt->bind_result($id, $hashed_password);
+                    $stmt->fetch();
+
+                    if(password_verify($password, $hashed_password)){
+                        session_start();
+                        $_SESSION['email'] = $email;
+                        $_SESSION['loggedin'] = true;
+                        echo json_encode(['status' => 'admin', 'message' => 'Login successful']);
+                    } else {
+                        echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
+                    }
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Invalid email']);
+                }
             }
         }
-
-        $stmt->close();
         $conn->close();
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Invalid input data']);
     }
     exit;
 }
-?>

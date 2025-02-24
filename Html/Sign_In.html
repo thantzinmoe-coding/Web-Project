@@ -292,14 +292,19 @@
                         });
                         console.log(data.message);
                         document.getElementById('loginForm').reset();
+                    } else if (data.status === 'admin') {
+                        Notiflix.Report.success('Success', data.message, 'Okay', () => {
+                            window.location.href = 'dashboard.html';
+                        });
+                        console.log(data.message);
+                        document.getElementById('loginForm').reset();
                     } if (data.status === 'verify') {
                         Notiflix.Report.failure('Error', data.message, 'Okay', () => {
                             localStorage.setItem('email', email);
                             window.location.href = '../Html/verify.html';
                         });
                         console.log(data.message);
-                    }
-                    else {
+                    } else {
                         Notiflix.Report.failure('Error', data.message, 'Okay');
                         console.log(data.message);
                     }
