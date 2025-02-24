@@ -12,41 +12,44 @@ session_start();
     <title>Doctor Appointment System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css">
     <link rel="stylesheet" href="../CSS/homepage.css">
     <style>
-        .profile-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
+    .profile-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
 
-        .logout {
-            display: flex;
-            justify-content: flex-end;
-            padding: 10px;
-            margin-top: -50px;
-            margin-left: 10px;
-        }
+    .logout {
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px;
+        margin-top: -50px;
+        margin-left: 10px;
+    }
 
-        .logout button {
-            padding: 5px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    .logout button {
+        padding: 5px;
+        background-color: #f44336;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
     </style>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand nav-brand" href="#">DAS</a>
+            <a class="navbar-brand nav-brand" href="admin_login.php">DAS</a>
             <span class="text-muted ms-3">WE VALUE YOUR HEALTH</span>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -60,17 +63,51 @@ session_start();
                     <li class="nav-item">
                         <a class="nav-link" href="Find_Hospital.php">Find Hospital</a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <!-- <a class="nav-link dropdown-toggle btn btn-primary text-white" href="#" role="button"
+                            data-bs-toggle="dropdown">
+                            🔑 Admin Login
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="hospital_admin_login.php">🏥 Hospital Admin</a></li>
+                            <li><a class="dropdown-item" href="system_admin_login.php">⚙️ System Admin</a></li>
+                        </ul>
+                    </li> -->
+                        <?php
+                        if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) {
+                            // Database Connection
+                            $conn = new mysqli('localhost', 'root', '', 'project');
+
+                            if ($conn->connect_error) {
+                                die('Connection failed: ' . $conn->connect_error);
+                            }
+
+                            $user_id = $_SESSION['user_id'];
+
+                            // Fetch user profile image from database
+                            $stmt = $conn->prepare('SELECT profile_image FROM users WHERE userID = ?');
+                            $stmt->bind_param('i', $user_id);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            $user = $result->fetch_assoc();
+                            $stmt->close();
+                            $conn->close();
+
+                            // Set profile image path (Use default image if none exists)
+                            $profileImage = (!empty($user['profile_image'])) ? 'uploads/' . $user['profile_image'] : 'uploads/bx-user-circle.svg';
+                            ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a href="user_profile.php">
+                            <img src="<?php echo htmlspecialchars($profileImage); ?>?t=<?php echo time(); ?>"
+                                class="profile-icon rounded-circle" width="40" height="40" style="object-fit: cover;">
+                        </a>
                     </li>
-                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) { ?>
-                        <li class="nav-item">
-                            <a href="#"><img src="../Image/profile2.png" class="profile-icon"></a>
-                        </li>
                     <?php } else { ?>
-                        <li class="nav-item"> <a href="../Html/Sign_In.html" class="btn btn-success ms-3">Sign In</a>
-                        </li>
+                    <li class="nav-item">
+                        <a href="../Html/Sign_In.html" class="btn btn-success ms-3">Sign In</a>
+                    </li>
                     <?php } ?>
+
                 </ul>
             </div>
         </div>
@@ -141,10 +178,12 @@ session_start();
         <h2 class="text-center text-success mb-4">Testimonials</h2>
         <div class="row">
             <div class="col-md-6">
-                <p class="testimonial">"DAS helped me find the best doctor for my condition. The process was seamless and efficient!" - Sarah J.</p>
+                <p class="testimonial">"DAS helped me find the best doctor for my condition. The process was seamless
+                    and efficient!" - Sarah J.</p>
             </div>
             <div class="col-md-6">
-                <p class="testimonial">"Booking an appointment has never been easier. Highly recommend DAS to everyone!" - Mark T.</p>
+                <p class="testimonial">"Booking an appointment has never been easier. Highly recommend DAS to everyone!"
+                    - Mark T.</p>
             </div>
         </div>
     </section>
@@ -162,18 +201,18 @@ session_start();
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const toggler = document.querySelector('.navbar-toggler');
-        const togglerIcon = toggler.querySelector('i');
+    const toggler = document.querySelector('.navbar-toggler');
+    const togglerIcon = toggler.querySelector('i');
 
-        toggler.addEventListener('click', () => {
-            togglerIcon.classList.toggle('rotate');
-            togglerIcon.classList.toggle('fa-bars');
-            togglerIcon.classList.toggle('fa-times');
-        });
+    toggler.addEventListener('click', () => {
+        togglerIcon.classList.toggle('rotate');
+        togglerIcon.classList.toggle('fa-bars');
+        togglerIcon.classList.toggle('fa-times');
+    });
     </script>
     <?php
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-        echo    '<div class="logout">
+        echo '<div class="logout">
                     <form action="" id="logout">
                         <button type="submit">Log out</button>
                     </form>
@@ -184,28 +223,30 @@ session_start();
     ?>
     <script src="../JS/jquery.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#logout').submit(function(e) {
-                e.preventDefault();
-                Notiflix.Loading.standard('Logging out...');
-                $.ajax({
-                    type: 'POST',
-                    url: '../PHP/logout.php',
-                    success: function(response) {
-                        if (response.status == 'success') {
-                            Notiflix.Report.success('Success', response.message, 'OK', function() {
+    $(document).ready(function() {
+        $('#logout').submit(function(e) {
+            e.preventDefault();
+            Notiflix.Loading.standard('Logging out...');
+            $.ajax({
+                type: 'POST',
+                url: '../PHP/logout.php',
+                success: function(response) {
+                    if (response.status == 'success') {
+                        Notiflix.Report.success('Success', response.message, 'OK',
+                            function() {
                                 window.location.href = 'Home_Page.php';
                             });
-                        } else {
-                            Notiflix.Report.failure('Error', response.message, 'OK');
-                        }
-                    },
-                    error: function(err) {
-                        Notiflix.Report.failure('Error', 'An error occurred, please try again.', 'OK');
+                    } else {
+                        Notiflix.Report.failure('Error', response.message, 'OK');
                     }
-                });
+                },
+                error: function(err) {
+                    Notiflix.Report.failure('Error', 'An error occurred, please try again.',
+                        'OK');
+                }
             });
         });
+    });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/notiflix"></script>
 </body>
