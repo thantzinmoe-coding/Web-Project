@@ -18,7 +18,7 @@
 </body>
 
 </html> -->
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -69,7 +69,7 @@
     </script>
 </body>
 
-</html>
+</html> -->
 <?php
 
 // $filename = "Report.txt";
@@ -122,5 +122,114 @@
 //     echo "Plain: $password<br>";
 //     echo "Hashed: " . password_hash($password, PASSWORD_DEFAULT) . "<br><br>";
 // }
+
+// $dsn = "mysql:host=localhost;dbname=project";
+// $username = "root";
+// $password = "";
+
+// try {
+//     $conn = new PDO($dsn, $username, $password);
+//     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//     echo "Connected successfully";
+
+//     $sql = "SELECT * FROM doctors";
+//     $stmt = $conn->prepare($sql);
+//     $stmt->execute();
+//     if($stmt->rowCount()){
+//         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//         echo "<pre>";
+//         print_r($result);
+//         echo "</pre>";
+//     } else {
+//         echo "No records found";
+//     }
+// } catch (PDOException $e) {
+//     echo "Connection failed: " . $e->getMessage();
+// }
+
+// Database connection parameters
+// $host = 'localhost';        // Replace with your host
+// $db = 'project';            // Your database name
+// $user = 'root';     // Replace with your database user
+// $pass = ''; // Replace with your database password
+
+// try {
+//     // Set up the PDO connection
+//     $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
+//     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+//     // Fetch all doctors from the doctors table
+//     $stmt = $pdo->query("SELECT doctor_id FROM doctors");
+//     $doctors = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+//     // Fetch all hospital ids between 1 and 30
+//     $hospitalIds = range(1, 30);
+
+//     // Start a transaction
+//     $pdo->beginTransaction();
+
+//     // Loop over each doctor
+//     foreach ($doctors as $doctor) {
+//         // Generate a random number of hospitals (between 1 and 5)
+//         $numHospitals = rand(1, 5);
+
+//         // Randomly pick hospitals for this doctor
+//         $assignedHospitals = array_rand($hospitalIds, $numHospitals);
+
+//         // If only one hospital is assigned, $assignedHospitals will be a single number, so wrap it in an array.
+//         if (!is_array($assignedHospitals)) {
+//             $assignedHospitals = [$assignedHospitals];
+//         }
+
+//         // Loop through each assigned hospital for the current doctor
+//         foreach ($assignedHospitals as $hospitalIndex) {
+//             $hospitalId = $hospitalIds[$hospitalIndex];
+
+//             // Generate a random available day (1 to 7, representing Monday to Sunday)
+//             $days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+//             $availableDay = $days[rand(0, 6)];
+
+//             // Generate a random start time between 8 AM (8) and 5 PM (17)
+//             // Generate a random start time between 8 AM (8) and 5 PM (17)
+//             $startTime = rand(8, 16);
+
+//             // The duration will always be 2 hours
+//             $duration = 2;
+
+//             // Calculate the available time range
+//             $endTime = $startTime + $duration;
+
+//             // Format the time in '1PM-3PM' format
+//             $startFormatted = date("gA", strtotime("$startTime:00"));
+//             $endFormatted = date("gA", strtotime("$endTime:00"));
+
+//             // Store the formatted available time
+//             $availableTime = "$startFormatted-$endFormatted";
+
+//             // Prepare the insert query for doctor_hospital table
+//             $insertQuery = "INSERT INTO doctor_hospital (doctor_id, hospital_id, available_day, available_time)
+//                 VALUES (:doctor_id, :hospital_id, :available_day, :available_time)";
+//             $insertStmt = $pdo->prepare($insertQuery);
+//             $insertStmt->execute([
+//                 ':doctor_id' => $doctor['doctor_id'],
+//                 ':hospital_id' => $hospitalId,
+//                 ':available_day' => $availableDay,
+//                 ':available_time' => $availableTime
+//             ]);
+//         }
+//     }
+    
+//     // Commit the transaction
+//     $pdo->commit();
+//     echo "Data inserted successfully.";
+// } catch (PDOException $e) {
+//     // Rollback the transaction if an error occurs
+//     $pdo->rollBack();
+//     echo "Error: " . $e->getMessage();
+// }
+
+$password = "Doctor@123";
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+echo $hashedPassword;
 
 ?>

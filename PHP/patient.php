@@ -8,8 +8,10 @@ class Patient {
     public $location;
     public $symptoms;
     public $appointmentDate;
+    public $appointment_time;
+    public $token_number;
 
-    public function __construct($name, $email, $doctor, $hospital, $location, $symptoms, $appointmentDate) {
+    public function __construct($name, $email, $doctor, $hospital, $location, $symptoms, $appointmentDate, $appointment_time, $token_number) {
         $this->name = $name;
         $this->email = $email;
         $this->doctor = $doctor;
@@ -17,6 +19,8 @@ class Patient {
         $this->location = $location;
         $this->symptoms = $symptoms;
         $this->appointmentDate = $appointmentDate;
+        $this->appointment_time = $appointment_time;
+        $this->token_number = $token_number;
     }
 }
 

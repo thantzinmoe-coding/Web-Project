@@ -31,7 +31,7 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DAS - Find Doctor</title>
-    <link rel="stylesheet" href="../CSS/Find_Doctor.css">
+    <link rel="stylesheet" href="/DAS/CSS/Find_Doctor.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -151,23 +151,23 @@ $result = $conn->query($sql);
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="Home_page.php">Home</a>
+                        <a class="nav-link active" aria-current="page" href="/DAS/Home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Find_Doctor.php">Find Doctor</a>
+                        <a class="nav-link" href="/DAS/doctor">Find Doctor</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Find_Hospital.php">Find Hospital</a>
+                        <a class="nav-link" href="/DAS/hospital">Find Hospital</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
                     </li>
                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) { ?>
                         <li class="nav-item">
-                            <a href="#"><img src="../Image/profile2.png" class="profile-icon"></a>
+                            <a href="#"><img src="/DAS/Image/profile2.png" class="profile-icon"></a>
                         </li>
                     <?php } else { ?>
-                        <li class="nav-item"> <a href="../Html/Sign_In.html" class="btn btn-success ms-3">Sign In</a>
+                        <li class="nav-item"> <a href="/DAS/login" class="btn btn-success ms-3">Sign In</a>
                         </li>
                     <?php } ?>
                 </ul>
@@ -218,8 +218,8 @@ $result = $conn->query($sql);
                         echo "<span>Consultation Fee: " . number_format($row['consultation_fee']) . " MMK</span>";
                         if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
                             // If user is logged in, allow booking
-                            echo '<form method="POST" action="booking.php">';
-                            echo '<input type="hidden" name="doctor_id" value="' . $doctor_id . '">';
+                            echo '<form method="POST" action="/DAS/booking-doctor">';
+                            echo '<input type="hidden" name="doctor_id" value="' . filter_var($row['doctor_id'], FILTER_VALIDATE_INT) . '">';
                             echo '<input type="hidden" name="email" value="' . $useremail . '">';
                             echo '<button type="submit">Book Now</button>';
                             echo '</form>';
@@ -242,12 +242,12 @@ $result = $conn->query($sql);
             <script>
                 function redirectToLogin() {
                     Notiflix.Report.warning('Warning', 'You need to login first to make appointment!', 'Okay', () => {
-                        window.location.href = "../Html/Sign_In.html"; // Redirect after alert
+                        window.location.href = "/DAS/login"; // Redirect after alert
                     });
                 }
             </script>
 
-            <button id="load-more" style="display: block; margin: 20px auto;">See More</button>
+            <button id="load-more" style="display: block; margin: 20px auto;" class="btn btn-primary">See More</button>
         </main>
     </div>
     <script>
@@ -257,7 +257,7 @@ $result = $conn->query($sql);
             // "See More" button for pagination
             $("#load-more").click(function() {
                 $.ajax({
-                    url: "get_doctors.php",
+                    url: "/DAS/PHP/get_doctors.php",
                     type: "POST",
                     data: {
                         offset: offset
@@ -278,7 +278,7 @@ $result = $conn->query($sql);
                 const query = $(this).val().trim();
                 if (query.length > 0) {
                     $.ajax({
-                        url: "search_doctors.php",
+                        url: "/DAS/PHP/search_doctors.php",
                         type: "POST",
                         data: {
                             search: query
@@ -290,7 +290,7 @@ $result = $conn->query($sql);
                     });
                 } else {
                     $.ajax({
-                        url: "get_doctors.php",
+                        url: "/DAS/PHP/get_doctors.php",
                         type: "POST",
                         data: {
                             offset: 0
@@ -310,7 +310,7 @@ $result = $conn->query($sql);
                 const selectedGender = $("input[name='gender']:checked").val();
 
                 $.ajax({
-                    url: "filter_doctors.php",
+                    url: "/DAS/PHP/filter_doctors.php",
                     type: "POST",
                     data: {
                         job_type: selectedJobType,

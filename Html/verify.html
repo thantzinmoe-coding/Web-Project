@@ -106,7 +106,7 @@
                             const email = localStorage.getItem("email");
                             const otp = getRandomInt(100000, 999999);
 
-                            fetch('../PHP/resend_otp.php', {
+                            fetch('/DAS/PHP/resend_otp.php', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ source: "verify", email: email, otp: otp })
@@ -131,7 +131,7 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/dist/notiflix-3.2.7.min.js"></script>
-    <script src="../JS/jquery.js"></script>
+    <script src="/DAS/JS/jquery.js"></script>
     <script>
         document.getElementById("otp-form").addEventListener("submit", function (event) {
             event.preventDefault();
@@ -152,7 +152,7 @@
 
             const content = localStorage.getItem("content");
 
-            fetch('../PHP/verify.php', {
+            fetch('/DAS/PHP/verify.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -170,11 +170,11 @@
                     if (data.status === 'success') {
                         Notiflix.Report.success('Success', 'Your account verified successfully!', 'Okay', function () {
                             if (content === 'forget') {
-                                window.location.href = "reset-password.html";
+                                window.location.href = "/DAS/reset-password";
                                 exit;
                             }
                             localStorage.removeItem("email");
-                            window.location.href = "../PHP/Home_page.php";
+                            window.location.href = "/DAS/Home";
                         });
                     } else {
                         Notiflix.Loading.remove();

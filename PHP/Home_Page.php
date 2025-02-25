@@ -14,7 +14,7 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css">
-    <link rel="stylesheet" href="../CSS/homepage.css">
+    <link rel="stylesheet" href="/DAS/CSS/homepage.css">
     <style>
         .profile-icon {
             width: 40px;
@@ -52,23 +52,23 @@ session_start();
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="Home_page.php">Home</a>
+                        <a class="nav-link active" aria-current="page" href="/DAS/Home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Find_Doctor.php">Find Doctor</a>
+                        <a class="nav-link" href="/DAS/doctor">Find Doctor</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Find_Hospital.php">Find Hospital</a>
+                        <a class="nav-link" href="/DAS/hospital">Find Hospital</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
                     </li>
                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) { ?>
                         <li class="nav-item">
-                            <a href="#"><img src="../Image/profile2.png" class="profile-icon"></a>
+                            <a href="#"><img src="/DAS/Image/profile2.png" class="profile-icon"></a>
                         </li>
                     <?php } else { ?>
-                        <li class="nav-item"> <a href="../Html/Sign_In.html" class="btn btn-success ms-3">Sign In</a>
+                        <li class="nav-item"> <a href="/DAS/login" class="btn btn-success ms-3">Sign In</a>
                         </li>
                     <?php } ?>
                 </ul>
@@ -86,7 +86,7 @@ session_start();
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="card hospital-card">
-                    <img src="../image/h1.jpg" alt="Bridgeport Hospital" class="card-img-top">
+                    <img src="/DAS/image/h1.jpg" alt="Bridgeport Hospital" class="card-img-top">
                     <div class="card-body text-center">
                         <h5 class="card-title">Bridgeport Hospital</h5>
                         <p class="text-muted">Specialized in Cardiology and General Surgery</p>
@@ -95,7 +95,7 @@ session_start();
             </div>
             <div class="col-md-4">
                 <div class="card hospital-card">
-                    <img src="../image/h2.jpg" alt="St. Vincent's Medical Center" class="card-img-top">
+                    <img src="/DAS/image/h2.jpg" alt="St. Vincent's Medical Center" class="card-img-top">
                     <div class="card-body text-center">
                         <h5 class="card-title">St. Vincent's Medical Center</h5>
                         <p class="text-muted">Renowned for Neurology and Orthopedics</p>
@@ -104,7 +104,7 @@ session_start();
             </div>
             <div class="col-md-4">
                 <div class="card hospital-card">
-                    <img src="../image/h3.jpg" alt="Yale New Haven Hospital" class="card-img-top">
+                    <img src="/DAS/image/h3.jpg" alt="Yale New Haven Hospital" class="card-img-top">
                     <div class="card-body text-center">
                         <h5 class="card-title">Yale New Haven Hospital</h5>
                         <p class="text-muted">Expertise in Pediatrics and Oncology</p>
@@ -182,7 +182,7 @@ session_start();
         echo '';
     }
     ?>
-    <script src="../JS/jquery.js"></script>
+    <script src="/DAS/JS/jquery.js"></script>
     <script>
         $(document).ready(function() {
             $('#logout').submit(function(e) {
@@ -190,11 +190,11 @@ session_start();
                 Notiflix.Loading.standard('Logging out...');
                 $.ajax({
                     type: 'POST',
-                    url: '../PHP/logout.php',
+                    url: '/DAS/PHP/logout.php',
                     success: function(response) {
                         if (response.status == 'success') {
                             Notiflix.Report.success('Success', response.message, 'OK', function() {
-                                window.location.href = 'Home_Page.php';
+                                window.location.href = '/DAS/Home';
                             });
                         } else {
                             Notiflix.Report.failure('Error', response.message, 'OK');

@@ -14,6 +14,8 @@ function sendMail(Patient $patient)
     $message = str_replace('{{ hospital_name }}', $patient->hospital, $message); // Use $message here
     $message = str_replace('{{ hospital_location }}', $patient->location, $message); // Use $message here
     $message = str_replace('{{ symptoms }}', $patient->symptoms, $message); // Use $message here
+    $message = str_replace('{{ appointment_time }}', $patient->appointment_time, $message); // Use $message here
+    $message = str_replace('{{ token_number }}', $patient->token_number, $message); // Use $message here
     $message = str_replace('{{ appointment_date }}', $patient->appointmentDate, $message); // Use $message here
 
 

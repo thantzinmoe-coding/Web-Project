@@ -46,6 +46,7 @@ if (isset($_POST['doctor_id']) && isset($_POST['email'])) {
         $doctorAvailableDays[$day][] = $row['available_time']; // Store time slots under respective day
         $selected_hospital_id[] = $row['hospital_id'];
     }
+    
     $stmt->close();
 
     $sql = "SELECT name FROM hospitals WHERE hospital_id IN (" . implode(',', $selected_hospital_id) . ") ORDER BY FIELD(hospital_id, " . implode(',', $selected_hospital_id) . ")";
@@ -58,6 +59,10 @@ if (isset($_POST['doctor_id']) && isset($_POST['email'])) {
         $selected_hospital_name[] = $row['name'];
     }
     $stmt->close();
+} else {
+    // Redirect to homepage if doctor_id or email is not provided
+    header("Location: /DAS/");
+    exit;
 }
 
 $conn->close();
@@ -396,7 +401,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                     console.log(bookDayStr);
 
                     if (isValidDate(book_date)) {
-                        const response = await fetch(`fetch_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`)
+                        const response = await fetch(`/DAS/PHP/fetch_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`)
                             .catch(error => {
                                 console.log('Fetch error: ', error);
                                 return null;
@@ -468,7 +473,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                             });
                         }
                     } else {
-                        const response = await fetch(`fetch_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`)
+                        const response = await fetch(`/DAS/PHP/fetch_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`)
                             .catch(error => {
                                 console.log('Fetch error: ', error);
                                 return null;
@@ -547,7 +552,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
             function fetchTimes(hospitalId, date, d) {
                 // Clear previous times
                 timeBox.innerHTML = '';
-                fetch(`fetch_times.php?hospital_id=${hospitalId}&date=${date}&doctor_id=${doctorId}&day=${d.toLocaleString('default', { weekday: 'short' })}`)
+                fetch(`/DAS/PHP/fetch_times.php?hospital_id=${hospitalId}&date=${date}&doctor_id=${doctorId}&day=${d.toLocaleString('default', { weekday: 'short' })}`)
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(time => {
@@ -598,7 +603,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                 formData.append("symptoms", symptoms);
 
                 // Send AJAX request
-                fetch("booking_appointment.php", {
+                fetch("/DAS/PHP/booking_appointment.php", {
                         method: "POST",
                         body: formData
                     })
@@ -625,7 +630,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
 
             async function fetchBookedDates(hospitalId) {
                 try {
-                    const response = await fetch(`fetch_booked_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`);
+                    const response = await fetch(`/DAS/PHP/fetch_booked_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`);
                     const data = await response.text();
                     console.log('Raw data:', data); // Log the raw response data
                     const jsonData = JSON.parse(data); // Parse the JSON string

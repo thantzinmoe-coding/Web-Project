@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/Sign_In.css">
-    <script src="../JS/jquery.js"></script>
+    <link rel="stylesheet" href="/DAS/CSS/Sign_In.css">
+    <script src="/DAS/JS/jquery.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Sign In</title>
@@ -107,7 +107,7 @@
                         Notiflix.Loading.standard('Loading...');
                         setTimeout(() => {
                             Notiflix.Loading.remove();
-                            window.location.href = 'forget-password.html';
+                            window.location.href = '/DAS/forget-password';
                         }, 2000);
                     });
                 </script>
@@ -236,7 +236,7 @@
 
             const formData = new FormData(this);
 
-            fetch('../PHP/createAccount.php', {
+            fetch('/DAS/PHP/createAccount.php', {
                 method: 'POST',
                 body: formData
             })
@@ -245,7 +245,7 @@
                     Notiflix.Loading.remove();
                     if (data.status === 'success') {
                         Notiflix.Report.success('Success', data.message, 'Okay', () => {
-                            window.location.href = '../Html/verify.html';
+                            window.location.href = '/DAS/verify';
                         });
                         localStorage.setItem('email', email);
                         console.log(data.message);
@@ -273,7 +273,7 @@
 
             const formData = new FormData(this);
 
-            fetch('../PHP/login.php', {
+            fetch('/DAS/PHP/login.php', {
                 method: 'POST',
                 body: formData
             })
@@ -282,26 +282,26 @@
                     Notiflix.Loading.remove();
                     if (data.status === 'user') {
                         Notiflix.Report.success('Success', data.message, 'Okay', () => {
-                            window.location.href = '../PHP/Home_Page.php';
+                            window.location.href = '/DAS/Home';
                         });
                         console.log(data.message);
                         document.getElementById('loginForm').reset();
                     } else if (data.status === 'doctor') {
                         Notiflix.Report.success('Success', data.message, 'Okay', () => {
-                            window.location.href = '../PHP/doctor.php';
+                            window.location.href = '/DAS/doctor-profile';
                         });
                         console.log(data.message);
                         document.getElementById('loginForm').reset();
                     } else if (data.status === 'admin') {
                         Notiflix.Report.success('Success', data.message, 'Okay', () => {
-                            window.location.href = 'dashboard.html';
+                            window.location.href = '/DAS/dashboard';
                         });
                         console.log(data.message);
                         document.getElementById('loginForm').reset();
                     } if (data.status === 'verify') {
                         Notiflix.Report.failure('Error', data.message, 'Okay', () => {
                             localStorage.setItem('email', email);
-                            window.location.href = '../Html/verify.html';
+                            window.location.href = '/DAS/verify';
                         });
                         console.log(data.message);
                     } else {
@@ -317,7 +317,7 @@
         });
     </script>
 </body>
-<script src="../JS/Sign_In.js"></script>
+<script src="/DAS/JS/Sign_In.js"></script>
 <script src="https://kit.fontawesome.com/900da7ce66.js" crossorigin="anonymous"></script>
 
 </html>

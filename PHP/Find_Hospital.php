@@ -10,7 +10,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find Hospital</title>
-    <link rel="stylesheet" href="../CSS/Find_Hospital.css">
+    <link rel="stylesheet" href="/DAS/CSS/Find_Hospital.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -53,14 +53,14 @@ session_start();
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="Home_page.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="Find_Doctor.php">Find Doctor</a></li>
-                    <li class="nav-item"><a class="nav-link" href="Find_Hospital.php">Find Hospital</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/DAS/Home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/DAS/doctor">Find Doctor</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/DAS/hospital">Find Hospital</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) { ?>
-                        <li class="nav-item"><a href="#"><img src="../Image/profile2.png" class="profile-icon"></a></li>
+                        <li class="nav-item"><a href="#"><img src="/DAS/Image/profile2.png" class="profile-icon"></a></li>
                     <?php } else { ?>
-                        <a href="../Html/Sign_In.html" class="btn btn-success ms-3">Sign In</a>
+                        <a href="/DAS/login" class="btn btn-success ms-3">Sign In</a>
                     <?php } ?>
                 </ul>
             </div>
@@ -91,7 +91,7 @@ session_start();
             const search = document.getElementById('searchHospital').value;
             const location = document.getElementById('filterLocation').value;
 
-            fetch(`fetch_hospitals.php?search=${search}&location=${location}`)
+            fetch(`/DAS/PHP/fetch_hospitals.php?search=${search}&location=${location}`)
                 .then(response => response.json())
                 .then(data => displayHospitals(data))
                 .catch(error => console.error('Error fetching hospitals:', error));
@@ -119,7 +119,7 @@ session_start();
                     <p><strong>Rating:</strong> ${hospital.rating} ⭐</p>
                     ${hospital.emergency_services == 1 ? '<p><strong>24/7 Emergency Available 🚑</strong></p>' : ''}
                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true): ?>
-                    <form method="POST" action="booking_hospitals.php">
+                    <form method="POST" action="/DAS/booking-hospital">
                         <input type="hidden" name="hospital_id" value="${hospital.hospital_id}">
                         <input type="hidden" name="email" value="${useremail}">
                         <button type="submit" class="btn btn-success">Book Appointment</button>
@@ -149,7 +149,7 @@ session_start();
 
         function redirectToLogin() {
             Notiflix.Report.warning('Warning', 'You need to login first to make appointment!', 'Okay', () => {
-                window.location.href = "../Html/Sign_In.html";
+                window.location.href = "/DAS/login";
             });
         }
     </script>

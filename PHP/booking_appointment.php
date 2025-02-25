@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $time_range = isset($_POST['time']) ? trim($_POST['time']) : '';
     $patient_name = isset($_POST['patient_name']) ? trim($_POST['patient_name']) : '';
     $symptoms = isset($_POST['symptoms']) ? trim($_POST['symptoms']) : '';
+    $token_number = isset($_POST['token_number']) ? intval($_POST['token_number']) : 0;
 
     if ($doctor_id <= 0 || $hospital_id <= 0 || empty($date) || empty($time_range)) {
         die(json_encode(["error" => "Missing required fields"]));
@@ -69,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $start_time = $matches[1];
     $end_time = $matches[3];
 
-    $query = "INSERT INTO booking (doctor_id, hospital_id, useremail, appointment_date, appointment_start_time, appointment_end_time, patient_name, symptoms) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO booking (doctor_id, hospital_id, useremail, appointment_date, appointment_start_time, appointment_end_time, patient_name, symptoms, token_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
 
     if (!$stmt) {
@@ -78,10 +79,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $appointment_date = date('d M Y', strtotime($date));
     require_once 'patient.php';
-    $patient = new Patient($patient_name, $useremail, $doctor_name, $hospital_name, $hospital_location, $symptoms, $appointment_date);
+    $patient = new Patient($patient_name, $useremail, $doctor_name, $hospital_name, $hospital_location, $symptoms, $appointment_date, $time_range, $token_number);
     sendAppointmentEmail($patient);
 
-    $stmt->bind_param("iissssss", $doctor_id, $hospital_id, $useremail, $date, $start_time, $end_time, $patient_name, $symptoms);
+    $stmt->bind_param("iissssssi", $doctor_id, $hospital_id, $useremail, $date, $start_time, $end_time, $patient_name, $symptoms, $token_number);
 
     if (!$stmt->execute()) {
         ob_end_clean();

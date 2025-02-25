@@ -389,6 +389,13 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                 return result;
             }
 
+            async function rowCount(hospital_id, doctor_id) {
+                const response = await fetch(`/DAS/PHP/count_booking_row.php?hospital_id=${hospitalId}&doctor_id=${doctor_id}`);
+                const data = await response.text();
+                const jsonData = JSON.parse(data);
+                return parseInt(jsonData.total);
+            }
+
             function fetchDates(doctorId) {
                 // Clear previous dates and times
                 dateBox.innerHTML = '';
@@ -399,13 +406,16 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                     check = await fetchBookedDates(doctorId);
                     console.log(check);
 
+                    const row = await rowCount(hospitalId, doctorId);
+                    console.log(row);
+
                     let book_date = check.map(date => new Date(date));
                     console.log(book_date);
                     let bookDayStr = book_date.map(date => date.toISOString().slice(0, 10));
                     console.log(bookDayStr);
 
                     if (isValidDate(book_date)) {
-                        const response = await fetch(`fetch_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`)
+                        const response = await fetch(`/DAS/PHP/fetch_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`)
                             .catch(error => {
                                 console.log('Fetch error: ', error);
                                 return null;
@@ -433,7 +443,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                                 });
 
                                 if (jsonData.includes(dateStr) || jsonData.some(d => d.toLowerCase() === weekday.toLowerCase())) {
-                                    if (!uniqueDays.has(dateStr) && !bookDayStr.includes(dateStr)) {
+                                    if (!uniqueDays.has(dateStr) && !bookDayStr.includes(dateStr) || row < 5) {
                                         uniqueDays.add(dateStr);
                                         nextSevenDays.push({
                                             date: dateStr,
@@ -477,7 +487,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                             });
                         }
                     } else {
-                        const response = await fetch(`fetch_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`)
+                        const response = await fetch(`/DAS/PHP/fetch_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`)
                             .catch(error => {
                                 console.log('Fetch error: ', error);
                                 return null;
@@ -556,7 +566,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
             function fetchTimes(doctorId, date, d) {
                 // Clear previous times
                 timeBox.innerHTML = '';
-                fetch(`fetch_times.php?hospital_id=${hospitalId}&date=${date}&doctor_id=${doctorId}&day=${d.toLocaleString('default', { weekday: 'short' })}`)
+                fetch(`/DAS/PHP/fetch_times.php?hospital_id=${hospitalId}&date=${date}&doctor_id=${doctorId}&day=${d.toLocaleString('default', { weekday: 'short' })}`)
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(time => {
@@ -572,7 +582,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                     });
             }
 
-            document.getElementById("booking-form").addEventListener("submit", function(event) {
+            document.getElementById("booking-form").addEventListener("submit", async function(event) {
                 event.preventDefault(); // Prevent page reload
 
                 Notiflix.Loading.standard("Making appointment...");
@@ -587,6 +597,20 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
 
                 const patientName = document.querySelector("#patient_name").value;
                 const symptoms = document.querySelector("#symptoms").value;
+
+                let tokens = await getToken(hospitalId, doctorId);
+                console.log(tokens);
+
+                let booked_token = 0;
+
+                for (let i = 1; i <= 5; i++) {
+                    if (!tokens.includes(i)) {
+                        booked_token = i;
+                        break;
+                    }
+                }
+
+                console.log("Booked Tokens: ", booked_token);
 
                 console.log("Selected Date:", selectedDate);
                 console.log("Selected Time:", selectedTime);
@@ -607,23 +631,26 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                 formData.append("time", selectedTime);
                 formData.append("patient_name", patientName);
                 formData.append("symptoms", symptoms);
+                formData.append("token_number", booked_token);
 
                 // Send AJAX request
-                fetch("booking_appointment.php", {
+                fetch("/DAS/PHP/booking_appointment.php", {
                         method: "POST",
                         body: formData
                     })
-                    .then(response => response.json())
+                    .then(response => response.text())
                     .then(data => {
+                        console.log(data);
+                        const jsonData = JSON.parse(data);
                         Notiflix.Loading.remove();
-                        if (data.error) {
-                            messageBox.innerHTML = `<p style='color:red;'>${data.error}</p>`;
+                        if (jsonData.error) {
+                            messageBox.innerHTML = `<p style='color:red;'>${jsonData.error}</p>`;
                         } else {
                             const timeElement = document.createElement('div');
                             document.getElementById("booking-form").reset();
                             dateBox.innerHTML = '';
                             timeBox.innerHTML = '';
-                            messageBox.innerHTML = `<p style='color:green;'>${data.message}</p>`;
+                            messageBox.innerHTML = `<p style='color:green;'>${jsonData.message}</p>`;
                         }
                     })
                     .catch(error => {
@@ -632,9 +659,16 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                     });
             });
 
+            async function getToken(hospitalId, doctorId) {
+                const response = await fetch(`/DAS/PHP/get_token_number.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`);
+                const data = await response.text();
+                const jsonData = JSON.parse(data);
+                return jsonData;
+            }
+
             async function fetchBookedDates(doctorId) {
                 try {
-                    const response = await fetch(`fetch_booked_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`);
+                    const response = await fetch(`/DAS/PHP/fetch_booked_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`);
                     const data = await response.text();
                     console.log('Raw data:', data); // Log the raw response data
                     const jsonData = JSON.parse(data); // Parse the JSON string
