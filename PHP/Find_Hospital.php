@@ -56,11 +56,39 @@ session_start();
                     <li class="nav-item"><a class="nav-link active" href="/DAS/Home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="/DAS/doctor">Find Doctor</a></li>
                     <li class="nav-item"><a class="nav-link" href="/DAS/hospital">Find Hospital</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) { ?>
-                        <li class="nav-item"><a href="#"><img src="/DAS/Image/profile2.png" class="profile-icon"></a></li>
+                    <?php
+                    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) {
+                        // Database Connection
+                        $conn = new mysqli('localhost', 'root', '', 'project');
+
+                        if ($conn->connect_error) {
+                            die('Connection failed: ' . $conn->connect_error);
+                        }
+
+                        $user_id = $_SESSION['user_id'];
+
+                        // Fetch user profile image from database
+                        $stmt = $conn->prepare('SELECT profile_image FROM users WHERE userID = ?');
+                        $stmt->bind_param('i', $user_id);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $user = $result->fetch_assoc();
+                        $stmt->close();
+                        $conn->close();
+
+                        // Set profile image path (Use default image if none exists)
+                        $profileImage = (!empty($user['profile_image'])) ? '/DAS/PHP/uploads/' . $user['profile_image'] : '/DAS/PHP/uploads/bx-user-circle.svg';
+                    ?>
+                        <li class="nav-item">
+                            <a href="/DAS/profile">
+                                <img src="<?php echo htmlspecialchars($profileImage); ?>?t=<?php echo time(); ?>"
+                                    class="profile-icon rounded-circle" width="40" height="40" style="object-fit: cover;">
+                            </a>
+                        </li>
                     <?php } else { ?>
-                        <a href="/DAS/login" class="btn btn-success ms-3">Sign In</a>
+                        <li class="nav-item">
+                            <a href="/DAS/login" class="btn btn-success ms-3">Sign In</a>
+                        </li>
                     <?php } ?>
                 </ul>
             </div>

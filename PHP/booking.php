@@ -20,9 +20,9 @@ if (isset($_POST['doctor_id']) && isset($_POST['email'])) {
     $useremail = htmlspecialchars($_POST['email']);
 
     // Fetch doctor details
-    $sql = "SELECT d.name, d.profile, d.experience, d.cost 
+    $sql = "SELECT d.name, d.profile, d.experience, d.consultation_fee, d.profile_image
             FROM doctors d 
-            JOIN doctor_hospital dh ON d.doctor_id = dh.doctor_id 
+            JOIN doctor_hospital dh ON d.doctor_id = dh.doctor_id
             WHERE d.doctor_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $doctor_id);
@@ -33,6 +33,8 @@ if (isset($_POST['doctor_id']) && isset($_POST['email'])) {
         $doctorData = $result->fetch_assoc();
     }
     $stmt->close();
+
+    $profileImage = !empty($doctorData['profile_image']) ? '/DAS/PHP/uploads/' . $doctorData['profile_image'] : '/DAS/PHP/uploads/default.png';
 
     // Fetch available days & times
     $sql = "SELECT available_day, available_time, hospital_id FROM doctor_hospital WHERE doctor_id = ?";
@@ -281,7 +283,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
     <div class="container">
         <div class="card">
             <div class="doctor-info">
-                <img id="doctor-img" src="https://via.placeholder.com/150" alt="Doctor Image" class="rounded-circle mb-3" width="150">
+                <img id="doctor-img" src="<?php echo htmlspecialchars($profileImage); ?>?t=<?php echo time(); ?>" alt="Doctor Image" class="rounded-circle mb-3" width="150">
                 <h4 id="doctor"><?php echo $doctorData['name'] ?? 'Doctor Name'; ?></h4>
                 <p><?php echo $doctorData['profile'] ?? 'Doctor Profile'; ?></p>
             </div>
@@ -292,8 +294,8 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
             </div>
 
             <div class="info-box">
-                <div class="label">Estimated Cost</div>
-                <div class="content"><?php echo $doctorData['cost'] ?? 'Cost details'; ?></div>
+                <div class="label">Consultation Fee</div>
+                <div class="content"><?php echo $doctorData['consultation_fee'] ?? 'Cost details'; ?></div>
             </div>
 
             <div class="form-section">
@@ -369,6 +371,13 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                 });
             });
 
+            async function rowCount(hospital_id, doctor_id) {
+                const response = await fetch(`/DAS/PHP/count_booking_row.php?hospital_id=${hospital_id}&doctor_id=${doctor_id}`);
+                const data = await response.text();
+                const jsonData = JSON.parse(data);
+                return parseInt(jsonData.total);
+            }
+
             // Get doctorId from PHP output.
             var doctorId = document.getElementById("doctor_id").value;
             console.log(doctorId);
@@ -400,6 +409,9 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                     let bookDayStr = book_date.map(date => date.toISOString().slice(0, 10));
                     console.log(bookDayStr);
 
+                    const row = await rowCount(hospitalId, doctorId);
+                    console.log(row);
+
                     if (isValidDate(book_date)) {
                         const response = await fetch(`/DAS/PHP/fetch_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`)
                             .catch(error => {
@@ -429,7 +441,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                                 });
 
                                 if (jsonData.includes(dateStr) || jsonData.some(d => d.toLowerCase() === weekday.toLowerCase())) {
-                                    if (!uniqueDays.has(dateStr) && !bookDayStr.includes(dateStr)) {
+                                    if (!uniqueDays.has(dateStr) && !bookDayStr.includes(dateStr) || row < 5) {
                                         uniqueDays.add(dateStr);
                                         nextSevenDays.push({
                                             date: dateStr,
@@ -549,6 +561,13 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                 })();
             }
 
+            async function getToken(hospitalId, doctorId) {
+                const response = await fetch(`/DAS/PHP/get_token_number.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`);
+                const data = await response.text();
+                const jsonData = JSON.parse(data);
+                return jsonData;
+            }
+
             function fetchTimes(hospitalId, date, d) {
                 // Clear previous times
                 timeBox.innerHTML = '';
@@ -568,7 +587,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                     });
             }
 
-            document.getElementById("booking-form").addEventListener("submit", function(event) {
+            document.getElementById("booking-form").addEventListener("submit", async function(event) {
                 event.preventDefault(); // Prevent page reload
 
                 // Start loading indicator
@@ -586,6 +605,20 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                 console.log("Selected Date:", selectedDate);
                 console.log("Selected Time:", selectedTime);
 
+                let tokens = await getToken(hospitalId, doctorId);
+                console.log(tokens);
+
+                let booked_token = 1;
+
+                for (let i = 1; i <= 5; i++) {
+                    if (!tokens.includes(i)) {
+                        booked_token = i;
+                        break;
+                    }
+                }
+
+                console.log("Booked Tokens: ", booked_token);
+
                 if (!selectedDate || !selectedTime) {
                     messageBox.innerHTML = "<p style='color:red;'>Please select a valid date and time.</p>";
                     Notiflix.Loading.remove(); // Remove loading indicator if no date/time is selected
@@ -601,6 +634,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                 formData.append("time", selectedTime);
                 formData.append("patient_name", patientName);
                 formData.append("symptoms", symptoms);
+                formData.append("token_number", booked_token);
 
                 // Send AJAX request
                 fetch("/DAS/PHP/booking_appointment.php", {

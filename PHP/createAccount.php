@@ -49,12 +49,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $status = "unverified";
 
         $stmt = $conn->prepare("INSERT INTO users (username, email, password, otp, status) VALUES (?, ?, ?, ?, ?)");
+        $id = $conn->insert_id;
         $stmt->bind_param("sssss", $username, $email, $hashed_password, $otp, $status);
-
         if ($stmt->execute()) {
             require 'send_mail.php';
             if(sendMail($email, $otp)) {
                 ob_end_clean();
+                $_SESSION['email'] = $email;
+                $_SESSION['user_id'] = $id;
                 echo json_encode(['status' => 'success', 'message' => 'Please verify your account!']);
             } else {
                 ob_end_clean();

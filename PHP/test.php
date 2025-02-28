@@ -18,7 +18,7 @@
 </body>
 
 </html> -->
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -35,6 +35,8 @@
         <input type="password" id="password" name="password" required><br><br>
         <label for="">Hospital ID:</label><br>
         <input type="text" name="hospitalID" id="hospitalID"><br><br>
+        <label for="">Role:</label><br>
+        <input type="text" name="role" id="role"><br><br>
         <button id="submit">OKay</button>
     </form>
 
@@ -44,21 +46,24 @@
             let email = document.getElementById('email').value;
             let password = document.getElementById('password').value;
             let hospitalID = document.getElementById('hospitalID').value;
+            let role = document.getElementById('role').value;
 
             console.log(email);
             console.log(password);
             console.log(hospitalID);
+            console.log(role);
 
             let formData = new FormData();
             formData.append('email', email);
             formData.append('password', password);
             formData.append('hospitalID', hospitalID);
+            formData.append('role', role);
 
-            fetch('test1.php', {
+            fetch('/DAS/PHP/test1.php', {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
+                .then(response => response.text())
                 .then(data => {
                     console.log(data);
                 })
@@ -69,7 +74,7 @@
     </script>
 </body>
 
-</html> -->
+</html>
 <?php
 
 // $filename = "Report.txt";
@@ -228,8 +233,8 @@
 //     echo "Error: " . $e->getMessage();
 // }
 
-$password = "Doctor@123";
-$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-echo $hashedPassword;
+// $password = "Doctor@123";
+// $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+// echo $hashedPassword;
 
 ?>

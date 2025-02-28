@@ -5,7 +5,8 @@ header('Content-Type: application/json');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
     $password = htmlspecialchars($_POST['password']);
-    $hospital_id = filter_var($_POST['hospitalID'], FILTER_VALIDATE_INT);
+    $hospital_id = isset($_POST['hospitalID']) ? intval($_POST['hospitalID']) : null;
+    $role = htmlspecialchars($_POST['role']);
 
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -15,11 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$conn) {
         echo json_encode(['status' => 'error', 'message' => 'Connection failed']);
     } else {
-        $sql = "INSERT INTO admins (email, password, hospital_id) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO admins (email, password, hospital_id, role) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(1, $email, PDO::PARAM_STR);
         $stmt->bindValue(2, $hashed_password, PDO::PARAM_STR);
         $stmt->bindValue(3, $hospital_id, PDO::PARAM_INT);
+        $stmt->bindValue(4, $role, PDO::PARAM_STR);
         $stmt->execute();
         if($stmt->rowCount() > 0){
             echo json_encode(['status' => 'success', 'message' => 'Admin account created']);

@@ -240,21 +240,23 @@
                 method: 'POST',
                 body: formData
             })
-                .then(response => response.json())
+                .then(response => response.text())
                 .then(data => {
+                    console.log(data);
+                    const jsonData = JSON.parse(data);
                     Notiflix.Loading.remove();
-                    if (data.status === 'success') {
-                        Notiflix.Report.success('Success', data.message, 'Okay', () => {
+                    if (jsonData.status === 'success') {
+                        Notiflix.Report.success('Success', jsonData.message, 'Okay', () => {
                             window.location.href = '/DAS/verify';
                         });
                         localStorage.setItem('email', email);
-                        console.log(data.message);
+                        console.log(jsonData.message);
                         // Clear form inputs
                         document.getElementById('signupForm').reset();
                         strengthMeterBars.forEach(bar => bar.classList.add('inactive'));
                     } else {
-                        Notiflix.Report.failure('Error', data.message, 'Okay');
-                        console.log(data.message);
+                        Notiflix.Report.failure('Error', jsonData.message, 'Okay');
+                        console.log(jsonData.message);
                     }
                 })
                 .catch(error => {
@@ -288,17 +290,23 @@
                         document.getElementById('loginForm').reset();
                     } else if (data.status === 'doctor') {
                         Notiflix.Report.success('Success', data.message, 'Okay', () => {
-                            window.location.href = '/DAS/doctor-profile';
+                            window.location.href = '/DAS/doctor-dashboard';
                         });
                         console.log(data.message);
                         document.getElementById('loginForm').reset();
-                    } else if (data.status === 'admin') {
+                    } else if (data.status === 'hospital') {
                         Notiflix.Report.success('Success', data.message, 'Okay', () => {
-                            window.location.href = '/DAS/dashboard';
+                            window.location.href = '/DAS/adminDashboard-hospital';
                         });
                         console.log(data.message);
                         document.getElementById('loginForm').reset();
-                    } if (data.status === 'verify') {
+                    } else if (data.status === 'system') {
+                        Notiflix.Report.success('Success', data.message, 'Okay', () => {
+                            window.location.href = '/DAS/adminDashboard-system';
+                        });
+                        console.log(data.message);
+                        document.getElementById('loginForm').reset();
+                    } else if (data.status === 'verify') {
                         Notiflix.Report.failure('Error', data.message, 'Okay', () => {
                             localStorage.setItem('email', email);
                             window.location.href = '/DAS/verify';

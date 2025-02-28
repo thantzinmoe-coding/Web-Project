@@ -390,7 +390,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
             }
 
             async function rowCount(hospital_id, doctor_id) {
-                const response = await fetch(`/DAS/PHP/count_booking_row.php?hospital_id=${hospitalId}&doctor_id=${doctor_id}`);
+                const response = await fetch(`/DAS/PHP/count_booking_row.php?hospital_id=${hospital_id}&doctor_id=${doctor_id}`);
                 const data = await response.text();
                 const jsonData = JSON.parse(data);
                 return parseInt(jsonData.total);
@@ -601,7 +601,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                 let tokens = await getToken(hospitalId, doctorId);
                 console.log(tokens);
 
-                let booked_token = 0;
+                let booked_token = 1;
 
                 for (let i = 1; i <= 5; i++) {
                     if (!tokens.includes(i)) {

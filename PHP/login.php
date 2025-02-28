@@ -48,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 session_start();
                 $_SESSION['email'] = $email;
                 $_SESSION['loggedin'] = true;
+                $_SESSION['user_id'] = $id;
                 echo json_encode(['status' => 'user', 'message' => 'Login successful']);
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
@@ -86,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             } else {
                 $stmt->close();
 
-                $stmt = $conn->prepare("SELECT adminID, password FROM admins WHERE email = ?");
+                $stmt = $conn->prepare("SELECT adminID, password, role, hospital_id FROM admins WHERE email = ?");
                 if (!$stmt) {
                     error_log("Prepare failed: " . $conn->error);
                     echo json_encode(['status' => 'error', 'message' => 'Prepare failed: ' . $conn->error]);
@@ -103,14 +104,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stmt->store_result();
 
                 if($stmt->num_rows > 0){
-                    $stmt->bind_result($id, $hashed_password);
+                    $stmt->bind_result($id, $hashed_password, $role, $hospital_id);
                     $stmt->fetch();
 
                     if(password_verify($password, $hashed_password)){
                         session_start();
                         $_SESSION['email'] = $email;
                         $_SESSION['loggedin'] = true;
-                        echo json_encode(['status' => 'admin', 'message' => 'Login successful']);
+
+                        if($role === 'hospital'){
+                            $_SESSION['hospital_id'] = $hospital_id;
+                        }
+                        
+                        echo json_encode(['status' => $role, 'message' => 'Login successful']);
                     } else {
                         echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
                     }

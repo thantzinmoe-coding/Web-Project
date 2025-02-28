@@ -19,9 +19,6 @@ if (isset($_SESSION['email'])) {
 $jobTypeSql = "SELECT DISTINCT job_type FROM doctors";
 $jobTypeResult = $conn->query($jobTypeSql);
 
-// Fetch the first 20 doctors
-$sql = "SELECT * FROM doctors LIMIT 20";
-$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -159,15 +156,31 @@ $result = $conn->query($sql);
                     <li class="nav-item">
                         <a class="nav-link" href="/DAS/hospital">Find Hospital</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
-                    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) { ?>
+                    <?php
+                    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) {
+
+                        $user_id = $_SESSION['user_id'];
+
+                        // Fetch user profile image from database
+                        $stmt = $conn->prepare('SELECT profile_image FROM users WHERE userID = ?');
+                        $stmt->bind_param('i', $user_id);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $user = $result->fetch_assoc();
+                        $stmt->close();
+
+                        // Set profile image path (Use default image if none exists)
+                        $profileImage = (!empty($user['profile_image'])) ? '/DAS/PHP/uploads/' . $user['profile_image'] : '/DAS/PHP/uploads/bx-user-circle.svg';
+                    ?>
                         <li class="nav-item">
-                            <a href="#"><img src="/DAS/Image/profile2.png" class="profile-icon"></a>
+                            <a href="/DAS/profile">
+                                <img src="<?php echo htmlspecialchars($profileImage); ?>?t=<?php echo time(); ?>"
+                                    class="profile-icon rounded-circle" width="40" height="40" style="object-fit: cover;">
+                            </a>
                         </li>
                     <?php } else { ?>
-                        <li class="nav-item"> <a href="/DAS/login" class="btn btn-success ms-3">Sign In</a>
+                        <li class="nav-item">
+                            <a href="/DAS/login" class="btn btn-success ms-3">Sign In</a>
                         </li>
                     <?php } ?>
                 </ul>
@@ -200,14 +213,14 @@ $result = $conn->query($sql);
                 <label><input type="radio" name="gender" value="Female"> Female</label><br>
             </div>
         </aside>
-
-
         <!-- Doctor Results Section -->
         <main class="results">
             <input type="text" id="search-box" placeholder="Search for doctors..." style="width: 50%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
             <h2>Doctor - Search Results</h2>
             <div id="doctor-list">
                 <?php
+                $sql = "SELECT * FROM doctors LIMIT 20";
+                $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         $doctor_id = $row['doctor_id'];
