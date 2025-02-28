@@ -28,7 +28,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $conn->close();
 
     // Set profile image path
-    $profileImage = !empty($user['profile_image']) ? '/DAS/PHP/uploads/' . $user['profile_image'] : '/DAS/PHP/uploads/default.png';
+    $profileImage = !empty($user['profile_image']) ? '/DAS/PHP/uploads/' . $user['profile_image'] : '/DAS/PHP/uploads/bx-user-circle.svg';
 } else {
     header('Location: /DAS/login');
     exit();
@@ -47,7 +47,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     <link
         href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap"
         rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css">
     <link rel="stylesheet" href="/DAS/CSS/homepage.css">
     <style>
@@ -141,6 +141,23 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             font-size: 1.2rem;
         }
 
+        .logout {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px;
+            margin-top: -50px;
+            margin-left: 10px;
+        }
+
+        .logout button {
+            padding: 5px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .profile-container {
@@ -199,6 +216,9 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                 </form>
                 <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#editProfileModal">
                     EDIT PROFILE
+                </button>
+                <button class="btn btn-danger mt-3" id="logout">
+                    Logout
                 </button>
             </div>
         </div>
@@ -320,6 +340,33 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             togglerIcon.classList.toggle('rotate');
             togglerIcon.classList.toggle('fa-bars');
             togglerIcon.classList.toggle('fa-times');
+        });
+    </script>
+    <script src="/DAS/JS/jquery.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#logout').click(function(e) {
+                e.preventDefault();
+                Notiflix.Loading.standard('Logging out...');
+                $.ajax({
+                    type: 'POST',
+                    url: '/DAS/PHP/logout.php',
+                    success: function(response) {
+                        if (response.status == 'success') {
+                            Notiflix.Report.success('Success', response.message, 'OK',
+                                function() {
+                                    window.location.href = '/DAS/Home';
+                                });
+                        } else {
+                            Notiflix.Report.failure('Error', response.message, 'OK');
+                        }
+                    },
+                    error: function(err) {
+                        Notiflix.Report.failure('Error', 'An error occurred, please try again.',
+                            'OK');
+                    }
+                });
+            });
         });
     </script>
 </body>

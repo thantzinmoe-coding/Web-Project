@@ -49,9 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $status = "unverified";
 
         $stmt = $conn->prepare("INSERT INTO users (username, email, password, otp, status) VALUES (?, ?, ?, ?, ?)");
-        $id = $conn->insert_id;
         $stmt->bind_param("sssss", $username, $email, $hashed_password, $otp, $status);
         if ($stmt->execute()) {
+            $id = $conn->insert_id;
             require 'send_mail.php';
             if(sendMail($email, $otp)) {
                 ob_end_clean();
