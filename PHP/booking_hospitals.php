@@ -34,7 +34,7 @@ if (isset($_POST['hospital_id']) && isset($_POST['email'])) {
     }
     $stmt->close();
 
-    $profileImage = !empty($doctorData['profile_image']) ? '/DAS/PHP/uploads/' . $doctorData['profile_image'] : '/DAS/PHP/uploads/default.png';
+    $profileImage = !empty($hospitalData['profile_image']) ? '/DAS/PHP/uploads/' . $hospitalData['profile_image'] : '/DAS/PHP/uploads/hospital1.jpg';
 
     // Fetch available days & times
     $sql = "SELECT available_day, available_time, doctor_id FROM doctor_hospital WHERE hospital_id = ?";

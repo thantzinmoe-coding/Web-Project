@@ -7,7 +7,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Appointment System</title>
+    <title>ဆေးခန်းချိန်းဆိုမှုစနစ်</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
@@ -198,6 +198,14 @@ session_start();
             .navbar-toggler {
                 margin-left: auto;
             }
+
+            .container .navbar-brand{
+                width: 40px;
+            }
+            .container span{
+                width: 200px;
+                font-size: 0.8em;
+            }
         }
     </style>
 </head>
@@ -207,15 +215,15 @@ session_start();
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">DAS</a>
-            <span class="text-light ms-3">WE VALUE YOUR HEALTH</span>
+            <span class="text-light ms-3">သင့်ကျန်းမာရေးကို တန်ဖိုးထားပါသည်။</span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <i class="fa fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="/DAS/Home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/DAS/doctor">Find Doctor</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/DAS/hospital">Find Hospital</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/DAS/Home">ပင်မ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/DAS/doctor">ဆရာဝန်ရှာရန်</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/DAS/hospital">ဆေးရုံရှာရန်</a></li>
                     <?php
                     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) {
                         // Database Connection
@@ -244,13 +252,13 @@ session_start();
                                 <img src="<?php echo htmlspecialchars($profileImage); ?>?t=<?php echo time(); ?>" class="profile-icon" alt="Profile">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="/DAS/profile">Profile</a></li>
-                                <li><a class="dropdown-item" href="#" id="logout">Logout</a></li>
+                                <li><a class="dropdown-item" href="/DAS/profile">ပရိုဖိုင်း</a></li>
+                                <li><a class="dropdown-item" href="#" id="logout">ထွက်ရန်</a></li>
                             </ul>
                         </li>
                     <?php } else { ?>
                         <li class="nav-item">
-                            <a href="/DAS/login" class="btn btn-success">Sign In</a>
+                            <a href="/DAS/login" class="btn btn-success">အကောင့်ဝင်ရန်</a>
                         </li>
                     <?php } ?>
                 </ul>
@@ -260,38 +268,74 @@ session_start();
 
     <!-- Header -->
     <header class="text-center py-5" data-aos="fade-down" data-aos-duration="1000">
-        <h1>Your Health is Just a Click Away</h1>
-        <p>Explore hospitals, find doctors, book appointments, and access health resources</p>
+        <h1>သင့်ကျန်းမာရေးကို တစ်နေရာထဲမှာ ရယူလိုက်ပါ။</h1>
+        <p>ဆေးရုံများရှာဖွေခြင်း၊ ဆရာဝန်များနှင့် ချိန်းဆိုမှုများ ပြုလုပ်ခြင်း၊ ကျန်းမာရေးအရင်းအမြစ်များကို ရယူခြင်း</p>
     </header>
 
     <!-- Top Hospitals -->
     <section class="container my-5">
-        <h2 class="text-center text-success mb-4" data-aos="fade-up" data-aos-duration="1000">Top Hospitals</h2>
+        <h2 class="text-center text-success mb-4" data-aos="fade-up" data-aos-duration="1000">ထိပ်တန်းဆေးရုံများ</h2>
         <div class="row g-4">
             <div class="col-md-4" data-aos="fade-right" data-aos-duration="1000">
                 <div class="card hospital-card">
-                    <img src="/DAS/image/h1.jpg" alt="Bridgeport Hospital" class="card-img-top">
+                    <img src="/DAS/Image/hospital1.jpg" alt="ရန်ကုန်အထွေထွေရောဂါကုဆေးရုံ" class="card-img-top">
                     <div class="card-body text-center">
-                        <h5 class="card-title">Bridgeport Hospital</h5>
-                        <p class="text-muted">Specialized in Cardiology and General Surgery</p>
+                        <h5 class="card-title">ရန်ကုန်အထွေထွေရောဂါကုဆေးရုံ</h5>
+                        <p class="text-muted">အထွေထွေရောဂါများကို အထူးပြုကုသပေးသည်။</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000">
                 <div class="card hospital-card">
-                    <img src="/DAS/image/h2.jpg" alt="St. Vincent's Medical Center" class="card-img-top">
+                    <img src="/DAS/Image/hospital2.jpg" alt="စမ်းချောင်းဆေးရုံ" class="card-img-top">
                     <div class="card-body text-center">
-                        <h5 class="card-title">St. Vincent's Medical Center</h5>
-                        <p class="text-muted">Renowned for Neurology and Orthopedics</p>
+                        <h5 class="card-title">စမ်းချောင်းဆေးရုံ</h5>
+                        <p class="text-muted">အားကစားဆေးပညာကို အထူးပြုကုသပေးသည်။</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4" data-aos="fade-left" data-aos-duration="1000">
                 <div class="card hospital-card">
-                    <img src="/DAS/image/h3.jpg" alt="Yale New Haven Hospital" class="card-img-top">
+                    <img src="/DAS/Image/hospital3.jpg" alt="မင်္ဂလာတောင်ညွန့်ဆေးရုံ" class="card-img-top">
                     <div class="card-body text-center">
-                        <h5 class="card-title">Yale New Haven Hospital</h5>
-                        <p class="text-muted">Expertise in Pediatrics and Oncology</p>
+                        <h5 class="card-title">မင်္ဂလာတောင်ညွန့်ဆေးရုံ</h5>
+                        <p class="text-muted small">ဓာတ်မတည့်မှုနှင့်ကိုယ်ခံအားပညာကိုအထူးပြုကုသပေးသည်။</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container my-5">
+        <h2 class="text-center text-success mb-4" data-aos="fade-up" data-aos-duration="1000">ကျွမ်းကျင်ဆရာဝန်များ</h2>
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="fade-right" data-aos-duration="1000">
+                <div class="card hospital-card">
+                    <img src="/DAS/Image/doctor2-37.jpg" alt="ဒေါက်တာ ကောင်းမြတ်ထက်" class="card-img-top">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">ဒေါက်တာ ကောင်းမြတ်ထက်</h5>
+                        <span>MBBS, DCH</span>
+                        <p class="text-muted">ကလေးနဲ့ပတ်သက်သော ရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000">
+                <div class="card hospital-card">
+                    <img src="/DAS/Image/doctor2-40.jpg" alt="‌ဒေါက်တာ ရဲန္ဒထက်" class="card-img-top">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">‌ဒေါက်တာ ရဲန္ဒထက်</h5>
+                        <span>MBBS, DCH</span>
+                        <p class="text-muted">အရိုးနှင့် အကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-left" data-aos-duration="1000">
+                <div class="card hospital-card">
+                    <img src="/DAS/Image/doctor2-41.jpg" alt="ဒေါက်တာ သီဟဇော်" class="card-img-top">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">ဒေါက်တာ သီဟဇော်</h5>
+                        <span>MBBS, DCH</span>
+                        <p class="text-muted small">ကလေးနဲ့ပတ်သက်သော ရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်</p>
                     </div>
                 </div>
             </div>
@@ -301,58 +345,35 @@ session_start();
     <!-- Features -->
     <section class="features">
         <div class="container">
-            <h2 class="text-center mb-4" data-aos="fade-up" data-aos-duration="1000">Why Choose DAS?</h2>
+            <h2 class="text-center mb-4" data-aos="fade-up" data-aos-duration="1000">DAS ကို ဘာကြောင့် ရွေးချယ်သင့်သလဲ။</h2>
             <div class="row text-center">
                 <div class="col-md-4" data-aos="fade-right" data-aos-duration="1000">
                     <i class="fa fa-user-md"></i>
-                    <h5 class="mt-3">Expert Doctors</h5>
-                    <p>Connect with top-rated doctors and specialists in your area.</p>
+                    <h5 class="mt-3">ကျွမ်းကျင်ဆရာဝန်များ</h5>
+                    <p>သင့်ဒေသရှိ ထိပ်တန်းဆရာဝန်များနှင့် ချိတ်ဆက်ပါ။</p>
                 </div>
                 <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000">
                     <i class="fa fa-hospital"></i>
-                    <h5 class="mt-3">Trusted Hospitals</h5>
-                    <p>Find hospitals with the best facilities and care.</p>
+                    <h5 class="mt-3">ယုံကြည်စိတ်ချရသောဆေးရုံများ</h5>
+                    <p>အကောင်းဆုံးပစ္စည်းကိရိယာများနှင့် စောင့်ရှောက်မှုများကို ရှာဖွေပါ။</p>
                 </div>
                 <div class="col-md-4" data-aos="fade-left" data-aos-duration="1000">
                     <i class="fa fa-calendar-check"></i>
-                    <h5 class="mt-3">Easy Appointments</h5>
-                    <p>Book appointments with just a few clicks.</p>
+                    <h5 class="mt-3">လွယ်ကူသောချိန်းဆိုမှုများ</h5>
+                    <p>ခလုတ်အနည်းငယ်ဖြင့် ချိန်းဆိုမှုများပြုလုပ်ပါ။</p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="container my-5">
-        <h2 class="text-center text-success mb-4" data-aos="fade-up" data-aos-duration="1000">Testimonials</h2>
-        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel" data-aos="fade-up" data-aos-duration="1000">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <p class="testimonial">"DAS helped me find the best doctor for my condition. The process was seamless and efficient!" - Sarah J.</p>
-                </div>
-                <div class="carousel-item">
-                    <p class="testimonial">"Booking an appointment has never been easier. Highly recommend DAS to everyone!" - Mark T.</p>
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="text-center py-4" data-aos="fade-up" data-aos-duration="1000">
         <div class="container">
-            <p>&copy; 2025 DAS Healthcare. All Rights Reserved.</p>
+            <p>&copy; ၂၀၂၅ DAS Healthcare. မူပိုင်ခွင့်များအားလုံးရှိသည်။</p>
             <p>
-                Address: 123 Main St, Bridgeport, CT 06604<br>
-                Phone: 203-555-5555<br>
-                Email: <a href="mailto:info@healthcare.com">info@healthcare.com</a>
+                လိပ်စာ - ၁၂၃ မင်းလမ်း၊ ရန်ကုန်<br>
+                ဖုန်း - ၀၉-၁၂၃၄၅၆၇၈၉<br>
+                အီးမေးလ် - <a href="mailto:info@healthcare.com">info@healthcare.com</a>
             </p>
         </div>
     </footer>
@@ -379,23 +400,23 @@ session_start();
         $(document).ready(function() {
             $('#logout').click(function(e) {
                 e.preventDefault();
-                Notiflix.Loading.standard('Logging out...');
+                Notiflix.Loading.standard('ထွက်နေသည်...');
                 $.ajax({
                     type: 'POST',
                     url: '/DAS/PHP/logout.php',
                     success: function(response) {
                         if (response.status == 'success') {
-                            Notiflix.Report.success('Success', response.message, 'OK',
+                            Notiflix.Report.success('အောင်မြင်သည်', response.message, 'အိုကေ',
                                 function() {
                                     window.location.href = '/DAS/Home';
                                 });
                         } else {
-                            Notiflix.Report.failure('Error', response.message, 'OK');
+                            Notiflix.Report.failure('အမှား', response.message, 'အိုကေ');
                         }
                     },
                     error: function(err) {
-                        Notiflix.Report.failure('Error', 'An error occurred, please try again.',
-                            'OK');
+                        Notiflix.Report.failure('အမှား', 'အမှားတစ်ခုဖြစ်ပွားခဲ့သည်၊ ကျေးဇူးပြု၍ ထပ်ကြိုးစားပါ။',
+                            'အိုကေ');
                     }
                 });
             });

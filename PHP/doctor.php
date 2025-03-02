@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/notiflix@3/dist/notiflix-aio-3.2.7.min.js"></script>
+    <!-- Your existing styles remain here -->
     <style>
         body {
             background-color: #f4f6f9;
@@ -66,8 +71,19 @@
 
 <body>
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Doctor Dashboard</h2>
-
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-center mb-0">Doctor Dashboard</h2>
+            <button id="logout-btn" class="btn btn-danger">Logout</button>
+        </div>
+        <?php if (isset($_SESSION['doctor_id'])): ?>
+            <form id="doctor_id_form" hidden>
+                <input type="hidden" name="doctor_id" value="<?php echo $_SESSION['doctor_id']; ?>">
+            </form>
+        <?php else: ?>
+            <script>
+                window.location.href = '/DAS/login';
+            </script>
+        <?php endif; ?>
         <div class="row g-4">
             <div class="col-md-6 d-flex flex-column">
                 <div class="card p-4 full-height">
@@ -85,7 +101,14 @@
                                 require 'connection.php';
                                 $conn = connect();
 
-                                $sql = $conn->prepare("SELECT hospital_id, name FROM hospitals ORDER BY name ASC");
+                                $sql = $conn->prepare("
+                                                                SELECT h.hospital_id, h.name
+                                                                FROM hospitals h
+                                                                LEFT JOIN doctor_hospital dh ON h.hospital_id = dh.hospital_id
+                                                                WHERE dh.doctor_id = :doctor_id
+                                                                ORDER BY h.name ASC
+                                                            ");
+                                $sql->bindParam(':doctor_id', $_SESSION['doctor_id'], PDO::PARAM_INT);
                                 $sql->execute();
                                 $hospitals = $sql->fetchAll(PDO::FETCH_ASSOC);
 
@@ -119,7 +142,8 @@
                             </thead>
                             <tbody id="appointments-tbody">
                                 <?php
-                                $sql = $conn->prepare("SELECT * FROM booking");
+                                $sql = $conn->prepare("SELECT * FROM booking WHERE doctor_id = :doctor_id");
+                                $sql->bindParam(':doctor_id', $_SESSION['doctor_id'], PDO::PARAM_INT);
                                 $sql->execute();
                                 $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 
@@ -171,8 +195,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Function to fetch patient history
+            const doctor_id = document.getElementById('doctor_id_form').querySelector('input[name="doctor_id"]').value;
+            console.log(doctor_id);
+            const form = new FormData();
+            form.append('doctor_id', doctor_id);
+
             function fetchHistory() {
-                fetch('/DAS/PHP/fetch_history.php')
+                fetch('/DAS/PHP/fetch_history.php', {
+                        method: 'POST',
+                        body: form // Use 'body' instead of 'data'
+                    })
                     .then(response => response.text())
                     .then(data => {
                         document.querySelector('#patientRecords tbody').innerHTML = data;
@@ -219,16 +251,19 @@
                 button.addEventListener('click', function() {
                     var row = this.closest('tr');
                     var hospitalId = row.getAttribute('data-hospital_id');
+                    var doctor_id = document.getElementById('doctor_id_form').querySelector('input[name="doctor_id"]').value;
                     console.log(hospitalId);
+                    console.log(doctor_id);
+
+                    // Create a new FormData object for each request
+                    const form = new FormData();
+                    form.append('hospital_id', hospitalId);
+                    form.append('doctor_id', doctor_id);
+                    // Note: doctor_id isn't provided here - you'll need to add it if required
 
                     fetch('/DAS/PHP/fetch_appointments.php', {
                             method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                hospital_id: hospitalId
-                            })
+                            body: form
                         })
                         .then(response => response.text())
                         .then(data => {
@@ -237,9 +272,52 @@
                         .catch(error => console.error('Error:', error));
                 });
             });
+
+            document.getElementById('logout-btn').addEventListener('click', function() {
+                Notiflix.Confirm.show(
+                    'Confirm Logout',
+                    'Are you sure you want to logout?',
+                    'Yes',
+                    'No',
+                    function okCb() {
+                        fetch('/DAS/PHP/logout.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    Notiflix.Notify.success('Logged out successfully', {
+                                        timeout: 2000
+                                    });
+                                    setTimeout(() => {
+                                        window.location.href = '/DAS/login';
+                                    }, 2000);
+                                } else {
+                                    Notiflix.Notify.failure('Logout failed: ' + data.message, {
+                                        timeout: 3000
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                Notiflix.Notify.failure('Error during logout: ' + error.message, {
+                                    timeout: 3000
+                                });
+                            });
+                    },
+                    function cancelCb() {}, {
+                        titleColor: '#dc3545',
+                        okButtonBackground: '#dc3545',
+                        cancelButtonBackground: '#6c757d'
+                    }
+                );
+            });
         });
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/notiflix"></script>
 </body>
 
 </html>

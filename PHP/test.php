@@ -115,18 +115,18 @@
 // // Passing the object to function
 // sendAppointmentEmail($patient);
 
-// $passwords = [
-//     "DrJohn123",
-//     "DrSarah123",
-//     "DrEmily123",
-//     "DrMichael123",
-//     "DrRachel123"
-// ];
+$passwords = [
+    "DrJohn123",
+    "DrSarah123",
+    "DrEmily123",
+    "DrMichael123",
+    "DrRachel123"
+];
 
-// foreach ($passwords as $password) {
-//     echo "Plain: $password<br>";
-//     echo "Hashed: " . password_hash($password, PASSWORD_DEFAULT) . "<br><br>";
-// }
+foreach ($passwords as $password) {
+    echo "Plain: $password<br>";
+    echo "Hashed: " . password_hash($password, PASSWORD_DEFAULT) . "<br><br>";
+}
 
 // $dsn = "mysql:host=localhost;dbname=project";
 // $username = "root";

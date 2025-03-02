@@ -1,9 +1,19 @@
 <?php
-
 require 'connection.php';
 $conn = connect();
 
-$sql = $conn->prepare("SELECT p.*, h.name AS hospital_name FROM patients p LEFT JOIN hospitals h ON p.hospital_id = h.hospital_id;");
+// For FormData with POST, use $_POST directly
+$doctor_id = $_POST['doctor_id'] ?? null;
+
+if ($doctor_id === null) {
+    die("No doctor_id provided");
+}
+
+$sql = $conn->prepare("SELECT p.*, h.name AS hospital_name 
+                      FROM patients p 
+                      LEFT JOIN hospitals h ON p.hospital_id = h.hospital_id 
+                      WHERE p.doctor_id = :doctor_id");
+$sql->bindParam(':doctor_id', $doctor_id, PDO::PARAM_INT);
 $sql->execute();
 $result = $sql->fetchAll(PDO::FETCH_ASSOC);
 

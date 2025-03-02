@@ -80,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     session_start();
                     $_SESSION['email'] = $email;
                     $_SESSION['loggedin'] = true;
+                    $_SESSION['doctor_id'] = $id;
                     echo json_encode(['status' => 'doctor', 'message' => 'Login successful']);
                 } else {
                     echo json_encode(['status' => 'error', 'message' => 'Invalid password']);

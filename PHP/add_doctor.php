@@ -10,12 +10,12 @@ $dbname = 'project';
 $conn = new mysqli($host, $user, $password, $dbname);
 
 if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
+    die(json_encode(['status' => 'error', 'message' => 'Database connection failed: ' . $conn->connect_error]));
 }
 
 // Ensure hospital_id is set
 if (!isset($_SESSION['hospital_id'])) {
-    die('Hospital ID is not set.');
+    die(json_encode(['status' => 'error', 'message' => 'Hospital ID is not set.']));
 }
 
 $hospital_id = $_SESSION['hospital_id'];
@@ -31,72 +31,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $consultation_fee = trim($_POST['consultation_fee']);
     $profile = trim($_POST['profile']);
     $experience = trim($_POST['experience']);
-    $available_day = trim($_POST['available_day']);
-    $available_time = trim($_POST['available_time']);
 
-    // Set the upload directory path relative to this file
+    // Handling Available Days and Times (received as CSV)
+    $available_days = isset($_POST['available_day']) ? explode(',', $_POST['available_day']) : [];
+    $available_times = isset($_POST['available_time']) ? explode(',', $_POST['available_time']) : [];
+
+    // Ensure matching count of days and times
+    if (count($available_days) !== count($available_times)) {
+        echo json_encode(['status' => 'error', 'message' => 'Mismatch in available days and times.']);
+        exit();
+    }
+
+    // Validate available time format (Server-side validation)
+    $time_pattern = "/^([1-9]|1[0-2])(am|pm)-([1-9]|1[0-2])(am|pm)$/";
+
+    foreach ($available_times as $time) {
+        if (!preg_match($time_pattern, trim($time))) {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid time format detected. Use format like "12pm-2pm".']);
+            exit();
+        }
+    }
+
+    // Set the upload directory path
     $uploadDir = 'uploads/';
-
-    // Check if the upload directory exists, if not create it
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     }
 
-    $filename = time() . '_' . basename($_FILES['profile_image']['name']);
-    $targetFile = $uploadDir . $filename;
+    // Handle Profile Image Upload
+    if (!empty($_FILES['profile_image']['name'])) {
+        $filename = time() . '_' . basename($_FILES['profile_image']['name']);
+        $targetFile = $uploadDir . $filename;
 
-    // Move the uploaded file
-    if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetFile)) {
-        // Save just the filename in the database
-        if (
-            !empty($name) && !empty($job_type) && !empty($email) && !empty($password)
-            && !empty($credential) && !empty($gender) && !empty($consultation_fee)
-            && !empty($profile) && !empty($experience) && !empty($available_day)
-            && !empty($available_time)
-        ) {
-
-            $hash_password = password_hash($password, PASSWORD_DEFAULT);
-            // Create the INSERT query for doctors table containing all fields
-            $query = "INSERT INTO doctors 
-                (name, job_type, email, password, credential, gender, consultation_fee, profile, experience, profile_image) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($query);
-            if ($stmt === false) {
-                die("Prepare failed: " . $conn->error);
-            }
-            $stmt->bind_param(
-                'ssssssdsss',
-                $name,
-                $job_type,
-                $email,
-                $hash_password,
-                $credential,
-                $gender,
-                $consultation_fee,
-                $profile,
-                $experience,
-                $filename
-            );
-            if ($stmt->execute()) {
-                $insert_doctor_id = $conn->insert_id;
-                $stmt->close();
-                $sql = "INSERT INTO doctor_hospital (doctor_id, hospital_id, available_day, available_time) VALUES ('$insert_doctor_id', '$hospital_id', '$available_day', '$available_time')";
-                $stmt = $conn->prepare($sql);
-                if ($stmt->execute()) {
-                    echo json_encode(['status' => 'success', 'message' => 'Doctor added successfully.']);
-                    exit();
-                } else {
-                    echo json_encode(['status' => 'error', 'message' => 'Error adding doctor to hospital: ' . $stmt->error]);
-                }
-                $stmt->close();
-            } else {
-                echo json_encode(['status' => 'error', 'message' => 'Error adding doctor: ' . $stmt->error]);
-            }
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+        if (!move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetFile)) {
+            echo json_encode(['status' => 'error', 'message' => 'Profile image upload failed.']);
+            exit();
         }
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'File upload failed.']);
+        $filename = ''; // No image uploaded
+    }
+
+    // Hash the password before storing
+    $hash_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Insert into `doctors` table
+    $stmt = $conn->prepare("INSERT INTO doctors (name, job_type, email, password, credential, gender, consultation_fee, profile, experience, profile_image) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param('ssssssdsss', $name, $job_type, $email, $hash_password, $credential, $gender, $consultation_fee, $profile, $experience, $filename);
+
+    if ($stmt->execute()) {
+        $doctor_id = $stmt->insert_id;
+        $stmt->close();
+
+        // Insert into `doctor_hospital` table (Each day will be inserted as a separate row)
+        $stmt = $conn->prepare("INSERT INTO doctor_hospital (doctor_id, hospital_id, available_day, available_time) VALUES (?, ?, ?, ?)");
+
+        for ($i = 0; $i < count($available_days); $i++) {
+            $day = trim($available_days[$i]); // Get the current day
+            $time = trim($available_times[$i]); // Get the corresponding time
+
+            if (!empty($day) && !empty($time)) { // Ensure both are set
+                $stmt->bind_param("iiss", $doctor_id, $hospital_id, $day, $time);
+                $stmt->execute();
+            }
+        }
+        $stmt->close();
+
+        echo json_encode(['status' => 'success', 'message' => 'Doctor added successfully.']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Error adding doctor: ' . $stmt->error]);
     }
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
