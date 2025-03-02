@@ -48,7 +48,7 @@ if (isset($_POST['doctor_id']) && isset($_POST['email'])) {
         $doctorAvailableDays[$day][] = $row['available_time']; // Store time slots under respective day
         $selected_hospital_id[] = $row['hospital_id'];
     }
-    
+
     $stmt->close();
 
     $sql = "SELECT name FROM hospitals WHERE hospital_id IN (" . implode(',', $selected_hospital_id) . ") ORDER BY FIELD(hospital_id, " . implode(',', $selected_hospital_id) . ")";
@@ -108,6 +108,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
     <title>Doctor Appointment Booking</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/dist/notiflix-3.2.7.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -148,6 +149,9 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
         .doctor-info img {
             border-radius: 50%;
             border: 4px solid #1a73e8;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
         }
 
         .doctor-info h4 {
@@ -220,6 +224,13 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
             color: #fff;
         }
 
+        .option-box.disabled {
+            background-color: #ccc;
+            border-color: #999;
+            color: #666;
+            cursor: not-allowed;
+        }
+
         .option-box span {
             display: block;
             text-align: center;
@@ -256,6 +267,43 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
             box-shadow: 0px 0px 8px rgba(26, 115, 232, 0.3);
         }
 
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .progress-step {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background-color: #e7f3ff;
+            border-radius: 8px;
+            margin: 0 5px;
+            font-weight: bold;
+            color: #1a73e8;
+        }
+
+        .progress-step.active {
+            background-color: #1a73e8;
+            color: #fff;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            /* Add a subtle shadow */
+        }
+
+        .container-fluid {
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
         .btn-primary {
             background-color: #1a73e8;
             border-color: #1a73e8;
@@ -264,67 +312,83 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
             border-radius: 8px;
             width: 100%;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         .btn-primary:hover {
             background-color: #155ea7;
         }
+
+        .btn-back {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #5a6268;
+        }
     </style>
 </head>
 
 <body>
-
-    <nav class="navbar navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="#">Doctor Appointment System</a>
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-hospital"></i> Hospital Appointment System
+            </a>
+            <a href="/DAS/doctor" class="btn btn-back">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
         </div>
     </nav>
 
     <div class="container">
         <div class="card">
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-step active">1. Select Hospital</div>
+                <div class="progress-step">2. Select Date</div>
+                <div class="progress-step">3. Select Time</div>
+            </div>
+
+            <!-- Doctor Information -->
             <div class="doctor-info">
-                <img id="doctor-img" src="<?php echo htmlspecialchars($profileImage); ?>?t=<?php echo time(); ?>" alt="Doctor Image" class="rounded-circle mb-3" width="150">
+                <img id="doctor-img" src="<?php echo htmlspecialchars($profileImage); ?>?t=<?php echo time(); ?>" alt="Doctor Image">
                 <h4 id="doctor"><?php echo $doctorData['name'] ?? 'Doctor Name'; ?></h4>
                 <p><?php echo $doctorData['profile'] ?? 'Doctor Profile'; ?></p>
             </div>
 
-            <div class="info-box">
-                <div class="label">Doctor Experience</div>
-                <div class="content"><?php echo $doctorData['experience'] ?? 'Experience details'; ?></div>
-            </div>
-
-            <div class="info-box">
-                <div class="label">Consultation Fee</div>
-                <div class="content"><?php echo $doctorData['consultation_fee'] ?? 'Cost details'; ?></div>
-            </div>
-
+            <!-- Hospital Selection -->
             <div class="form-section">
                 <label class="form-label">Available Hospitals</label>
                 <div class="hospital-box" id="hospital">
-                    <?php foreach ($selected_hospital_name as $index => $hospital_name):
-                    ?>
+                    <?php foreach ($selected_hospital_name as $index => $hospital_name): ?>
                         <div class="option-box" data-hospital-id="<?php echo $selected_hospital_id[$index]; ?>">
-                            <span class="hospital-name">
-                                <?php echo $hospital_name ?? 'Hospital Name'; ?>
-                            </span>
+                            <span class="hospital-name"><?php echo $hospital_name ?? 'Hospital Name'; ?></span>
                         </div>
-                    <?php endforeach;
-                    ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
 
+            <!-- Date Selection -->
             <div class="form-section">
                 <label class="form-label">Select Available Date</label>
                 <div class="date-box" id="date-box"></div>
             </div>
 
+            <!-- Time Selection -->
             <div class="form-section">
                 <label class="form-label">Available Time</label>
                 <div class="time-box" id="time-box"></div>
             </div>
 
+            <!-- Booking Form -->
             <form id="booking-form">
-                <!-- existing patient name & symptoms inputs -->
                 <div class="form-section">
                     <label class="form-label">Patient Name</label>
                     <input type="text" class="form-control" name="patient_name" id="patient_name" required placeholder="Enter your name">
@@ -334,7 +398,7 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                     <textarea class="form-control" name="symptoms" id="symptoms" rows="3" required placeholder="Describe your symptoms"></textarea>
                 </div>
 
-                <!-- Hidden inputs to store selections -->
+                <!-- Hidden Inputs -->
                 <input type="hidden" name="doctor_id" id="doctor_id" value="<?php echo $doctor_id; ?>">
                 <input type="hidden" name="useremail" id="useremail" value="<?php echo $useremail; ?>">
                 <input type="hidden" name="hospital_id" id="hospital_id" value="">
@@ -342,352 +406,26 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                 <input type="hidden" name="appointment_time" id="appointment_time" value="">
                 <div id="message-box"></div>
 
-                <button type="submit" class="btn btn-primary">Book Appointment</button>
+                <!-- Buttons -->
+                <div class="row mt-4">
+                    <div class="col-md-6 mt-2">
+                        <button id="btnCancel" class="btn btn-outline-secondary w-100 p-3">
+                            <i class="fas fa-times"></i> Cancel Appointment
+                        </button>
+                    </div>
+                    <div class="col-md-6 mt-2">
+                        <button type="submit" class="btn btn-success w-100 p-3">
+                            <i class="fas fa-check"></i> Confirm Appointment
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get elements
-            const dateBox = document.getElementById('date-box');
-            const timeBox = document.getElementById('time-box');
-            const hospitalBoxes = document.querySelectorAll('.hospital-box .option-box');
-            const messageBox = document.querySelector("#message-box");
-            hospitalBoxes.forEach(box => {
-                box.addEventListener('click', function() {
-                    Notiflix.Loading.standard("Getting available dates...");
-                    hospitalBoxes.forEach(b => b.classList.remove('selected'));
-                    this.classList.add('selected');
-                    const hospitalId = this.getAttribute('data-hospital-id');
-                    console.log(hospitalId);
-                    setTimeout(() => {
-                        Notiflix.Loading.remove();
-                        fetchDates(hospitalId);
-                    }, 1000);
-                    // Also update a hidden input if needed (see form below)
-                    document.getElementById('hospital_id').value = hospitalId;
-                });
-            });
-
-            async function rowCount(hospital_id, doctor_id) {
-                const response = await fetch(`/DAS/PHP/count_booking_row.php?hospital_id=${hospital_id}&doctor_id=${doctor_id}`);
-                const data = await response.text();
-                const jsonData = JSON.parse(data);
-                return parseInt(jsonData.total);
-            }
-
-            // Get doctorId from PHP output.
-            var doctorId = document.getElementById("doctor_id").value;
-            console.log(doctorId);
-
-            function getNextDateFromDay(dayStr) {
-                const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-                const today = new Date();
-                let targetIndex = days.indexOf(dayStr.toUpperCase());
-                if (targetIndex === -1) return null;
-                let diff = targetIndex - today.getDay();
-                if (diff <= 0) diff += 7;
-                const result = new Date(today);
-                result.setDate(today.getDate() + diff);
-                return result;
-            }
-
-            function fetchDates(hospitalId) {
-                // Clear previous dates and times
-                dateBox.innerHTML = '';
-                timeBox.innerHTML = '';
-                let check = "";
-                let checkTemp = new Date();
-                (async () => {
-                    check = await fetchBookedDates(hospitalId);
-                    console.log(check);
-
-                    let book_date = check.map(date => new Date(date));
-                    console.log(book_date);
-                    let bookDayStr = book_date.map(date => date.toISOString().slice(0, 10));
-                    console.log(bookDayStr);
-
-                    const row = await rowCount(hospitalId, doctorId);
-                    console.log(row);
-
-                    if (isValidDate(book_date)) {
-                        const response = await fetch(`/DAS/PHP/fetch_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`)
-                            .catch(error => {
-                                console.log('Fetch error: ', error);
-                                return null;
-                            });
-                        const data = await response.text();
-                        console.log(data);
-                        const jsonData = JSON.parse(data);
-                        console.log(jsonData);
-                        if (jsonData) {
-                            if (!Array.isArray(jsonData) || jsonData.length === 0) {
-                                console.error('No available dates found');
-                                return;
-                            }
-
-                            let today = new Date();
-                            let uniqueDays = new Set();
-                            let nextSevenDays = [];
-
-                            for (let i = 0; i < 60; i++) {
-                                let tempDate = new Date();
-                                tempDate.setDate(today.getDate() + i);
-                                let dateStr = tempDate.toISOString().slice(0, 10);
-                                let weekday = tempDate.toLocaleString('default', {
-                                    weekday: 'short'
-                                });
-
-                                if (jsonData.includes(dateStr) || jsonData.some(d => d.toLowerCase() === weekday.toLowerCase())) {
-                                    if (!uniqueDays.has(dateStr) && !bookDayStr.includes(dateStr) || row < 5) {
-                                        uniqueDays.add(dateStr);
-                                        nextSevenDays.push({
-                                            date: dateStr,
-                                            d: tempDate
-                                        });
-                                    }
-                                }
-                                if (nextSevenDays.length === 7) break;
-                            }
-
-                            if (nextSevenDays.length === 0) {
-                                console.error('No valid available days found');
-                                return;
-                            }
-
-                            nextSevenDays.forEach(({
-                                date,
-                                d
-                            }) => {
-                                const dateElement = document.createElement('div');
-                                dateElement.classList.add('option-box');
-                                dateElement.setAttribute('data-date', date);
-
-                                dateElement.innerHTML = `
-                    <span class="month">${d.toLocaleString('default', { month: 'short' })}</span>
-                    <span class="day">${d.getDate()}</span>
-                    <span class="weekday">${d.toLocaleString('default', { weekday: 'short' })}</span>
-                `;
-
-                                dateElement.addEventListener('click', function() {
-                                    Notiflix.Loading.standard("Getting available times...");
-                                    dateBox.querySelectorAll('.option-box').forEach(b => b.classList.remove('selected'));
-                                    this.classList.add('selected');
-                                    setTimeout(() => {
-                                        Notiflix.Loading.remove();
-                                        fetchTimes(hospitalId, date, d);
-                                    }, 1000);
-                                });
-
-                                dateBox.appendChild(dateElement);
-                            });
-                        }
-                    } else {
-                        const response = await fetch(`/DAS/PHP/fetch_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`)
-                            .catch(error => {
-                                console.log('Fetch error: ', error);
-                                return null;
-                            });
-                        const data = await response.text();
-                        console.log(data);
-                        const jsonData = JSON.parse(data);
-                        if (jsonData) {
-                            if (!Array.isArray(jsonData) || jsonData.length === 0) {
-                                console.error('No available dates found');
-                                return;
-                            }
-
-                            let today = new Date();
-                            let uniqueDays = new Set();
-                            let nextSevenDays = [];
-
-                            for (let i = 0; i < 60; i++) {
-                                let tempDate = new Date();
-                                tempDate.setDate(today.getDate() + i);
-                                let dateStr = tempDate.toISOString().slice(0, 10);
-                                let weekday = tempDate.toLocaleString('default', {
-                                    weekday: 'short'
-                                });
-
-                                if (jsonData.includes(dateStr) || jsonData.some(d => d.toLowerCase() === weekday.toLowerCase())) {
-                                    if (!uniqueDays.has(dateStr)) {
-                                        uniqueDays.add(dateStr);
-                                        nextSevenDays.push({
-                                            date: dateStr,
-                                            d: tempDate
-                                        });
-                                    }
-                                }
-                                if (nextSevenDays.length === 7) break;
-                            }
-
-                            if (nextSevenDays.length === 0) {
-                                console.error('No valid available days found');
-                                return;
-                            }
-
-                            nextSevenDays.forEach(({
-                                date,
-                                d
-                            }) => {
-                                const dateElement = document.createElement('div');
-                                dateElement.classList.add('option-box');
-                                dateElement.setAttribute('data-date', date);
-
-                                dateElement.innerHTML = `
-                    <span class="month">${d.toLocaleString('default', { month: 'short' })}</span>
-                    <span class="day">${d.getDate()}</span>
-                    <span class="weekday">${d.toLocaleString('default', { weekday: 'short' })}</span>
-                `;
-
-                                dateElement.addEventListener('click', function() {
-                                    Notiflix.Loading.standard("Getting available times...");
-                                    dateBox.querySelectorAll('.option-box').forEach(b => b.classList.remove('selected'));
-                                    this.classList.add('selected');
-                                    setTimeout(() => {
-                                        Notiflix.Loading.remove();
-                                        fetchTimes(hospitalId, date, d);
-                                    }, 1000);
-
-                                });
-
-                                dateBox.appendChild(dateElement);
-                            });
-                        }
-                    }
-
-                })();
-            }
-
-            async function getToken(hospitalId, doctorId) {
-                const response = await fetch(`/DAS/PHP/get_token_number.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`);
-                const data = await response.text();
-                const jsonData = JSON.parse(data);
-                return jsonData;
-            }
-
-            function fetchTimes(hospitalId, date, d) {
-                // Clear previous times
-                timeBox.innerHTML = '';
-                fetch(`/DAS/PHP/fetch_times.php?hospital_id=${hospitalId}&date=${date}&doctor_id=${doctorId}&day=${d.toLocaleString('default', { weekday: 'short' })}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(time => {
-                            const timeElement = document.createElement('div');
-                            timeElement.classList.add('option-box');
-                            timeElement.innerHTML = `<span class="time">${time}</span>`;
-                            timeElement.addEventListener('click', function() {
-                                timeBox.querySelectorAll('.option-box').forEach(b => b.classList.remove('selected'));
-                                this.classList.add('selected');
-                            });
-                            timeBox.appendChild(timeElement);
-                        });
-                    });
-            }
-
-            document.getElementById("booking-form").addEventListener("submit", async function(event) {
-                event.preventDefault(); // Prevent page reload
-
-                // Start loading indicator
-                Notiflix.Loading.standard("Making appointment...");
-
-                const doctorId = document.querySelector("#doctor_id").value;
-                const useremail = document.querySelector("#useremail").value;
-                const hospitalId = document.querySelector("#hospital_id").value;
-                const selectedDate = document.querySelector(".date-box .option-box.selected")?.dataset.date;
-                const selectedTimeElement = document.querySelector(".time-box .option-box.selected");
-                const selectedTime = selectedTimeElement ? (selectedTimeElement.dataset.time || selectedTimeElement.innerText.trim()) : null;
-                const patientName = document.querySelector("#patient_name").value;
-                const symptoms = document.querySelector("#symptoms").value;
-
-                console.log("Selected Date:", selectedDate);
-                console.log("Selected Time:", selectedTime);
-
-                let tokens = await getToken(hospitalId, doctorId);
-                console.log(tokens);
-
-                let booked_token = 1;
-
-                for (let i = 1; i <= 5; i++) {
-                    if (!tokens.includes(i)) {
-                        booked_token = i;
-                        break;
-                    }
-                }
-
-                console.log("Booked Tokens: ", booked_token);
-
-                if (!selectedDate || !selectedTime) {
-                    messageBox.innerHTML = "<p style='color:red;'>Please select a valid date and time.</p>";
-                    Notiflix.Loading.remove(); // Remove loading indicator if no date/time is selected
-                    return;
-                }
-
-                // Prepare form data
-                const formData = new FormData();
-                formData.append("doctor_id", doctorId);
-                formData.append("useremail", useremail);
-                formData.append("hospital_id", hospitalId);
-                formData.append("date", selectedDate);
-                formData.append("time", selectedTime);
-                formData.append("patient_name", patientName);
-                formData.append("symptoms", symptoms);
-                formData.append("token_number", booked_token);
-
-                // Send AJAX request
-                fetch("/DAS/PHP/booking_appointment.php", {
-                        method: "POST",
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        Notiflix.Loading.remove(); // Always remove the loading indicator after the response
-
-                        if (data.error) {
-                            messageBox.innerHTML = `<p style='color:red;'>${data.error}</p>`;
-                        } else {
-                            const timeElement = document.createElement('div');
-                            document.getElementById("booking-form").reset();
-                            dateBox.innerHTML = '';
-                            timeBox.innerHTML = '';
-                            messageBox.innerHTML = `<p style='color:green;'>${data.message}</p>`;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        Notiflix.Loading.remove(); // Remove loading if an error occurs
-                        messageBox.innerHTML = "<p style='color:red;'>Something went wrong. Please try again.</p>";
-                    });
-            });
-
-            async function fetchBookedDates(hospitalId) {
-                try {
-                    const response = await fetch(`/DAS/PHP/fetch_booked_dates.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`);
-                    const data = await response.text();
-                    console.log('Raw data:', data); // Log the raw response data
-                    const jsonData = JSON.parse(data); // Parse the JSON string
-                    if (jsonData && jsonData.available_dates) {
-                        console.log('Available Dates:', jsonData.available_dates); // Log the available dates
-                        return jsonData.available_dates;
-                    } else {
-                        console.log('available_dates not found or is empty');
-                    }
-                } catch (error) {
-                    console.error('Error: ', error.message);
-                    messageBox.innerHTML = "<p style='color:red;'>Something went wrong. Please try again.</p>";
-                }
-            }
-
-            function isValidDate(dateStr) {
-                let dates = dateStr.map(date => new Date(date));
-                console.log(dates);
-                return dates.every(date => !isNaN(date.getTime()));
-            }
-        });
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/dist/notiflix-3.2.7.min.js"></script>
+    <script src="/DAS/JS/booking-doctor.js"></script>
 </body>
 
 </html>

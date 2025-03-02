@@ -17,13 +17,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_hospital'])) {
     $contact = $conn->real_escape_string($_POST['contact']);
     $rating = isset($_POST['rating']) ? floatval($_POST['rating']) : null;
     $emergency_services = isset($_POST['emergency_services']) ? intval($_POST['emergency_services']) : 0;
+    $uploadDir = 'uploads/';
 
-    if ($id) {
-        $sql = "UPDATE hospitals SET name='$name', location='$location', specialty='$specialty', contact='$contact', rating='$rating', emergency_services='$emergency_services' WHERE hospital_id=$id";
-        $message = ($conn->query($sql) === TRUE) ? '✅ Hospital updated successfully!' : '❌ Error: ' . $conn->error;
-    } else {
-        $sql = "INSERT INTO hospitals (name, location, specialty, contact, rating, emergency_services) VALUES ('$name', '$location', '$specialty', '$contact', '$rating', '$emergency_services')";
-        $message = ($conn->query($sql) === TRUE) ? '✅ Hospital added successfully!' : '❌ Error: ' . $conn->error;
+    // Check if the upload directory exists, if not create it
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+
+    $filename = time() . '_' . basename($_FILES['profile_image']['name']);
+    $targetFile = $uploadDir . $filename;
+
+    if(move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetFile)) {
+        // Save just the filename in the database
+        if ($id) {
+            $sql = "UPDATE hospitals SET name='$name', location='$location', specialty='$specialty', contact='$contact', rating='$rating', emergency_services='$emergency_services' WHERE hospital_id=$id";
+            $message = ($conn->query($sql) === TRUE) ? '✅ Hospital updated successfully!' : '❌ Error: ' . $conn->error;
+        } else {
+            $sql = "INSERT INTO hospitals (name, location, specialty, contact, rating, emergency_services, profile_image) VALUES ('$name', '$location', '$specialty', '$contact', '$rating', '$emergency_services', '$filename')";
+            $message = ($conn->query($sql) === TRUE) ? '✅ Hospital added successfully!' : '❌ Error: ' . $conn->error;
+        }
     }
 
     // **Prevent duplicate submission on refresh**
@@ -58,52 +70,52 @@ $conn->close();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-    body {
-        font-family: 'Poppins', sans-serif;
-        background-color: #f8f9fa;
-    }
-
-    .container {
-        max-width: 1000px;
-        margin-top: 20px;
-    }
-
-    .card {
-        border-radius: 12px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .table thead {
-        background: #007bff;
-        color: white;
-    }
-
-    .btn-action {
-        display: flex;
-        gap: 10px;
-    }
-
-    .fade-in {
-        animation: fadeIn 0.5s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
         }
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
+        .container {
+            max-width: 1000px;
+            margin-top: 20px;
         }
-    }
+
+        .card {
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .table thead {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-action {
+            display: flex;
+            gap: 10px;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
+    <div class="container" id="top">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>🏥 Admin Dashboard</h2>
             <span class="badge bg-primary p-3 fs-6">Total Hospitals: <b><?= $totalHospitals ?></b></span>
@@ -143,6 +155,10 @@ $conn->close();
                             <option value="0">❌ Not Available</option>
                         </select>
                     </div>
+                    <div class="col-md-12">
+                        <label class="form-label">Hospital Profile Image:</label>
+                        <input type="file" name="profile_image" class="form-control" required>
+                    </div>
                 </div>
                 <button type="submit" name="submit_hospital" class="btn btn-success mt-3 w-100">Save Hospital</button>
             </form>
@@ -163,37 +179,39 @@ $conn->close();
             </thead>
             <tbody>
                 <?php while ($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td><?= $row['hospital_id'] ?></td>
-                    <td><?= htmlspecialchars($row['name']) ?></td>
-                    <td><?= htmlspecialchars($row['location']) ?></td>
-                    <td><?= htmlspecialchars($row['contact']) ?></td>
-                    <td><?= htmlspecialchars($row['rating']) ?></td>
-                    <td>
-                        <?= ($row['emergency_services'] == 1) ? '✅ Yes' : '❌ No' ?>
-                    </td>
-                    <td class="btn-action">
-                        <button class="btn btn-warning btn-sm"
-                            onclick="editHospital(<?= htmlspecialchars(json_encode($row)) ?>)">✏️ Edit</button>
-                        <a href="?delete=<?= $row['hospital_id'] ?>" class="btn btn-danger btn-sm"
-                            onclick="return confirm('Are you sure?')">🗑️ Delete</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td><?= $row['hospital_id'] ?></td>
+                        <td><?= htmlspecialchars($row['name']) ?></td>
+                        <td><?= htmlspecialchars($row['location']) ?></td>
+                        <td><?= htmlspecialchars($row['contact']) ?></td>
+                        <td><?= htmlspecialchars($row['rating']) ?></td>
+                        <td>
+                            <?= ($row['emergency_services'] == 1) ? '✅ Yes' : '❌ No' ?>
+                        </td>
+                        <td class="btn-action">
+                            <a href="#top">
+                                <button class="btn btn-warning btn-sm"
+                                    onclick="editHospital(<?= htmlspecialchars(json_encode($row)) ?>)">✏️ Edit</button>
+                            </a>
+                            <a href="?delete=<?= $row['hospital_id'] ?>" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure?')">🗑️ Delete</a>
+                        </td>
+                    </tr>
                 <?php endwhile; ?>
             </tbody>
         </table>
     </div>
 
     <script>
-    function editHospital(hospital) {
-        document.getElementById("id").value = hospital.hospital_id;
-        document.getElementById("name").value = hospital.name;
-        document.getElementById("location").value = hospital.location;
-        document.getElementById("specialty").value = hospital.specialty;
-        document.getElementById("contact").value = hospital.contact;
-        document.getElementById("rating").value = hospital.rating;
-        document.getElementById("emergency_services").value = hospital.emergency_services;
-    }
+        function editHospital(hospital) {
+            document.getElementById("id").value = hospital.hospital_id;
+            document.getElementById("name").value = hospital.name;
+            document.getElementById("location").value = hospital.location;
+            document.getElementById("specialty").value = hospital.specialty;
+            document.getElementById("contact").value = hospital.contact;
+            document.getElementById("rating").value = hospital.rating;
+            document.getElementById("emergency_services").value = hospital.emergency_services;
+        }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

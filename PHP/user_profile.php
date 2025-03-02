@@ -217,9 +217,6 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                 <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#editProfileModal">
                     EDIT PROFILE
                 </button>
-                <button class="btn btn-danger mt-3" id="logout">
-                    Logout
-                </button>
             </div>
         </div>
     </div>
@@ -340,33 +337,6 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             togglerIcon.classList.toggle('rotate');
             togglerIcon.classList.toggle('fa-bars');
             togglerIcon.classList.toggle('fa-times');
-        });
-    </script>
-    <script src="/DAS/JS/jquery.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#logout').click(function(e) {
-                e.preventDefault();
-                Notiflix.Loading.standard('Logging out...');
-                $.ajax({
-                    type: 'POST',
-                    url: '/DAS/PHP/logout.php',
-                    success: function(response) {
-                        if (response.status == 'success') {
-                            Notiflix.Report.success('Success', response.message, 'OK',
-                                function() {
-                                    window.location.href = '/DAS/Home';
-                                });
-                        } else {
-                            Notiflix.Report.failure('Error', response.message, 'OK');
-                        }
-                    },
-                    error: function(err) {
-                        Notiflix.Report.failure('Error', 'An error occurred, please try again.',
-                            'OK');
-                    }
-                });
-            });
         });
     </script>
 </body>

@@ -35,15 +35,33 @@ $jobTypeResult = $conn->query($jobTypeSql);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        /* Custom Styles */
         body {
             font-family: 'Poppins', sans-serif;
+            background-color: #f7f9fc;
+            color: #333;
         }
 
-        .nav-brand {
-            font-family: 'Amita', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: #28a745;
+        .navbar {
+            background: linear-gradient(90deg, #1a73e8, #155ea7);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-family: 'Amita', cursive;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ffcc00 !important;
         }
 
         .navbar-toggler i {
@@ -58,106 +76,191 @@ $jobTypeResult = $conn->query($jobTypeSql);
             width: 40px;
             height: 40px;
             border-radius: 50%;
+            border: 2px solid #fff;
+            transition: transform 0.3s ease;
         }
 
-        /* Responsive Styles */
+        .profile-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .dropdown-menu {
+            background-color: #f8f9fa;
+            /* Light gray background */
+        }
+
         .container {
+            max-width: 1200px;
             display: flex;
             flex-wrap: wrap;
-            margin-top: 10px;
-            /* Allow wrapping of filters and results */
             gap: 20px;
-            /* Space between filters and results */
         }
 
         .filters {
             flex: 1 1 250px;
-            /* Filters take up a fixed width or 250px, whichever is larger */
+            background-color: #fff;
+            margin-top: 10px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .filters h2 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+        }
+
+        .filters label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .filters input[type="radio"] {
+            margin-right: 10px;
         }
 
         .results {
             flex: 3 1 500px;
-            /* Results take up remaining space */
+        }
+
+        #search-box {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
         }
 
         .job-card {
-            border: 1px solid #ccc;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .job-card:hover {
-            transform: scale(1.02);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         .job-card h3 {
+            color: #1a73e8;
             margin-bottom: 10px;
         }
 
         .job-card p {
-            margin-bottom: 5px;
+            color: #555;
+            margin-bottom: 10px;
         }
 
         .job-card .details {
             display: flex;
             justify-content: space-between;
-            /* Align items on opposite ends */
             align-items: center;
-            /* Vertically center items */
         }
 
         .job-card .details span {
             font-weight: bold;
+            color: #333;
         }
 
-        <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']): ?>.job-card .details button {
-            background-color: #28a745;
+        .job-card .details button {
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        <?php else: ?>.job-card .details button {
-            background-color: #ffc107;
+        .job-card .details button:hover {
+            background-color: #155ea7;
         }
 
-        <?php endif ?>@media (max-width: 768px) {
+        #load-more {
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: block;
+            margin: 20px auto;
+        }
+
+        #load-more:hover {
+            background-color: #155ea7;
+        }
+
+        @media (max-width: 768px) {
             .filters {
                 flex: 1 1 100%;
-                /* Filters take full width on smaller screens */
                 margin-bottom: 20px;
-                /* Add margin below filters */
             }
 
             .results {
                 flex: 1 1 100%;
-                /* Results also take full width */
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .search-bar button {
+                width: 100%;
+            }
+
+            /* Center the toggler menu items */
+            .navbar-collapse {
+                text-align: center;
+            }
+
+            .navbar-nav {
+                align-items: center;
+            }
+
+            .navbar-nav .nav-item {
+                width: 100%;
+            }
+
+            .navbar-nav .btn {
+                width: 60%;
+                margin-top: 10px;
             }
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand nav-brand" href="#">DAS</a>
-            <span class="text-muted ms-3">WE VALUE YOUR HEALTH</span>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#">DAS</a>
+            <span class="text-light">WE VALUE YOUR HEALTH</span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <i class="fa fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/DAS/Home">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/DAS/doctor">Find Doctor</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/DAS/hospital">Find Hospital</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link active" href="/DAS/Home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/DAS/doctor">Find Doctor</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/DAS/hospital">Find Hospital</a></li>
                     <?php
                     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) {
+                        // Database Connection
+                        $conn = new mysqli('localhost', 'root', '', 'project');
+
+                        if ($conn->connect_error) {
+                            die('Connection failed: ' . $conn->connect_error);
+                        }
 
                         $user_id = $_SESSION['user_id'];
 
@@ -172,15 +275,14 @@ $jobTypeResult = $conn->query($jobTypeSql);
                         // Set profile image path (Use default image if none exists)
                         $profileImage = (!empty($user['profile_image'])) ? '/DAS/PHP/uploads/' . $user['profile_image'] : '/DAS/PHP/uploads/bx-user-circle.svg';
                     ?>
-                        <li class="nav-item">
+                        <li class="nav-item dropdown">
                             <a href="/DAS/profile">
-                                <img src="<?php echo htmlspecialchars($profileImage); ?>?t=<?php echo time(); ?>"
-                                    class="profile-icon rounded-circle" width="40" height="40" style="object-fit: cover;">
+                                <img src="<?php echo htmlspecialchars($profileImage); ?>?t=<?php echo time(); ?>" class="profile-icon" alt="Profile">
                             </a>
                         </li>
                     <?php } else { ?>
                         <li class="nav-item">
-                            <a href="/DAS/login" class="btn btn-success ms-3">Sign In</a>
+                            <a href="/DAS/login" class="btn btn-success">Sign In</a>
                         </li>
                     <?php } ?>
                 </ul>
@@ -188,12 +290,12 @@ $jobTypeResult = $conn->query($jobTypeSql);
         </div>
     </nav>
 
+    <!-- Main Content -->
     <div class="container">
         <!-- Filters Section -->
         <aside class="filters">
             <h2>Specialties</h2>
             <div>
-                <!-- <h3>Specialties</h3> -->
                 <label><input type="radio" name="specialty" value="All" checked> All</label><br>
                 <?php
                 if ($jobTypeResult->num_rows > 0) {
@@ -213,9 +315,10 @@ $jobTypeResult = $conn->query($jobTypeSql);
                 <label><input type="radio" name="gender" value="Female"> Female</label><br>
             </div>
         </aside>
+
         <!-- Doctor Results Section -->
         <main class="results">
-            <input type="text" id="search-box" placeholder="Search for doctors..." style="width: 50%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
+            <input type="text" id="search-box" placeholder="Search for doctors...">
             <h2>Doctor - Search Results</h2>
             <div id="doctor-list">
                 <?php
@@ -230,40 +333,42 @@ $jobTypeResult = $conn->query($jobTypeSql);
                         echo "<div class='details'>";
                         echo "<span>Consultation Fee: " . number_format($row['consultation_fee']) . " MMK</span>";
                         if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-                            // If user is logged in, allow booking
                             echo '<form method="POST" action="/DAS/booking-doctor">';
                             echo '<input type="hidden" name="doctor_id" value="' . filter_var($row['doctor_id'], FILTER_VALIDATE_INT) . '">';
                             echo '<input type="hidden" name="email" value="' . $useremail . '">';
                             echo '<button type="submit">Book Now</button>';
                             echo '</form>';
                         } else {
-                            // If user is not logged in, show alert and redirect using JavaScript
                             echo '<button onclick="redirectToLogin()">Book Now</button>';
                         }
-                        echo '</form>';
                         echo "</div>";
                         echo "</div>";
-                    }
-                    if (isset($_POST['doctor_id'])) {
-                        exit;
                     }
                 } else {
                     echo "<p>No doctors found.</p>";
                 }
                 ?>
             </div>
-            <script>
-                function redirectToLogin() {
-                    Notiflix.Report.warning('Warning', 'You need to login first to make appointment!', 'Okay', () => {
-                        window.location.href = "/DAS/login"; // Redirect after alert
-                    });
-                }
-            </script>
-
-            <button id="load-more" style="display: block; margin: 20px auto;" class="btn btn-primary">See More</button>
+            <button id="load-more" class="btn btn-primary">See More</button>
         </main>
     </div>
+
     <script>
+        const toggler = document.querySelector('.navbar-toggler');
+        const togglerIcon = toggler.querySelector('i');
+
+        toggler.addEventListener('click', () => {
+            togglerIcon.classList.toggle('rotate');
+            togglerIcon.classList.toggle('fa-bars');
+            togglerIcon.classList.toggle('fa-times');
+        });
+
+        function redirectToLogin() {
+            Notiflix.Report.warning('Warning', 'You need to login first to make an appointment!', 'Okay', () => {
+                window.location.href = "/DAS/login";
+            });
+        }
+
         $(document).ready(function() {
             let offset = 20;
 
@@ -331,24 +436,13 @@ $jobTypeResult = $conn->query($jobTypeSql);
                     },
                     success: function(data) {
                         $("#doctor-list").html(data);
-                        $("#load-more").hide(); // Hide "See More" when filtered
+                        $("#load-more").hide();
                     }
                 });
             });
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/notiflix"></script>
-    <script>
-        const toggler = document.querySelector('.navbar-toggler');
-        const togglerIcon = toggler.querySelector('i');
-
-        toggler.addEventListener('click', () => {
-            togglerIcon.classList.toggle('rotate');
-            togglerIcon.classList.toggle('fa-bars');
-            togglerIcon.classList.toggle('fa-times');
-        });
-    </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
