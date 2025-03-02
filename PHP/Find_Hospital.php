@@ -15,8 +15,9 @@ session_start();
     <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> <!-- AOS CSS -->
     <style>
-        /* Custom Styles */
+        /* Your existing custom styles */
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f7f9fc;
@@ -240,8 +241,8 @@ session_start();
 
     <!-- Main Content -->
     <div class="container">
-        <h1>Find Your Healthcare Here</h1>
-        <div class="search-bar">
+        <h1 data-aos="fade-down" data-aos-duration="1000">Find Your Healthcare Here</h1>
+        <div class="search-bar" data-aos="fade-up" data-aos-duration="1000">
             <input type="text" id="searchHospital" class="form-control" placeholder="Search hospital by name...">
             <input type="text" id="filterLocation" class="form-control" placeholder="Add city or region">
             <button onclick="fetchHospitals()">Search</button>
@@ -274,7 +275,7 @@ session_start();
 
             hospitals.forEach(hospital => {
                 const card = `
-                <div class="hospital-card">
+                <div class="hospital-card" data-aos="fade-up" data-aos-duration="1000">
                     <h4>${hospital.name}</h4>
                     <p><strong>Location:</strong> ${hospital.location}</p>
                     <p><strong>Specialty:</strong> ${hospital.specialty}</p>
@@ -297,6 +298,15 @@ session_start();
         }
 
         fetchHospitals();
+    </script>
+
+    <!-- AOS Initialization -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000, // Animation duration
+            once: true, // Whether animation should happen only once
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

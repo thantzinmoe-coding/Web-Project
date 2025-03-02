@@ -33,9 +33,10 @@ $jobTypeResult = $conn->query($jobTypeSql);
     <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> <!-- AOS CSS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* Custom Styles */
+        /* Your existing custom styles */
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f7f9fc;
@@ -293,7 +294,7 @@ $jobTypeResult = $conn->query($jobTypeSql);
     <!-- Main Content -->
     <div class="container">
         <!-- Filters Section -->
-        <aside class="filters">
+        <aside class="filters" data-aos="fade-right" data-aos-duration="1000">
             <h2>Specialties</h2>
             <div>
                 <label><input type="radio" name="specialty" value="All" checked> All</label><br>
@@ -317,7 +318,7 @@ $jobTypeResult = $conn->query($jobTypeSql);
         </aside>
 
         <!-- Doctor Results Section -->
-        <main class="results">
+        <main class="results" data-aos="fade-left" data-aos-duration="1000">
             <input type="text" id="search-box" placeholder="Search for doctors...">
             <h2>Doctor - Search Results</h2>
             <div id="doctor-list">
@@ -327,7 +328,7 @@ $jobTypeResult = $conn->query($jobTypeSql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         $doctor_id = $row['doctor_id'];
-                        echo "<div class='job-card'>";
+                        echo "<div class='job-card' data-aos='fade-up' data-aos-duration='1000'>";
                         echo "<h3>" . htmlspecialchars($row['name']) . "</h3>";
                         echo "<p>" . htmlspecialchars($row['credential']) . "</p>";
                         echo "<div class='details'>";
@@ -349,9 +350,18 @@ $jobTypeResult = $conn->query($jobTypeSql);
                 }
                 ?>
             </div>
-            <button id="load-more" class="btn btn-primary">See More</button>
+            <button id="load-more" class="btn btn-primary" data-aos="fade-up" data-aos-duration="1000">See More</button>
         </main>
     </div>
+
+    <!-- AOS Initialization -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000, // Animation duration
+            once: true, // Whether animation should happen only once
+        });
+    </script>
 
     <script>
         const toggler = document.querySelector('.navbar-toggler');

@@ -1,7 +1,5 @@
 <?php
-
 session_start();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,12 +13,12 @@ session_start();
     <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css">
     <link rel="stylesheet" href="/DAS/CSS/homepage.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         /* Custom Styles */
         body {
             font-family: 'Poppins', sans-serif;
             color: #333;
-            /* Default text color */
         }
 
         .navbar {
@@ -97,51 +95,42 @@ session_start();
 
         .features {
             background-color: #f8f9fa;
-            /* Light gray background */
             padding: 60px 0;
         }
 
         .features h2 {
             color: #1a73e8;
-            /* Blue for the heading */
             margin-bottom: 40px;
         }
 
         .features h5 {
             color: #333;
-            /* Dark gray for subheadings */
             margin-top: 20px;
         }
 
         .features p {
             color: #555;
-            /* Slightly lighter gray for paragraphs */
         }
 
         .features i {
             font-size: 3rem;
             color: #1a73e8;
-            /* Blue for icons */
             transition: transform 0.3s ease;
         }
 
         .features i:hover {
             transform: scale(1.2);
-            /* Add hover effect */
         }
 
         .testimonial-carousel .carousel-item {
             background-color: #fff;
-            /* White background */
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            /* Add shadow */
         }
 
         .testimonial-carousel .carousel-item p {
             color: #333;
-            /* Dark gray for testimonials */
             font-size: 1.1rem;
             font-style: italic;
         }
@@ -175,50 +164,39 @@ session_start();
         .dropdown-menu {
             background-color: rgb(208, 211, 208);
             width: 100%;
-            /* Light gray background */
         }
 
         @media (max-width: 768px) {
-
-            /* Stack search bar items vertically */
             .search-bar {
                 flex-direction: column;
             }
 
-            /* Make search button full width */
             .search-bar button {
                 width: 100%;
             }
 
-            /* Center the toggler menu items */
             .navbar-collapse {
                 text-align: center;
             }
 
-            /* Stack navbar items vertically */
             .navbar-nav {
                 flex-direction: column;
                 align-items: center;
                 gap: 10px;
-                /* Add spacing between items */
             }
 
-            /* Make each nav item full width */
             .navbar-nav .nav-item {
                 width: 80%;
             }
 
-            /* Make buttons (e.g., Sign In) full width */
             .navbar-nav .btn {
                 width: 60%;
                 margin-top: 10px;
                 left: -20px;
             }
 
-            /* Ensure the toggler icon stays aligned to the right */
             .navbar-toggler {
                 margin-left: auto;
-                /* Push toggler to the right */
             }
         }
     </style>
@@ -281,16 +259,16 @@ session_start();
     </nav>
 
     <!-- Header -->
-    <header class="text-center py-5">
+    <header class="text-center py-5" data-aos="fade-down" data-aos-duration="1000">
         <h1>Your Health is Just a Click Away</h1>
         <p>Explore hospitals, find doctors, book appointments, and access health resources</p>
     </header>
 
     <!-- Top Hospitals -->
     <section class="container my-5">
-        <h2 class="text-center text-success mb-4">Top Hospitals</h2>
+        <h2 class="text-center text-success mb-4" data-aos="fade-up" data-aos-duration="1000">Top Hospitals</h2>
         <div class="row g-4">
-            <div class="col-md-4">
+            <div class="col-md-4" data-aos="fade-right" data-aos-duration="1000">
                 <div class="card hospital-card">
                     <img src="/DAS/image/h1.jpg" alt="Bridgeport Hospital" class="card-img-top">
                     <div class="card-body text-center">
@@ -299,7 +277,7 @@ session_start();
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000">
                 <div class="card hospital-card">
                     <img src="/DAS/image/h2.jpg" alt="St. Vincent's Medical Center" class="card-img-top">
                     <div class="card-body text-center">
@@ -308,7 +286,7 @@ session_start();
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" data-aos="fade-left" data-aos-duration="1000">
                 <div class="card hospital-card">
                     <img src="/DAS/image/h3.jpg" alt="Yale New Haven Hospital" class="card-img-top">
                     <div class="card-body text-center">
@@ -323,19 +301,19 @@ session_start();
     <!-- Features -->
     <section class="features">
         <div class="container">
-            <h2 class="text-center mb-4">Why Choose DAS?</h2>
+            <h2 class="text-center mb-4" data-aos="fade-up" data-aos-duration="1000">Why Choose DAS?</h2>
             <div class="row text-center">
-                <div class="col-md-4">
+                <div class="col-md-4" data-aos="fade-right" data-aos-duration="1000">
                     <i class="fa fa-user-md"></i>
                     <h5 class="mt-3">Expert Doctors</h5>
                     <p>Connect with top-rated doctors and specialists in your area.</p>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000">
                     <i class="fa fa-hospital"></i>
                     <h5 class="mt-3">Trusted Hospitals</h5>
                     <p>Find hospitals with the best facilities and care.</p>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" data-aos="fade-left" data-aos-duration="1000">
                     <i class="fa fa-calendar-check"></i>
                     <h5 class="mt-3">Easy Appointments</h5>
                     <p>Book appointments with just a few clicks.</p>
@@ -346,8 +324,8 @@ session_start();
 
     <!-- Testimonials -->
     <section class="container my-5">
-        <h2 class="text-center text-success mb-4">Testimonials</h2>
-        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+        <h2 class="text-center text-success mb-4" data-aos="fade-up" data-aos-duration="1000">Testimonials</h2>
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel" data-aos="fade-up" data-aos-duration="1000">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <p class="testimonial">"DAS helped me find the best doctor for my condition. The process was seamless and efficient!" - Sarah J.</p>
@@ -368,7 +346,7 @@ session_start();
     </section>
 
     <!-- Footer -->
-    <footer class="text-center py-4">
+    <footer class="text-center py-4" data-aos="fade-up" data-aos-duration="1000">
         <div class="container">
             <p>&copy; 2025 DAS Healthcare. All Rights Reserved.</p>
             <p>
@@ -382,7 +360,13 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/notiflix"></script>
     <script src="/DAS/JS/jquery.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        AOS.init({
+            duration: 1000, // Duration of animation
+            once: true, // Whether animation should happen only once - while scrolling down
+        });
+
         const toggler = document.querySelector('.navbar-toggler');
         const togglerIcon = toggler.querySelector('i');
 
