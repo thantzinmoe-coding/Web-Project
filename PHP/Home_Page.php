@@ -10,7 +10,9 @@ session_start();
     <title>ဆေးခန်းချိန်းဆိုမှုစနစ်</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css">
     <link rel="stylesheet" href="/DAS/CSS/homepage.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -78,10 +80,18 @@ session_start();
         header h1 {
             font-size: 3rem;
             font-weight: bold;
+            color: #1E3A8A;
+            /* Dark blue for high contrast */
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+            /* Optional: White shadow for better visibility */
         }
 
         header p {
             font-size: 1.2rem;
+            color: rgb(25, 27, 32);
+            /* Dark blue for high contrast */
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+            /* Optional: White shadow for better visibility */
         }
 
         .hospital-card {
@@ -166,6 +176,16 @@ session_start();
             width: 100%;
         }
 
+        .btn-emergency {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-emergency:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
         @media (max-width: 768px) {
             .search-bar {
                 flex-direction: column;
@@ -199,12 +219,22 @@ session_start();
                 margin-left: auto;
             }
 
-            .container .navbar-brand{
+            .container .navbar-brand {
                 width: 40px;
             }
-            .container span{
+
+            .container span {
                 width: 200px;
                 font-size: 0.8em;
+            }
+
+            header p {
+                font-size: 1.2rem;
+                margin-top: 300px;
+                color: rgb(25, 27, 32);
+                /* Dark blue for high contrast */
+                text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+                /* Optional: White shadow for better visibility */
             }
         }
     </style>
@@ -215,13 +245,13 @@ session_start();
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">DAS</a>
-            <span class="text-light ms-3">သင့်ကျန်းမာရေးကို တန်ဖိုးထားပါသည်။</span>
+            <span class="text-light ms-3">သင့်ကျန်းမာရေးသည် ကျွန်ုပ်တို့တာဝန်ဖြစ်သည်</span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <i class="fa fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="/DAS/Home">ပင်မ</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/DAS/Home">ပင်မစာမျက်နှာ</a></li>
                     <li class="nav-item"><a class="nav-link" href="/DAS/doctor">ဆရာဝန်ရှာရန်</a></li>
                     <li class="nav-item"><a class="nav-link" href="/DAS/hospital">ဆေးရုံရှာရန်</a></li>
                     <?php
@@ -248,11 +278,13 @@ session_start();
                         $profileImage = (!empty($user['profile_image'])) ? '/DAS/PHP/uploads/' . $user['profile_image'] : '/DAS/PHP/uploads/bx-user-circle.svg';
                     ?>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                <img src="<?php echo htmlspecialchars($profileImage); ?>?t=<?php echo time(); ?>" class="profile-icon" alt="Profile">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown">
+                                <img src="<?php echo htmlspecialchars($profileImage); ?>?t=<?php echo time(); ?>"
+                                    class="profile-icon" alt="Profile">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="/DAS/profile">ပရိုဖိုင်း</a></li>
+                                <li><a class="dropdown-item" href="/DAS/profile">ပရိုဖိုင်</a></li>
                                 <li><a class="dropdown-item" href="#" id="logout">ထွက်ရန်</a></li>
                             </ul>
                         </li>
@@ -268,8 +300,9 @@ session_start();
 
     <!-- Header -->
     <header class="text-center py-5" data-aos="fade-down" data-aos-duration="1000">
-        <h1>သင့်ကျန်းမာရေးကို တစ်နေရာထဲမှာ ရယူလိုက်ပါ။</h1>
-        <p>ဆေးရုံများရှာဖွေခြင်း၊ ဆရာဝန်များနှင့် ချိန်းဆိုမှုများ ပြုလုပ်ခြင်း၊ ကျန်းမာရေးအရင်းအမြစ်များကို ရယူခြင်း</p>
+        <h1>သင့်ကျန်းမာရေးကိုကျွန်ုပ်တို့တာဝန်ယူပါရစေ</h1>
+        <p>ဆေးရုံများရှာဖွေခြင်း၊ ဆရာဝန်များနှင့် ချိန်းဆိုမှုများ ပြုလုပ်ခြင်း၊ ကျန်းမာရေးစစ်ဆေးမှုများကို ရယူခြင်း
+        </p>
     </header>
 
     <!-- Top Hospitals -->
@@ -345,17 +378,18 @@ session_start();
     <!-- Features -->
     <section class="features">
         <div class="container">
-            <h2 class="text-center mb-4" data-aos="fade-up" data-aos-duration="1000">DAS ကို ဘာကြောင့် ရွေးချယ်သင့်သလဲ။</h2>
+            <h2 class="text-center mb-4" data-aos="fade-up" data-aos-duration="1000">DAS ကို ဘာကြောင့် ရွေးချယ်သင့်သလဲ။
+            </h2>
             <div class="row text-center">
                 <div class="col-md-4" data-aos="fade-right" data-aos-duration="1000">
                     <i class="fa fa-user-md"></i>
                     <h5 class="mt-3">ကျွမ်းကျင်ဆရာဝန်များ</h5>
-                    <p>သင့်ဒေသရှိ ထိပ်တန်းဆရာဝန်များနှင့် ချိတ်ဆက်ပါ။</p>
+                    <p>ရောဂါအခြေအနေနှင့်ဆက်လျဉ်း၍ ထိပ်တန်းဆရာဝန်များနှင့် ချိတ်ဆက်ပါ။</p>
                 </div>
                 <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000">
                     <i class="fa fa-hospital"></i>
                     <h5 class="mt-3">ယုံကြည်စိတ်ချရသောဆေးရုံများ</h5>
-                    <p>အကောင်းဆုံးပစ္စည်းကိရိယာများနှင့် စောင့်ရှောက်မှုများကို ရှာဖွေပါ။</p>
+                    <p>ခေတ်မီပစ္စည်းကိရိယာများနှင့် အကောင်းဆုံးဆေးစစ်မှုများ၊ဝန်ဆောင်မှုများကို ဤ ဆေးရုံတွင်ရရှိနိုင်ပြီ</p>
                 </div>
                 <div class="col-md-4" data-aos="fade-left" data-aos-duration="1000">
                     <i class="fa fa-calendar-check"></i>
@@ -365,7 +399,10 @@ session_start();
             </div>
         </div>
     </section>
-
+    <div class="container text-center my-5 p-4 bg-white rounded shadow">
+        <p class="mb-4">အရေးပေါ်ဝန်ဆောင်မှုများအတွက် အောက်ဖော်ပြပါခလုတ်ကိုနှိပ်၍ဆက်သွယ်နိုင်ပါသည်:</p>
+        <a href="emergency_case.php" class="btn btn-emergency btn-lg text-white">အရေးပေါ်ဝန်ဆောင်မှုအတွက် Emergency Page သို့ဆက်သွယ်ပါ</a>
+    </div>
     <!-- Footer -->
     <footer class="text-center py-4" data-aos="fade-up" data-aos-duration="1000">
         <div class="container">
@@ -415,7 +452,8 @@ session_start();
                         }
                     },
                     error: function(err) {
-                        Notiflix.Report.failure('အမှား', 'အမှားတစ်ခုဖြစ်ပွားခဲ့သည်၊ ကျေးဇူးပြု၍ ထပ်ကြိုးစားပါ။',
+                        Notiflix.Report.failure('အမှား',
+                            'အမှားတစ်ခုဖြစ်ပွားခဲ့သည်၊ ကျေးဇူးပြု၍ ထပ်ကြိုးစားပါ။',
                             'အိုကေ');
                     }
                 });

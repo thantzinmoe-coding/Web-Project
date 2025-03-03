@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_hospital'])) {
     $filename = time() . '_' . basename($_FILES['profile_image']['name']);
     $targetFile = $uploadDir . $filename;
 
-    if(move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetFile)) {
+    if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetFile)) {
         // Save just the filename in the database
         if ($id) {
             $sql = "UPDATE hospitals SET name='$name', location='$location', specialty='$specialty', contact='$contact', rating='$rating', emergency_services='$emergency_services' WHERE hospital_id=$id";
@@ -96,7 +96,7 @@ $conn->close();
         }
 
         .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeIn 1s ease-in-out;
         }
 
         @keyframes fadeIn {
@@ -110,15 +110,96 @@ $conn->close();
                 transform: translateY(0);
             }
         }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-title {
+            color: #2c3e50;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-hospital {
+            margin-right: 0.75rem;
+            font-size: 2rem;
+        }
+
+        .dashboard-stats {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .hospital-count {
+            padding: 0.75rem 1.25rem;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            background-color: #007bff;
+            color: white;
+            font-weight: 500;
+        }
+
+        .hospital-count strong {
+            font-weight: 700;
+            margin-left: 0.25rem;
+        }
+
+        .btn-back {
+            background-color: #6c757d;
+            border: none;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-back:hover {
+            background-color: #5a6268;
+            color: #fff;
+            transform: translateX(-2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-back .fas {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-back:hover .fas {
+            transform: translateX(-4px);
+        }
     </style>
 </head>
 
 <body>
 
     <div class="container" id="top">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>🏥 Admin Dashboard</h2>
-            <span class="badge bg-primary p-3 fs-6">Total Hospitals: <b><?= $totalHospitals ?></b></span>
+        <div class="dashboard-header mb-4">
+            <h2 class="dashboard-title">
+                <span class="icon-hospital">🏥</span> Admin Dashboard
+            </h2>
+            <div class="dashboard-stats">
+                <span class="hospital-count badge bg-primary">
+                    Total Hospitals: <strong><?= $totalHospitals ?></strong>
+                </span>
+                <a href="/DAS/adminDashboard-system" class="btn btn-back">
+                    <i class="fas fa-arrow-left me-2"></i>Back to System
+                </a>
+            </div>
         </div>
 
         <?php if (isset($message)) echo "<p class='alert alert-info text-center'>$message</p>"; ?>

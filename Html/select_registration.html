@@ -105,12 +105,12 @@
     <div class="container">
         <h1>Add New Entry</h1>
         <div class="card-container">
-            <div class="card hospital" onclick="selectOption('hospital')">
+            <div class="card hospital" onclick="selectOption('Manage hospitals')">
                 <img src="/DAS/image/hospital5.jpg" alt="Hospital">
-                <h2>Add Hospital</h2>
-                <p>Register a new hospital to the system.</p>
+                <h2>Manage Hospitals</h2>
+                <p>Manage the hospitals for the system.</p>
             </div>
-            <div class="card doctor" onclick="selectOption('doctor')">
+            <div class="card doctor" onclick="selectOption('Add doctor')">
                 <img src="/DAS/image/doctor2-50.jpg" alt="Doctor">
                 <h2>Add Doctor</h2>
                 <p>Register a new doctor to the system.</p>
@@ -129,15 +129,29 @@
             selectedOption = option; // Store the selected option
             const nextBtn = document.getElementById('nextBtn');
             nextBtn.disabled = false;
-            nextBtn.innerText = `Next: Add ${option.charAt(0).toUpperCase() + option.slice(1)}`;
+            nextBtn.innerText = `Next: ${option.charAt(0).toUpperCase() + option.slice(1)}`;
         }
 
         function goBack() {
-            Notiflix.Loading.arrows('Redirecting to the previous page...');
-            setTimeout(() => {
-                Notiflix.Loading.remove();
-                window.location.href = '/DAS/home';
-            }, 2000);
+            Notiflix.Loading.dots('Redirecting to the home page...');
+            fetch('/DAS/PHP/logout.php', {
+                method: 'POST'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        setTimeout(() => {
+                            Notiflix.Loading.remove();
+                            window.location.href = '/DAS/home';
+                        }, 1000);
+                    } else {
+                        Notiflix.Loading.remove();
+                        Notiflix.Notify.failure('Failed to log out. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    Notiflix.Loading.remove();
+                    Notiflix.Notify.failure('An error occurred. Please try again.');
+                });
         }
 
         function proceed() {
@@ -146,15 +160,15 @@
                 return;
             }
 
-            Notiflix.Loading.arrows('Redirecting...');
+            Notiflix.Loading.dots('Redirecting...');
             setTimeout(() => {
                 Notiflix.Loading.remove();
-                if (selectedOption === 'hospital') {
+                if (selectedOption === 'Manage hospitals') {
                     window.location.href = '/DAS/add-hospital'; // Redirect to add hospital page
-                } else if (selectedOption === 'doctor') {
+                } else if (selectedOption === 'Add doctor') {
                     window.location.href = '/DAS/add-doctor'; // Redirect to add doctor page
                 }
-            }, 2000);
+            }, 1000);
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/notiflix"></script>

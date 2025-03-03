@@ -32,7 +32,7 @@ if ($result->num_rows > 0) {
         echo "<h3>" . htmlspecialchars($row['name']) . "</h3>";
         echo "<p>" . htmlspecialchars($row['credential']) . "</p>";
         echo "<div class='details'>";
-        echo "<span>Consultation Fee: " . number_format($row['consultation_fee']) . " MMK</span>";
+        echo "<span>ဆွေးနွေးခ: " . number_format($row['consultation_fee']) . " MMK</span>";
         if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
             // If user is logged in, allow booking
             echo '<form method="POST" action="/DAS/booking-doctor">';
@@ -52,7 +52,7 @@ if ($result->num_rows > 0) {
         exit;
     }
 } else {
-    echo "<p>No doctors found matching your search.</p>";
+    echo "<p>သင်၏ရှာဖွေမှုနှင့်ကိုက်ညီသော ဆရာဝန်များ ရှာမတွေ့ပါ။</p>";
 }
 
 $conn->close();

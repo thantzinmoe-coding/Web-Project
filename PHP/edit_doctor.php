@@ -39,27 +39,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $available_days = isset($_POST['available_days']) ? $_POST['available_days'] : [];
     $available_times = isset($_POST['available_times']) ? $_POST['available_times'] : [];
 
-    if (!empty($name) && !empty($job_type) && !empty($available_days) && !empty($available_times)) {
+    if (!empty($name) && !empty($job_type)) {
         // Update doctor details
         $updateQuery = 'UPDATE doctors SET name = ?, job_type = ? WHERE doctor_id = ?';
         $stmt = $conn->prepare($updateQuery);
         $stmt->bind_param('ssi', $name, $job_type, $doctor_id);
         $stmt->execute();
 
-        // Delete existing availability and insert new availability
-        $deleteAvailabilityQuery = 'DELETE FROM doctor_hospital WHERE doctor_id = ?';
-        $stmt = $conn->prepare($deleteAvailabilityQuery);
+        // Get existing availability for the doctor
+        $existingAvailabilityQuery = 'SELECT available_day, available_time FROM doctor_hospital WHERE doctor_id = ?';
+        $stmt = $conn->prepare($existingAvailabilityQuery);
         $stmt->bind_param('i', $doctor_id);
         $stmt->execute();
+        $existingResult = $stmt->get_result();
+        $existingAvailability = [];
+        while ($row = $existingResult->fetch_assoc()) {
+            $existingAvailability[$row['available_day']] = $row['available_time'];
+        }
 
-        // Insert new availability
-        $insertAvailabilityQuery = 'INSERT INTO doctor_hospital (doctor_id, hospital_id, available_day, available_time) VALUES (?, ?, ?, ?)';
         $hospital_id = $_SESSION['hospital_id'];  // Assuming hospital_id is stored in session
+
+        // Only insert new availability for checked days; keep existing availability unchanged
+        $insertAvailabilityQuery = 'INSERT INTO doctor_hospital (doctor_id, hospital_id, available_day, available_time) VALUES (?, ?, ?, ?)';
         foreach ($available_days as $index => $day) {
-            $time = $available_times[$index];
-            $stmt = $conn->prepare($insertAvailabilityQuery);
-            $stmt->bind_param('iiss', $doctor_id, $hospital_id, $day, $time);
-            $stmt->execute();
+            $time = trim($available_times[$index]);
+            if (!empty($time)) {
+                // Check if this day already exists for the doctor
+                if (!isset($existingAvailability[$day])) {
+                    $stmt = $conn->prepare($insertAvailabilityQuery);
+                    $stmt->bind_param('iiss', $doctor_id, $hospital_id, $day, $time);
+                    $stmt->execute();
+                } else {
+                    // Update existing time for this day if different
+                    if ($existingAvailability[$day] !== $time) {
+                        $updateTimeQuery = 'UPDATE doctor_hospital SET available_time = ? WHERE doctor_id = ? AND available_day = ?';
+                        $stmt = $conn->prepare($updateTimeQuery);
+                        $stmt->bind_param('sis', $time, $doctor_id, $day);
+                        $stmt->execute();
+                    }
+                }
+            }
         }
 
         echo "<script>alert('Doctor updated successfully!'); window.location.href='/DAS/adminDashboard-hospital';</script>";
@@ -188,17 +207,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label class="form-label">Available Days & Time</label>
                     <div id="available_days_container">
                         <?php
-                        $days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                        $selectedDays = explode(",", $doctor['available_day']);
-                        $selectedTimes = explode(",", $doctor['available_time']);
-                        foreach ($days as $index => $day) {
+                        $days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+                        $selectedDays = explode(",", $doctor['available_day'] ?? '');
+                        $selectedTimes = explode(",", $doctor['available_time'] ?? '');
+                        $timeIndex = 0;
+                        foreach ($days as $day) {
                             $isChecked = in_array($day, $selectedDays) ? 'checked' : '';
-                            $time = $selectedTimes[$index] ?? '';
+                            $time = $isChecked ? ($selectedTimes[$timeIndex++] ?? '') : '';
                             echo "
                                 <div class='available-day-container'>
                                     <input class='form-check-input' type='checkbox' name='available_days[]' value='$day' onclick='toggleTextInput(this)' $isChecked>
                                     <label class='form-check-label'>$day</label>
-                                    <input type='text' name='available_times[]' class='form-control time-input' placeholder='12pm-2pm' value='$time' disabled>
+                                    <input type='text' name='available_times[]' class='form-control time-input' placeholder='12pm-2pm' value='$time' " . ($isChecked ? '' : 'disabled') . ">
                                 </div>
                             ";
                         }
@@ -216,6 +236,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     function toggleTextInput(checkbox) {
         let textInput = checkbox.closest('.available-day-container').querySelector('.time-input');
         textInput.disabled = !checkbox.checked;
+        if (!checkbox.checked) {
+            textInput.value = ''; // Clear the time if unchecked
+        }
     }
 
     document.getElementById("add_doctor_form").addEventListener("submit", function(event) {

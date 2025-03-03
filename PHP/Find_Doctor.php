@@ -27,7 +27,7 @@ $jobTypeResult = $conn->query($jobTypeSql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAS - Find Doctor</title>
+    <title>DAS - ဆရာဝန်ရှာရန်</title>
     <link rel="stylesheet" href="/DAS/CSS/Find_Doctor.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
@@ -236,6 +236,15 @@ $jobTypeResult = $conn->query($jobTypeSql);
                 width: 60%;
                 margin-top: 10px;
             }
+
+            .container .navbar-brand {
+                width: 40px;
+            }
+
+            .container span {
+                width: 200px;
+                font-size: 0.8em;
+            }
         }
     </style>
 </head>
@@ -245,15 +254,15 @@ $jobTypeResult = $conn->query($jobTypeSql);
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">DAS</a>
-            <span class="text-light">WE VALUE YOUR HEALTH</span>
+            <span class="text-light">သင့်ကျန်းမာရေးသည် ကျွန်ုပ်တို့တာဝန်ဖြစ်သည်</span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <i class="fa fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="/DAS/Home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/DAS/doctor">Find Doctor</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/DAS/hospital">Find Hospital</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/DAS/Home">ပင်မစာမျက်နှာ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/DAS/doctor">ဆရာဝန်ရှာရန်</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/DAS/hospital">ဆေးရုံရှာရန်</a></li>
                     <?php
                     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) {
                         // Database Connection
@@ -283,7 +292,7 @@ $jobTypeResult = $conn->query($jobTypeSql);
                         </li>
                     <?php } else { ?>
                         <li class="nav-item">
-                            <a href="/DAS/login" class="btn btn-success">Sign In</a>
+                            <a href="/DAS/login" class="btn btn-success">အကောင့်ဝင်ရန်</a>
                         </li>
                     <?php } ?>
                 </ul>
@@ -295,9 +304,9 @@ $jobTypeResult = $conn->query($jobTypeSql);
     <div class="container">
         <!-- Filters Section -->
         <aside class="filters" data-aos="fade-right" data-aos-duration="1000">
-            <h2>Specialties</h2>
+            <h2>အထူးပြုမှုများ</h2>
             <div>
-                <label><input type="radio" name="specialty" value="All" checked> All</label><br>
+                <label><input type="radio" name="specialty" value="All" checked> အားလုံး</label><br>
                 <?php
                 if ($jobTypeResult->num_rows > 0) {
                     while ($jobTypeRow = $jobTypeResult->fetch_assoc()) {
@@ -305,22 +314,22 @@ $jobTypeResult = $conn->query($jobTypeSql);
                         echo "<label><input type='radio' name='specialty' value='{$jobType}'> {$jobType}</label><br>";
                     }
                 } else {
-                    echo "<p>No specialties available.</p>";
+                    echo "<p>အထူးပြုမှုများ မရှိပါ။</p>";
                 }
                 ?>
             </div>
             <div>
-                <h3>Gender</h3>
-                <label><input type="radio" name="gender" value="All" checked> All</label><br>
-                <label><input type="radio" name="gender" value="Male"> Male</label><br>
-                <label><input type="radio" name="gender" value="Female"> Female</label><br>
+                <h3>လိင်</h3>
+                <label><input type="radio" name="gender" value="All" checked> အားလုံး</label><br>
+                <label><input type="radio" name="gender" value="Male"> ကျား</label><br>
+                <label><input type="radio" name="gender" value="Female"> မ</label><br>
             </div>
         </aside>
 
         <!-- Doctor Results Section -->
         <main class="results" data-aos="fade-left" data-aos-duration="1000">
-            <input type="text" id="search-box" placeholder="Search for doctors...">
-            <h2>Doctor - Search Results</h2>
+            <input type="text" id="search-box" placeholder="ဆရာဝန်များကို ရှာရန်...">
+            <h2>ဆရာဝန် - ရှာဖွေမှုရလဒ်များ</h2>
             <div id="doctor-list">
                 <?php
                 $sql = "SELECT * FROM doctors LIMIT 20";
@@ -332,7 +341,7 @@ $jobTypeResult = $conn->query($jobTypeSql);
                         echo "<h3>" . htmlspecialchars($row['name']) . "</h3>";
                         echo "<p>" . htmlspecialchars($row['credential']) . "</p>";
                         echo "<div class='details'>";
-                        echo "<span>Consultation Fee: " . number_format($row['consultation_fee']) . " MMK</span>";
+                        echo "<span>ဆွေးနွေးခ: " . number_format($row['consultation_fee']) . " ကျပ်</span>";
                         if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
                             echo '<form method="POST" action="/DAS/booking-doctor">';
                             echo '<input type="hidden" name="doctor_id" value="' . filter_var($row['doctor_id'], FILTER_VALIDATE_INT) . '">';
@@ -346,11 +355,11 @@ $jobTypeResult = $conn->query($jobTypeSql);
                         echo "</div>";
                     }
                 } else {
-                    echo "<p>No doctors found.</p>";
+                    echo "<p>ဆရာဝန်များ မတွေ့ရှိပါ။</p>";
                 }
                 ?>
             </div>
-            <button id="load-more" class="btn btn-primary" data-aos="fade-up" data-aos-duration="1000">See More</button>
+            <button id="load-more" class="btn btn-primary" data-aos="fade-up" data-aos-duration="1000">ဆက်လက်ကြည့်ရှုရန်</button>
         </main>
     </div>
 
@@ -374,7 +383,7 @@ $jobTypeResult = $conn->query($jobTypeSql);
         });
 
         function redirectToLogin() {
-            Notiflix.Report.warning('Warning', 'You need to login first to make an appointment!', 'Okay', () => {
+            Notiflix.Report.warning('သတိပေးချက်', 'ချိန်းဆိုမှုပြုလုပ်ရန် အကောင့်ဝင်ရန်လိုအပ်ပါသည်။', 'အိုကေ', () => {
                 window.location.href = "/DAS/login";
             });
         }

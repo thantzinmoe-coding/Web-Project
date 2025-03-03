@@ -33,7 +33,7 @@ switch ($request) {
         require __DIR__ . '/Html/reset-password.html';
         break;
     case '/DAS/adminDashboard-system':
-        require __DIR__ . '/Html/select_registration.html';
+        require __DIR__ . '/PHP/admin_dashboard.php';
         break;
     case '/DAS/adminDashboard-hospital':
         require __DIR__ . '/PHP/hospital_dashboard.php';
@@ -47,14 +47,8 @@ switch ($request) {
     case '/DAS/booking-hospital':
         require __DIR__ . '/PHP/booking_hospitals.php';
         break;
-    case '/DAS/add-hospital':
-        require __DIR__ . '/PHP/add_hospital.php';
-        break;
     case '/DAS/add-doctor':
-        require __DIR__ . '/Html/add_doctor.html';
-        break;
-    case '/DAS/add-doctor-availability':
-        require __DIR__ . '/PHP/add_doctor_availability.php';
+        require __DIR__ . '/PHP/add_doctor.php';
         break;
     case '/DAS/profile':
         require __DIR__ . '/PHP/user_profile.php';
@@ -62,10 +56,13 @@ switch ($request) {
     case '/DAS/view-appointment':
         require __DIR__ . '/PHP/view_appointment.php';
         break;
-    case '/DAS/emergency_case.php':
+         case '/DAS/emergency_case.php':
         require __DIR__ . '/PHP/emergency_case.php';
         break;
     default:
+    case '/DAS/adminDashboard-system':
+        require __DIR__ . '/PHP/admin_dashboard.php';
+        break;
         http_response_code(404);
         require __DIR__ . '/404.php';
         break;

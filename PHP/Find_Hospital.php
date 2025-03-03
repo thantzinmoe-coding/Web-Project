@@ -1,7 +1,5 @@
 <?php
-
 session_start();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +7,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find Hospital</title>
+    <title>ဆေးရုံရှာရန်</title>
     <link rel="stylesheet" href="/DAS/CSS/Find_Hospital.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Amita:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
@@ -175,6 +173,15 @@ session_start();
                 width: 60%;
                 margin-top: 10px;
             }
+
+            .container .navbar-brand {
+                width: 40px;
+            }
+
+            .container span {
+                width: 200px;
+                font-size: 0.8em;
+            }
         }
     </style>
 </head>
@@ -184,15 +191,15 @@ session_start();
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">DAS</a>
-            <span class="text-light ms-3">WE VALUE YOUR HEALTH</span>
+            <span class="text-light ms-3">သင့်ကျန်းမာရေးသည် ကျွန်ုပ်တို့တာဝန်ဖြစ်သည်</span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <i class="fa fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="/DAS/Home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/DAS/doctor">Find Doctor</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/DAS/hospital">Find Hospital</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/DAS/Home">ပင်မစာမျက်နှာ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/DAS/doctor">ဆရာဝန်ရှာရန်</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/DAS/hospital">ဆေးရုံရှာရန်</a></li>
                     <?php
                     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin']) {
                         // Database Connection
@@ -222,7 +229,7 @@ session_start();
                         </li>
                     <?php } else { ?>
                         <li class="nav-item">
-                            <a href="/DAS/login" class="btn btn-success">Sign In</a>
+                            <a href="/DAS/login" class="btn btn-success">အကောင့်ဝင်ရန်</a>
                         </li>
                     <?php } ?>
                 </ul>
@@ -241,11 +248,11 @@ session_start();
 
     <!-- Main Content -->
     <div class="container">
-        <h1 data-aos="fade-down" data-aos-duration="1000">Find Your Healthcare Here</h1>
+        <h1 data-aos="fade-down" data-aos-duration="1000" class="mt-2">သင့်ကျန်းမာရေးဝန်ဆောင်မှုများကို ဤနေရာတွင်ရရှိနိုင်ပါပြီ</h1>
         <div class="search-bar" data-aos="fade-up" data-aos-duration="1000">
-            <input type="text" id="searchHospital" class="form-control" placeholder="Search hospital by name...">
-            <input type="text" id="filterLocation" class="form-control" placeholder="Add city or region">
-            <button onclick="fetchHospitals()">Search</button>
+            <input type="text" id="searchHospital" class="form-control" placeholder="ဆေးရုံအမည်ဖြင့် ရှာရန်...">
+            <input type="text" id="filterLocation" class="form-control" placeholder="မြို့ သို့မဟုတ် ဒေသထည့်ပါ">
+            <button onclick="fetchHospitals()">ရှာရန်</button>
         </div>
         <div id="hospitalList" class="mt-4"></div>
     </div>
@@ -266,7 +273,7 @@ session_start();
             hospitalList.innerHTML = '';
 
             if (hospitals.length === 0) {
-                hospitalList.innerHTML = '<p>No hospitals found.</p>';
+                hospitalList.innerHTML = '<p>ဆေးရုံများ မတွေ့ရှိပါ။</p>';
                 return;
             }
 
@@ -277,19 +284,19 @@ session_start();
                 const card = `
                 <div class="hospital-card" data-aos="fade-up" data-aos-duration="1000">
                     <h4>${hospital.name}</h4>
-                    <p><strong>Location:</strong> ${hospital.location}</p>
-                    <p><strong>Specialty:</strong> ${hospital.specialty}</p>
-                    <p><strong>Contact:</strong> ${hospital.contact}</p>
-                    <p><strong>Rating:</strong> ${hospital.rating} ⭐</p>
-                    ${hospital.emergency_services == 1 ? '<p><strong>24/7 Emergency Available 🚑</strong></p>' : '<p><strong>Emergency Service Not Available ❌🚑</strong></p>'}
+                    <p><strong>တည်နေရာ:</strong> ${hospital.location}</p>
+                    <p><strong>အထူးပြုမှု:</strong> ${hospital.specialty}</p>
+                    <p><strong>ဆက်သွယ်ရန်:</strong> ${hospital.contact}</p>
+                    <p><strong>အဆင့်သတ်မှတ်ချက်:</strong> ${hospital.rating} ⭐</p>
+                    ${hospital.emergency_services == 1 ? '<p><strong>၂၄/၇ အရေးပေါ်ဝန်ဆောင်မှုရှိပါသည် 🚑</strong></p>' : '<p><strong>အရေးပေါ်ဝန်ဆောင်မှုမရှိပါ ❌🚑</strong></p>'}
                     <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true): ?>
                     <form method="POST" action="/DAS/booking-hospital">
                         <input type="hidden" name="hospital_id" value="${hospital.hospital_id}">
                         <input type="hidden" name="email" value="${useremail}">
-                        <button type="submit" class="btn btn-success">Book Appointment</button>
+                        <button type="submit" class="btn btn-success">Book Now</button>
                     </form>
                     <?php else: ?>
-                        <button type="submit" class="btn btn-warning" onclick="redirectToLogin()">Book Appointment</button>
+                        <button type="submit" class="btn btn-warning" onclick="redirectToLogin()">Book Now</button>
                         </form>
                     <?php endif ?>
                 </div>`;
@@ -321,7 +328,7 @@ session_start();
         });
 
         function redirectToLogin() {
-            Notiflix.Report.warning('Warning', 'You need to login first to make an appointment!', 'Okay', () => {
+            Notiflix.Report.warning('သတိပေးချက်', 'ချိန်းဆိုမှုပြုလုပ်ရန် အကောင့်ဝင်ရန်လိုအပ်ပါသည်။', 'အိုကေ', () => {
                 window.location.href = "/DAS/login";
             });
         }

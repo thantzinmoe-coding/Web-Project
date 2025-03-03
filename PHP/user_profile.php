@@ -163,6 +163,15 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             .profile-container {
                 padding: 20px;
             }
+
+            .container .navbar-brand {
+                width: 40px;
+            }
+
+            .container span {
+                width: 200px;
+                font-size: 0.8em;
+            }
         }
     </style>
 </head>
@@ -173,7 +182,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand nav-brand" href="#">DAS</a>
-            <span class="text-muted ms-3">WE VALUE YOUR HEALTH</span>
+            <span class="text-muted ms-3">သင့်ကျန်းမာရေးသည် ကျွန်ုပ်တို့တာဝန်ဖြစ်သည်</span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
@@ -181,16 +190,16 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/DAS/Home">Home</a>
+                        <a class="nav-link active" aria-current="page" href="/DAS/Home">ပင်မစာမျက်နှာ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/DAS/doctor">Find Doctor</a>
+                        <a class="nav-link" href="/DAS/doctor">ဆရာဝန်ရှာရန်</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/DAS/hospital">Find Hospital</a>
+                        <a class="nav-link" href="/DAS/hospital">ဆေးရုံရှာရန်</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/DAS/view-appointment">Bookings</a>
+                        <a class="nav-link" href="/DAS/view-appointment">ချိန်းဆိုမှုများ</a>
                 </ul>
             </div>
         </div>
@@ -271,9 +280,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                     success: function(response) {
                         if (response.status === "success") {
                             Notiflix.Loading.remove();
-                            Notiflix.Report.success('Success', 'Profile updated successfully.', 'OK', () => {
-                                location.reload();
-                            });
+                            Notiflix.Report.success('Success', 'Profile updated successfully.',
+                                'OK', () => {
+                                    location.reload();
+                                });
                         } else {
                             Notiflix.Loading.remove();
                             Notiflix.Report.failure('Error', response.message, 'OK');
@@ -282,7 +292,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                     error: function(error) {
                         Notiflix.Loading.remove();
                         console.error(error.message);
-                        Notiflix.Report.failure('Error', 'An error occurred while updating the profile.', 'OK');
+                        Notiflix.Report.failure('Error',
+                            'An error occurred while updating the profile.', 'OK');
                     }
                 });
             });
@@ -309,9 +320,11 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                                 new Date().getTime());
                             setTimeout(() => {
                                 Notiflix.Loading.remove();
-                                Notiflix.Report.success('Success', 'Profile image uploaded successfully.', 'OK', () => {
-                                    location.reload();
-                                });
+                                Notiflix.Report.success('Success',
+                                    'Profile image uploaded successfully.', 'OK',
+                                    () => {
+                                        location.reload();
+                                    });
                             }, 1500);
                         } else {
                             Notiflix.Loading.remove();
@@ -321,7 +334,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                     error: function(error) {
                         Notiflix.Loading.remove();
                         console.error(error.message);
-                        Notiflix.Report.failure('Error', 'An error occurred while uploading the profile image.', 'OK');
+                        Notiflix.Report.failure('Error',
+                            'An error occurred while uploading the profile image.', 'OK');
                     }
                 });
             });
