@@ -156,6 +156,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    async function getToken(hospitalId, doctorId) {
+        const response = await fetch(`/DAS/PHP/get_token_number.php?hospital_id=${hospitalId}&doctor_id=${doctorId}`);
+        const data = await response.text();
+        const jsonData = JSON.parse(data);
+        return jsonData;
+    }
+
     // Handle form submission
     bookingForm.addEventListener("submit", async function (event) {
         event.preventDefault();
@@ -167,6 +174,20 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedTimeElement = document.querySelector(".time-box .option-box.selected");
         const selectedTime = selectedTimeElement ? selectedTimeElement.innerText.trim() : null;
 
+        let tokens = await getToken(hospitalId, doctorId);
+        console.log(tokens);
+
+        let booked_token = 1;
+
+        for (let i = 1; i <= 5; i++) {
+            if (!tokens.includes(i)) {
+                booked_token = i;
+                break;
+            }
+        }
+
+        console.log("Booked Tokens: ", booked_token);
+
         if (!selectedDate || !selectedTime) {
             Notiflix.Loading.remove();
             messageBox.innerHTML = "<p style='color:red;'>Please select a valid date and time.</p>";
@@ -176,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const formData = new FormData(bookingForm);
         formData.append("date", selectedDate);
         formData.append("time", selectedTime);
+        formData.append("token_number", booked_token);
 
         try {
             const response = await fetch("/DAS/PHP/booking_appointment.php", {
