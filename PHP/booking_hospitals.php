@@ -364,9 +364,9 @@ $display_date = strtoupper(date('M d D', strtotime($selected_date)));
                 <!-- Submit Button -->
                 <div class="row mt-4">
                     <div class="col-md-6 mt-2">
-                        <button id="btnCancel" class="btn btn-outline-secondary w-100 p-3">
+                        <a href="/DAS/hospital" id="btnCancel" class="btn btn-outline-secondary w-100 p-3">
                             <i class="fas fa-times"></i> Cancel Appointment
-                        </button>
+                        </a>
                     </div>
                     <div class="col-md-6 mt-2">
                         <button type="submit" class="btn btn-success w-100 p-3">

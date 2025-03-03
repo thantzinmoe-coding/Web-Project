@@ -174,21 +174,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="post">
                 <div class="mb-3">
                     <label class="form-label">Doctor Name</label>
-                    <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($doctor['name']) ?>"
-                        required>
+                    <input type="text" name="name" class="form-control"
+                        value="<?= htmlspecialchars($doctor['name']) ?>">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Specialty</label>
                     <input type="text" name="job_type" class="form-control"
-                        value="<?= htmlspecialchars($doctor['job_type']) ?>" required>
+                        value="<?= htmlspecialchars($doctor['job_type']) ?>">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Available Days & Time</label>
                     <div id="available_days_container">
                         <?php
-                        $days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+                        $days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
                         $selectedDays = explode(",", $doctor['available_day']);
                         $selectedTimes = explode(",", $doctor['available_time']);
                         foreach ($days as $index => $day) {
@@ -198,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class='available-day-container'>
                                     <input class='form-check-input' type='checkbox' name='available_days[]' value='$day' onclick='toggleTextInput(this)' $isChecked>
                                     <label class='form-check-label'>$day</label>
-                                    <input type='text' name='available_times[]' class='form-control time-input' placeholder='12PM-2PM' value='$time' disabled>
+                                    <input type='text' name='available_times[]' class='form-control time-input' placeholder='12pm-2pm' value='$time' disabled>
                                 </div>
                             ";
                         }

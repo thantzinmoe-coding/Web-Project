@@ -33,7 +33,7 @@ switch ($request) {
         require __DIR__ . '/Html/reset-password.html';
         break;
     case '/DAS/adminDashboard-system':
-        require __DIR__ . '/PHP/admin_dashboard.php';
+        require __DIR__ . '/Html/select_registration.html';
         break;
     case '/DAS/adminDashboard-hospital':
         require __DIR__ . '/PHP/hospital_dashboard.php';
@@ -46,6 +46,9 @@ switch ($request) {
         break;
     case '/DAS/booking-hospital':
         require __DIR__ . '/PHP/booking_hospitals.php';
+        break;
+    case '/DAS/add-hospital':
+        require __DIR__ . '/PHP/add_hospital.php';
         break;
     case '/DAS/add-doctor':
         require __DIR__ . '/Html/add_doctor.html';
