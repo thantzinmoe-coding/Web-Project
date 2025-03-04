@@ -88,6 +88,11 @@ $totalEmergencies = $totalEmergenciesResult['total_emergencies'];
     .notification-badge:hover {
         text-decoration: underline;
     }
+
+    .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
     </style>
 </head>
 
@@ -154,10 +159,17 @@ $totalEmergencies = $totalEmergenciesResult['total_emergencies'];
                         <td>
                             <a href="<?php echo '/DAS/PHP/hos_admin_view_appointment.php?doctor_id=' . htmlspecialchars($doctor['doctor_id']); ?>"
                                 class="btn btn-info btn-sm">View Appointments</a>
+                            <?php if ($doctor['total_appointments'] == 0): ?>
                             <a href="<?php echo '/DAS/PHP/edit_doctor.php?doctor_id=' . htmlspecialchars($doctor['doctor_id']); ?>"
                                 class="btn btn-warning btn-sm">Edit</a>
                             <a href="<?php echo '/DAS/PHP/delete_doctor_availability.php?id=' . htmlspecialchars($doctor['id']); ?>"
                                 class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                            <?php else: ?>
+                            <button class="btn btn-warning btn-sm" disabled
+                                onclick="alert('Cannot edit doctor with existing appointments'); return false;">Edit</button>
+                            <button class="btn btn-danger btn-sm" disabled
+                                onclick="alert('Cannot delete doctor with existing appointments'); return false;">Delete</button>
+                            <?php endif; ?>
                         </td>
                     </tr>
                     <?php endwhile; ?>

@@ -11,8 +11,8 @@ switch ($request) {
     case '/DAS/home':
         require __DIR__ . '/PHP/Home_page.php';
         break;
-    case '/DAS/test':
-        require __DIR__ . '/PHP/test.php';
+    case '/DAS/add_admin':
+        require __DIR__ . '/Html/add_admin.html';
         break;
     case '/DAS/doctor':
         require __DIR__ . '/PHP/Find_Doctor.php';

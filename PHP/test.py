@@ -9,7 +9,7 @@ folder_path = "C:/wamp64/www/DAS/uploads"
 for index, filename in enumerate(os.listdir(folder_path), start=18):
     if filename.lower().endswith(".jpg"):
         old_path = os.path.join(folder_path, filename)
-        new_filename = f"doctor2-{index}.jpg"  # Change naming pattern as needed
+        new_filename = f"doctor1-{index}.jpg"  # Change naming pattern as needed
         new_path = os.path.join(folder_path, new_filename)
         os.rename(old_path, new_path)
         print(f"Renamed: {filename} → {new_filename}")

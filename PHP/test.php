@@ -20,24 +20,104 @@
 </html> -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+    <title>Admin Registration</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
 
+        #admin {
+            background-color: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #34495e;
+            font-weight: bold;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="text"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #c0392b;
+        }
+
+        @media (max-width: 480px) {
+            #admin {
+                padding: 20px;
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
 <body>
     <form id="admin">
-        <label for="">Email: </label><br>
-        <input type="email" id="email" name="email" required><br><br>
-        <label for="">Password: </label><br>
-        <input type="password" id="password" name="password" required><br><br>
-        <label for="">Hospital ID:</label><br>
-        <input type="text" name="hospitalID" id="hospitalID"><br><br>
-        <label for="">Role:</label><br>
-        <input type="text" name="role" id="role"><br><br>
-        <button id="submit">OKay</button>
+        <h2>Admin Registration</h2>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        
+        <label for="hospitalID">Hospital ID:</label>
+        <input type="text" name="hospitalID" id="hospitalID">
+        
+        <label for="role">Role:</label>
+        <input type="text" name="role" id="role">
+        
+        <button id="submit" type="submit">Submit</button>
     </form>
 
     <script>
@@ -73,7 +153,6 @@
         });
     </script>
 </body>
-
 </html>
 <?php
 
@@ -115,18 +194,18 @@
 // // Passing the object to function
 // sendAppointmentEmail($patient);
 
-$passwords = [
-    "DrJohn123",
-    "DrSarah123",
-    "DrEmily123",
-    "DrMichael123",
-    "DrRachel123"
-];
+// $passwords = [
+//     "DrJohn123",
+//     "DrSarah123",
+//     "DrEmily123",
+//     "DrMichael123",
+//     "DrRachel123"
+// ];
 
-foreach ($passwords as $password) {
-    echo "Plain: $password<br>";
-    echo "Hashed: " . password_hash($password, PASSWORD_DEFAULT) . "<br><br>";
-}
+// foreach ($passwords as $password) {
+//     echo "Plain: $password<br>";
+//     echo "Hashed: " . password_hash($password, PASSWORD_DEFAULT) . "<br><br>";
+// }
 
 // $dsn = "mysql:host=localhost;dbname=project";
 // $username = "root";

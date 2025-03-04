@@ -80,18 +80,10 @@ session_start();
         header h1 {
             font-size: 3rem;
             font-weight: bold;
-            color: #1E3A8A;
-            /* Dark blue for high contrast */
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
-            /* Optional: White shadow for better visibility */
         }
 
         header p {
             font-size: 1.2rem;
-            color: rgb(25, 27, 32);
-            /* Dark blue for high contrast */
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
-            /* Optional: White shadow for better visibility */
         }
 
         .hospital-card {
@@ -227,15 +219,6 @@ session_start();
                 width: 200px;
                 font-size: 0.8em;
             }
-
-            header p {
-                font-size: 1.2rem;
-                margin-top: 300px;
-                color: rgb(25, 27, 32);
-                /* Dark blue for high contrast */
-                text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
-                /* Optional: White shadow for better visibility */
-            }
         }
     </style>
 </head>
@@ -245,13 +228,13 @@ session_start();
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">DAS</a>
-            <span class="text-light ms-3">သင့်ကျန်းမာရေးသည် ကျွန်ုပ်တို့တာဝန်ဖြစ်သည်</span>
+            <span class="text-light ms-3">သင့်ကျန်းမာရေးကို တန်ဖိုးထားပါသည်။</span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <i class="fa fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="/DAS/Home">ပင်မစာမျက်နှာ</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/DAS/Home">ပင်မ</a></li>
                     <li class="nav-item"><a class="nav-link" href="/DAS/doctor">ဆရာဝန်ရှာရန်</a></li>
                     <li class="nav-item"><a class="nav-link" href="/DAS/hospital">ဆေးရုံရှာရန်</a></li>
                     <?php
@@ -284,13 +267,13 @@ session_start();
                                     class="profile-icon" alt="Profile">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="/DAS/profile">ပရိုဖိုင်</a></li>
+                                <li><a class="dropdown-item" href="/DAS/profile">ပရိုဖိုင်း</a></li>
                                 <li><a class="dropdown-item" href="#" id="logout">ထွက်ရန်</a></li>
                             </ul>
                         </li>
                     <?php } else { ?>
                         <li class="nav-item">
-                            <a href="/DAS/login" class="btn btn-success">အကောင့်ဝင်ရန်</a>
+                            <a href="/DAS/login" class="btn btn-primary">အကောင့်ဝင်ရန်</a>
                         </li>
                     <?php } ?>
                 </ul>
@@ -300,8 +283,8 @@ session_start();
 
     <!-- Header -->
     <header class="text-center py-5" data-aos="fade-down" data-aos-duration="1000">
-        <h1>သင့်ကျန်းမာရေးကိုကျွန်ုပ်တို့တာဝန်ယူပါရစေ</h1>
-        <p>ဆေးရုံများရှာဖွေခြင်း၊ ဆရာဝန်များနှင့် ချိန်းဆိုမှုများ ပြုလုပ်ခြင်း၊ ကျန်းမာရေးစစ်ဆေးမှုများကို ရယူခြင်း
+        <h1>သင့်ကျန်းမာရေးကို တစ်နေရာထဲမှာ ရယူလိုက်ပါ။</h1>
+        <p>ဆေးရုံများရှာဖွေခြင်း၊ ဆရာဝန်များနှင့် ချိန်းဆိုမှုများ ပြုလုပ်ခြင်း၊ ကျန်းမာရေးအရင်းအမြစ်များကို ရယူခြင်း
         </p>
     </header>
 
@@ -384,12 +367,12 @@ session_start();
                 <div class="col-md-4" data-aos="fade-right" data-aos-duration="1000">
                     <i class="fa fa-user-md"></i>
                     <h5 class="mt-3">ကျွမ်းကျင်ဆရာဝန်များ</h5>
-                    <p>ရောဂါအခြေအနေနှင့်ဆက်လျဉ်း၍ ထိပ်တန်းဆရာဝန်များနှင့် ချိတ်ဆက်ပါ။</p>
+                    <p>သင့်ဒေသရှိ ထိပ်တန်းဆရာဝန်များနှင့် ချိတ်ဆက်ပါ။</p>
                 </div>
                 <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000">
                     <i class="fa fa-hospital"></i>
                     <h5 class="mt-3">ယုံကြည်စိတ်ချရသောဆေးရုံများ</h5>
-                    <p>ခေတ်မီပစ္စည်းကိရိယာများနှင့် အကောင်းဆုံးဆေးစစ်မှုများ၊ဝန်ဆောင်မှုများကို ဤ ဆေးရုံတွင်ရရှိနိုင်ပြီ</p>
+                    <p>အကောင်းဆုံးပစ္စည်းကိရိယာများနှင့် စောင့်ရှောက်မှုများကို ရှာဖွေပါ။</p>
                 </div>
                 <div class="col-md-4" data-aos="fade-left" data-aos-duration="1000">
                     <i class="fa fa-calendar-check"></i>
@@ -400,8 +383,8 @@ session_start();
         </div>
     </section>
     <div class="container text-center my-5 p-4 bg-white rounded shadow">
-        <p class="mb-4">အရေးပေါ်ဝန်ဆောင်မှုများအတွက် အောက်ဖော်ပြပါခလုတ်ကိုနှိပ်၍ဆက်သွယ်နိုင်ပါသည်:</p>
-        <a href="emergency_case.php" class="btn btn-emergency btn-lg text-white">အရေးပေါ်ဝန်ဆောင်မှုအတွက် Emergency Page သို့ဆက်သွယ်ပါ</a>
+        <p class="mb-4">For emergencies, click the button below to get immediate assistance:</p>
+        <a href="emergency_case.php" class="btn btn-emergency btn-lg text-white">Go to Emergency Page</a>
     </div>
     <!-- Footer -->
     <footer class="text-center py-4" data-aos="fade-up" data-aos-duration="1000">
