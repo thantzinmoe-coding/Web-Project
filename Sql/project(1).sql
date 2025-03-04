@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 04, 2025 at 04:46 AM
+-- Generation Time: Mar 04, 2025 at 08:33 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -38,45 +38,47 @@ CREATE TABLE IF NOT EXISTS `admins` (
   PRIMARY KEY (`adminID`),
   UNIQUE KEY `email` (`email`),
   KEY `hospital_id` (`hospital_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `admins`
 --
 
 INSERT INTO `admins` (`adminID`, `adminName`, `email`, `password`, `hospital_id`, `role`) VALUES
-(12, 'မောင်ထွန်းအောင်', 'admin1@gmail.com', '$2y$10$Admin1UniqueHash1234567890ABCDEFGHI', 1, 'hospital'),
-(13, 'မောင်ကျော်မိုး', 'admin2@gmail.com', '$2y$10$Admin2UniqueHash1234567890ABCDEFGHI', 2, 'hospital'),
-(14, 'မောင်မြင့်သန်း', 'admin3@gmail.com', '$2y$10$Admin3UniqueHash1234567890ABCDEFGHI', 3, 'hospital'),
-(15, 'မောင်ဇော်မင်း', 'admin4@gmail.com', '$2y$10$Admin4UniqueHash1234567890ABCDEFGHI', 4, 'hospital'),
-(16, 'မောင်ထွန်းလွင်', 'admin5@gmail.com', '$2y$10$Admin5UniqueHash1234567890ABCDEFGHI', 5, 'hospital'),
-(17, 'ဒေါ်မြတ်မွန်', 'admin6@gmail.com', '$2y$10$Admin6UniqueHash1234567890ABCDEFGHI', 6, 'hospital'),
-(18, 'ဒေါ်နှင်းဝေ', 'admin7@gmail.com', '$2y$10$Admin7UniqueHash1234567890ABCDEFGHI', 7, 'hospital'),
-(19, 'ဒေါ်အိစန်', 'admin8@gmail.com', '$2y$10$Admin8UniqueHash1234567890ABCDEFGHI', 8, 'hospital'),
-(20, 'ဒေါ်သဇင်', 'admin9@gmail.com', '$2y$10$Admin9UniqueHash1234567890ABCDEFGHI', 9, 'hospital'),
-(21, 'မောင်သက်ထွန်း', 'admin10@gmail.com', '$2y$10$Admin10UniqueHash1234567890ABCDEFGH', 10, 'hospital'),
-(22, 'မောင်မျိုးမြတ်', 'admin11@gmail.com', '$2y$10$Admin11UniqueHash1234567890ABCDEFGH', 11, 'hospital'),
-(23, 'မောင်အောင်ကြည်', 'admin12@gmail.com', '$2y$10$Admin12UniqueHash1234567890ABCDEFGH', 12, 'hospital'),
-(24, 'ဒေါ်မြတ်နိုး', 'admin13@gmail.com', '$2y$10$Admin13UniqueHash1234567890ABCDEFGH', 13, 'hospital'),
-(25, 'ဒေါ်ဝတ်မြတ်', 'admin14@gmail.com', '$2y$10$Admin14UniqueHash1234567890ABCDEFGH', 14, 'hospital'),
-(26, 'ဒေါ်နှင်းဧ', 'admin15@gmail.com', '$2y$10$Admin15UniqueHash1234567890ABCDEFGH', 15, 'hospital'),
-(27, 'မောင်သန်းထွန်း', 'admin16@gmail.com', '$2y$10$Admin16UniqueHash1234567890ABCDEFGH', 16, 'hospital'),
-(28, 'မောင်မိုးဇင်', 'admin17@gmail.com', '$2y$10$Admin17UniqueHash1234567890ABCDEFGH', 17, 'hospital'),
-(29, 'ဒေါ်ဖြူသင်း', 'admin18@gmail.com', '$2y$10$Admin18UniqueHash1234567890ABCDEFGH', 18, 'hospital'),
-(30, 'ဒေါ်စန္ဒာထွန်း', 'admin19@gmail.com', '$2y$10$Admin19UniqueHash1234567890ABCDEFGH', 19, 'hospital'),
-(31, 'မောင်နေထွန်း', 'admin20@gmail.com', '$2y$10$Admin20UniqueHash1234567890ABCDEFGH', 20, 'hospital'),
-(32, 'မောင်မင်းသူ', 'admin21@gmail.com', '$2y$10$Admin21UniqueHash1234567890ABCDEFGH', 21, 'hospital'),
-(33, 'ဒေါ်ခင်မြတ်', 'admin22@gmail.com', '$2y$10$Admin22UniqueHash1234567890ABCDEFGH', 22, 'hospital'),
-(34, 'ဒေါ်သက်မြတ်', 'admin23@gmail.com', '$2y$10$Admin23UniqueHash1234567890ABCDEFGH', 23, 'hospital'),
-(35, 'မောင်အောင်ကျော်', 'admin24@gmail.com', '$2y$10$Admin24UniqueHash1234567890ABCDEFGH', 24, 'hospital'),
-(36, 'မောင်ခင်မောင်', 'admin25@gmail.com', '$2y$10$Admin25UniqueHash1234567890ABCDEFGH', 25, 'hospital'),
-(37, 'ဒေါ်မေထွန်း', 'admin26@gmail.com', '$2y$10$Admin26UniqueHash1234567890ABCDEFGH', 26, 'hospital'),
-(38, 'ဒေါ်နန်းစန္ဒီ', 'admin27@gmail.com', '$2y$10$Admin27UniqueHash1234567890ABCDEFGH', 27, 'hospital'),
-(39, 'မောင်ကိုကို', 'admin28@gmail.com', '$2y$10$Admin28UniqueHash1234567890ABCDEFGH', 28, 'hospital'),
-(40, 'မောင်မိုးညို', 'admin29@gmail.com', '$2y$10$Admin29UniqueHash1234567890ABCDEFGH', 29, 'hospital'),
-(41, 'ဒေါ်ထင်ထင်', 'admin30@gmail.com', '$2y$10$Admin30UniqueHash1234567890ABCDEFGH', 30, 'hospital'),
-(42, 'ဒေါ်သန်းသန်း', 'admin31@gmail.com', '$2y$10$Admin31UniqueHash1234567890ABCDEFGH', 31, 'hospital'),
-(43, 'မောင်စိုးမိုး', 'admin32@gmail.com', '$2y$10$pku2gFj.da/o44pJ.6oErO7Uw1A7wFeOjUm7z/tQYMDrrMygqPMFa', 32, 'hospital');
+(77, 'Min Thant Zaw', 'admin31@gmail.com', '$2y$10$omDylGT2XgRvlDeVtx2v/uf5NF9nYgiamFxnOyMUnTwDIvjnxUm2G', 31, 'hospital'),
+(76, 'Min Thant Zaw', 'admin30@gmail.com', '$2y$10$/ITqRPTbouiy8lUYUax5g.o3DNNuKmJA.1N.aanU0HQ1yGhfl58Km', 30, 'hospital'),
+(75, 'Min Thant Zaw', 'admin29@gmail.com', '$2y$10$46u80msiW9Gy9TyOY4QH4..czcM464D9mTaichyU65971j3vI69ZS', 29, 'hospital'),
+(74, 'Min Thant Zaw', 'admin28@gmail.com', '$2y$10$qTsWEmbnRkyZurNefTHfDu04pFu8IwyUA2I8Be14RDw0vEVciQJge', 28, 'hospital'),
+(73, 'Min Thant Zaw', 'admin27@gmail.com', '$2y$10$osa94DGcysccQ2hfnrZIueovkx2iYSQ6tu5bZkppQyJFHYiuj7nYS', 27, 'hospital'),
+(72, 'Min Thant Zaw', 'admin26@gmail.com', '$2y$10$83eDCbL7JSHWCLDsDTeik.HNhwjzAW1NcnGmzNh2DQ7t9ahitP2sy', 26, 'hospital'),
+(71, 'Min Thant Zaw', 'admin25@gmail.com', '$2y$10$ixIXe9iSsawYQH9OiT6RaeMyQn98JRJ3sAYa5/z5SG1HbUK5Zdyo2', 25, 'hospital'),
+(70, 'Min Thant Zaw', 'admin24@gmail.com', '$2y$10$/Ivn227SMB1tfgol4MqB/uBsG9HNeUvzB7bCX48TEJ7uy2TAa.Jau', 24, 'hospital'),
+(69, 'Min Thant Zaw', 'admin23@gmail.com', '$2y$10$2bNm5TnjZKFagKqwSAd.KOzCvkg4YX5inIRxQLc6wloHEBrxhD5BS', 23, 'hospital'),
+(68, 'Min Thant Zaw', 'admin22@gmail.com', '$2y$10$Vb8z6L35Rz9kTEkFiq9rmOXO6C9zKcLFghixrIwicWhxpdDmzfqRa', 22, 'hospital'),
+(67, 'Min Thant Zaw', 'admin21@gmail.com', '$2y$10$eYqx2xW40qpLbHnYLG24MuvpXRWbyyJfHrE6YPW0L3MHH0NZUDtqy', 21, 'hospital'),
+(66, 'Min Thant Zaw', 'admin20@gmail.com', '$2y$10$4LKiY.4gsVFw1wL.tNU9E.lAxhsgiCUHSaA.wDePTgWAEMpfX2Vcy', 20, 'hospital'),
+(65, 'Min Thant Zaw', 'admin19@gmail.com', '$2y$10$x6Dh/E8N4OL.1H1sj4Ce6uDlTmaJFFiRw3gP8ZQckvP3aWBo7b.zC', 19, 'hospital'),
+(64, 'Min Thant Zaw', 'admin18@gmail.com', '$2y$10$rB9ZsyTy/hRVnDbMCds7t.swdtoSN/WeVprnbTFK1hsIG9fNZvdZG', 18, 'hospital'),
+(63, 'Min Thant Zaw', 'admin17@gmail.com', '$2y$10$3kG4IGSRzy4SwD1Bjt/5p.dA/f8roAFH/n1kvJzWjoulnlC2caiM6', 17, 'hospital'),
+(62, 'Min Thant Zaw', 'admin16@gmail.com', '$2y$10$7EBEybUVvCA/XNVL5/WWgOYaxyRMdYNvICE0OBnqb7JOm7lpXh4eC', 16, 'hospital'),
+(61, 'Min Thant Zaw', 'admin15@gmail.com', '$2y$10$IXpeEAByAteapJTV6KFIi.k.UiYepiaDgpw7A2XCAP55v1shmqkUu', 15, 'hospital'),
+(60, 'Min Thant Zaw', 'admin14@gmail.com', '$2y$10$fAfHAJS7SoUPnVJQz5.j5undxOYggjaikmXl25l4lHOt.xmBtyst2', 14, 'hospital'),
+(59, 'Min Thant Zaw', 'admin13@gmail.com', '$2y$10$wSLMX.vnua.i2uODkJsDBO7CuR5D7LcbR5RlEuTkNi1w.8UKxA/Ue', 13, 'hospital'),
+(58, 'Min Thant Zaw', 'admin12@gmail.com', '$2y$10$f9vXbnjj32RvfpApbNjVSeR/FzJDthNsZKB5x9EP73hCimNyi3m4G', 12, 'hospital'),
+(57, 'Min Thant Zaw', 'admin11@gmail.com', '$2y$10$IQZPL15Z8Qmla37e57X39eL3kGjMQYM9eKiWMCRsx7W92jdJBBbrK', 11, 'hospital'),
+(56, 'Min Thant Zaw', 'admin10@gmail.com', '$2y$10$as2kqZtc3S4n0szToyh2luqJDbsStK47yqYGPo4W4dOfII37tkI1a', 10, 'hospital'),
+(55, 'Min Thant Zaw', 'admin9@gmail.com', '$2y$10$hJxTiouf6ov.d90kje7f3OwjNSCAZho9eWMF2PkJPjuM.Mivc9hbK', 9, 'hospital'),
+(54, 'Min Thant Zaw', 'admin8@gmail.com', '$2y$10$1ETPLnMIyD4rsYxjOAtDre9A/Be6xk4R1afnXxNx4PpFM8Q99Rs0G', 8, 'hospital'),
+(53, 'Min Thant Zaw', 'admin7@gmail.com', '$2y$10$kazxBPC137cRRKQO5VN.YeDk3r/8oqOZaPFshhW5Jmc3yp6uTwPm2', 7, 'hospital'),
+(52, 'Min Thant Zaw', 'admin6@gmail.com', '$2y$10$wvJpJyhhsTdFmqaFeHUXEeHYlfXI61V9sQ4FqqgDDlRvsKdGToet2', 6, 'hospital'),
+(51, 'Min Thant Zaw', 'admin5@gmail.com', '$2y$10$M7qsHs/xu.jrfRja9V34oePRIqT/plIsiJ37aBQYTifq.9rAtJE5i', 5, 'hospital'),
+(50, 'Min Thant Zaw', 'admin4@gmail.com', '$2y$10$FdiXHbxQfpddSwdGWoJCB.rWSytt0pvem/WFe5BA5X8Kk1.2kS09C', 4, 'hospital'),
+(49, 'Min Thant Zaw', 'admin3@gmail.com', '$2y$10$2ymD8Vrm.Z2/E6I7kVSvRuBtWRsWp7Q7HcBFHaIaWVm4pgx41E7aS', 3, 'hospital'),
+(48, 'Min Thant Zaw', 'admin2@gmail.com', '$2y$10$tajIElRxc11NkPutonSqmeO8M8rFRWOrXCWNi.AYaeLG6Ffer7Sea', 2, 'hospital'),
+(47, 'Min Thant Zaw', 'admin1@gmail.com', '$2y$10$Xru/BdFhGBIfVMP7eJqsh.EiLjmSPHdJ/noO2btPsKN9Unw/qLqHW', 1, 'hospital'),
+(46, 'Min Thant Zaw', 'minthantzaw218@gmail.com', '$2y$10$4eqSPGT9DAYqEF1u6UM.RO/z9ntUg9yRecRlP4EMy/OMwz.FrACR2', 0, 'system'),
+(78, 'Min Thant Zaw', 'admin32@gmail.com', '$2y$10$OysDVB1dD7BTND5FI6OV/Ow4vAFu/emC386/InD5RdPbbwkRv4dkC', 32, 'hospital'),
+(79, 'Min Thant Zaw', 'system-admin@gmail.com', '$2y$10$aQihzEYzTWbLMEqJSp/zn.O3FspvvoYK./1MGMHpYDTkBMDThngb.', 0, 'system');
 
 -- --------------------------------------------------------
 
@@ -96,59 +98,64 @@ CREATE TABLE IF NOT EXISTS `booking` (
   `patient_name` varchar(255) DEFAULT NULL,
   `symptoms` text,
   `token_number` tinyint(1) NOT NULL,
-  `doctor_hospital_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `doctor_id` (`doctor_id`),
-  KEY `hospital_id` (`hospital_id`),
-  KEY `fk_doctor_hospital_id` (`doctor_hospital_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=105 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `hospital_id` (`hospital_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=113 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `booking`
 --
 
-INSERT INTO `booking` (`id`, `doctor_id`, `hospital_id`, `useremail`, `appointment_date`, `appointment_start_time`, `appointment_end_time`, `patient_name`, `symptoms`, `token_number`, `doctor_hospital_id`) VALUES
-(11, 1, 5, '', '2025-02-13', '11AM', '1PM', 'Ye Nanda Htet', 'Mental Health', 0, NULL),
-(12, 1, 7, '', '2025-02-13', '5PM', '7PM', 'Ye Nanda Htet', 'Mental Health', 0, NULL),
-(13, 1, 7, '', '2025-02-17', '1PM', '3PM', 'Ye Nanda Htet', 'Mental Health', 0, NULL),
-(15, 1, 5, '', '2025-02-20', '11AM', '1PM', 'Ye Nanda Htet', 'Mental Health', 0, NULL),
-(16, 1, 10, '', '2025-02-11', '3PM', '5PM', 'Ye Nanda Htet', 'Mental Health', 0, NULL),
-(17, 1, 7, '', '2025-02-20', '5PM', '7PM', 'Ye Nanda Htet', 'Heart Broken', 0, NULL),
-(18, 1, 2, '', '2025-02-11', '3PM', '5PM', 'Thiha Zaw', 'simp Ma Ma', 0, NULL),
-(19, 1, 5, '', '2025-03-06', '11AM', '1PM', 'Thiha Zaw', 'Mental Health', 0, NULL),
-(20, 1, 2, '', '2025-02-22', '2PM', '4PM', 'Thiha Zaw', 'Falling in love with Ma Ma', 0, NULL),
-(92, 54, 1, 'thantzinmoe893@gmail.com', '2025-03-05', '1PM', '3PM', 'မင်းတေဇ', 'ချောင်းခြောက်ဆိုးခြင်း', 1, NULL),
-(38, 1, 2, 'thant@gmail.com', '2025-02-14', '2PM', '4PM', 'Thiha Zaw', 'Being crazy', 0, NULL),
-(43, 1, 5, 'thantzinmoe893@gmail.com', '2025-02-27', '11AM', '1PM', 'Ye Nanda Htet', 'Mental Health', 0, NULL),
-(94, 1, 5, 'thantzinmoe893@gmail.com', '2025-03-01', '12PM', '2PM', 'Thant Zin Moe', 'Headache', 1, NULL),
-(95, 1, 5, 'thantzinmoe893@gmail.com', '2025-03-08', '12PM', '2PM', 'သီဟဇော်', 'ခေါင်းကိုက်', 2, NULL),
-(96, 1, 5, 'thantzinmoe893@gmail.com', '2025-03-08', '12PM-2PM', '2PM', 'ရဲနန္ဒထက်', 'ခေါင်းကိုက်', 3, NULL),
-(51, 4, 2, 'kohtet.ttan112@gmail.com', '2025-02-19', '10AM', '12PM', 'Ye Nanda Htet', 'Mental Health', 0, NULL),
-(52, 2, 3, 'thantzinmoe@uit.edu.mm', '2025-02-18', '2PM', '4PM', 'Thant Zin Moe', 'Heart Attack', 0, NULL),
-(53, 5, 1, 'kohtet.ttan112@gmail.com', '2025-02-19', '3PM', '5PM', 'Ye Nanda Htet', 'Mental Health', 0, NULL),
-(54, 4, 2, 'minthantzaw@uit.edu.mm', '2025-02-26', '10AM', '12PM', 'Min Thant Zaw', 'Mental Health', 0, NULL),
-(56, 5, 1, 'kohtet.ttan112@gmail.com', '2025-02-23', '10AM', '12PM', 'Ye Nanda Htet', 'Mental Health', 0, NULL),
-(57, 4, 2, 'thizazaw2@gmail.com', '2025-03-05', '10AM', '12PM', 'Thiha Zaw', 'Headache', 0, NULL),
-(91, 58, 1, 'tmoe8123@gmail.com', '2025-03-07', '4PM', '6PM', 'သီဟဇော်', 'စော်မရ', 1, NULL),
-(59, 5, 1, 'thantzinmoe893@gmail.com', '2025-02-26', '3PM', '5PM', 'Ye Nanda Htet', 'Mental Health', 0, NULL),
-(61, 3, 2, 'yenandahtet@uit.edu.mm', '2025-02-24', '10AM', '12PM', 'ရဲန္ဒထက်', 'ဘေဘီပစ်ထားလို့', 0, NULL),
-(62, 4, 6, 'thantzinmoe893@gmail.com', '2025-02-28', '9AM', '11AM', 'ရဲနန္ဒထက်', 'ဘေဘီပစ်ထားလို့', 0, NULL),
-(97, 1, 5, 'ohmasan56@gmail.com', '2025-03-22', '12PM', '2PM', 'Kaung Myat Htet', 'Mental Health', 4, NULL),
-(64, 5, 1, 'thantzinmoe893@gmail.com', '2025-02-28', '3PM', '5PM', 'Thant Zin Moe', 'Headache', 0, NULL),
-(65, 5, 1, 'thantzinmoe893@gmail.com', '2025-03-03', '10AM', '12PM', 'သန့်ဇင်မိုး', 'ခေါင်းကိုက်', 0, NULL),
-(66, 41, 5, 'thantzinmoe893@gmail.com', '2025-03-02', '1PM', '11PM', 'သန့်ဇင်မိုး', 'နှလုံးသားလေး ခံစားရ', 0, NULL),
-(98, 36, 14, 'shwe104410441044@gmail.com', '2025-03-12', '4PM', '6PM', 'Shwe Shwe', 'nay ma kg', 1, NULL),
-(99, 35, 2, 'shwe104410441044@gmail.com', '2025-03-27', '12PM', '2PM', 'hh', 'hh', 0, NULL),
-(68, 2, 2, 'doctor@example.com', '2025-02-26', '4PM', '6PM', 'Thiha Zaw', 'Mental Health', 1, NULL),
-(69, 2, 2, 'doctor@example.com', '2025-02-26', '4PM', '6PM', 'Kaung Myat Htet', 'Mental Health', 2, NULL),
-(81, 2, 2, 'doctor@example.com', '2025-02-26', '4PM', '6PM', 'Kaung Myat Htet', 'mental Health', 4, NULL),
-(79, 2, 2, 'doctor@example.com', '2025-02-26', '4PM', '6PM', 'Kaung Myat Htet', 'Mental Health', 3, NULL),
-(86, 41, 27, 'lwannuuwatt@gmail.com', '2025-03-02', '1PM', '3PM', 'ကောင်းမြတ်ထက်', 'နှလုံးသားလေး ခံစားရ', 0, NULL),
-(88, 46, 20, 'zazawthz@gmail.com', '2025-03-02', '2PM', '4PM', 'ရဲနန္ဒထက်', 'စိတ်ဖောက်', 2, NULL),
-(89, 41, 28, 'yenandahtet@uit.edu.mm', '2025-03-04', '3PM', '5PM', 'ရဲနန္ဒထက်', 'နှလုံးအမောဖောက်', 1, NULL),
-(100, 18, 3, 'thantzinmoe893@gmail.com', '2025-03-07', '9AM', '11AM', 'သန့်ဇင်မိုး', 'ခေါင်းကိုက်', 0, NULL),
-(101, 6, 23, 'thantzinmoe893@gmail.com', '2025-03-08', '10AM', '12PM', 'Thant Zin Moe', 'Headache', 1, NULL),
-(104, 18, 3, 'yenandahtet@uit.edu.mm', '2025-03-07', '9AM', '11AM', 'Ye Nanda Htet', 'headache', 1, NULL);
+INSERT INTO `booking` (`id`, `doctor_id`, `hospital_id`, `useremail`, `appointment_date`, `appointment_start_time`, `appointment_end_time`, `patient_name`, `symptoms`, `token_number`) VALUES
+(11, 1, 5, '', '2025-02-13', '11AM', '1PM', 'Ye Nanda Htet', 'Mental Health', 0),
+(12, 1, 7, '', '2025-02-13', '5PM', '7PM', 'Ye Nanda Htet', 'Mental Health', 0),
+(13, 1, 7, '', '2025-02-17', '1PM', '3PM', 'Ye Nanda Htet', 'Mental Health', 0),
+(15, 1, 5, '', '2025-02-20', '11AM', '1PM', 'Ye Nanda Htet', 'Mental Health', 0),
+(16, 1, 10, '', '2025-02-11', '3PM', '5PM', 'Ye Nanda Htet', 'Mental Health', 0),
+(17, 1, 7, '', '2025-02-20', '5PM', '7PM', 'Ye Nanda Htet', 'Heart Broken', 0),
+(18, 1, 2, '', '2025-02-11', '3PM', '5PM', 'Thiha Zaw', 'simp Ma Ma', 0),
+(19, 1, 5, '', '2025-03-06', '11AM', '1PM', 'Thiha Zaw', 'Mental Health', 0),
+(20, 1, 2, '', '2025-02-22', '2PM', '4PM', 'Thiha Zaw', 'Falling in love with Ma Ma', 0),
+(92, 54, 1, 'thantzinmoe893@gmail.com', '2025-03-05', '1PM', '3PM', 'မင်းတေဇ', 'ချောင်းခြောက်ဆိုးခြင်း', 1),
+(38, 1, 2, 'thant@gmail.com', '2025-02-14', '2PM', '4PM', 'Thiha Zaw', 'Being crazy', 0),
+(43, 1, 5, 'thantzinmoe893@gmail.com', '2025-02-27', '11AM', '1PM', 'Ye Nanda Htet', 'Mental Health', 0),
+(94, 1, 5, 'thantzinmoe893@gmail.com', '2025-03-01', '12PM', '2PM', 'Thant Zin Moe', 'Headache', 1),
+(95, 1, 5, 'thantzinmoe893@gmail.com', '2025-03-08', '12PM', '2PM', 'သီဟဇော်', 'ခေါင်းကိုက်', 2),
+(96, 1, 5, 'thantzinmoe893@gmail.com', '2025-03-08', '12PM-2PM', '2PM', 'ရဲနန္ဒထက်', 'ခေါင်းကိုက်', 3),
+(51, 4, 2, 'kohtet.ttan112@gmail.com', '2025-02-19', '10AM', '12PM', 'Ye Nanda Htet', 'Mental Health', 0),
+(52, 2, 3, 'thantzinmoe@uit.edu.mm', '2025-02-18', '2PM', '4PM', 'Thant Zin Moe', 'Heart Attack', 0),
+(53, 5, 1, 'kohtet.ttan112@gmail.com', '2025-02-19', '3PM', '5PM', 'Ye Nanda Htet', 'Mental Health', 0),
+(54, 4, 2, 'minthantzaw@uit.edu.mm', '2025-02-26', '10AM', '12PM', 'Min Thant Zaw', 'Mental Health', 0),
+(56, 5, 1, 'kohtet.ttan112@gmail.com', '2025-02-23', '10AM', '12PM', 'Ye Nanda Htet', 'Mental Health', 0),
+(57, 4, 2, 'thizazaw2@gmail.com', '2025-03-05', '10AM', '12PM', 'Thiha Zaw', 'Headache', 0),
+(91, 58, 1, 'tmoe8123@gmail.com', '2025-03-07', '4PM', '6PM', 'သီဟဇော်', 'စော်မရ', 1),
+(59, 5, 1, 'thantzinmoe893@gmail.com', '2025-02-26', '3PM', '5PM', 'Ye Nanda Htet', 'Mental Health', 0),
+(61, 3, 2, 'yenandahtet@uit.edu.mm', '2025-02-24', '10AM', '12PM', 'ရဲန္ဒထက်', 'ဘေဘီပစ်ထားလို့', 0),
+(62, 4, 6, 'thantzinmoe893@gmail.com', '2025-02-28', '9AM', '11AM', 'ရဲနန္ဒထက်', 'ဘေဘီပစ်ထားလို့', 0),
+(97, 1, 5, 'ohmasan56@gmail.com', '2025-03-22', '12PM', '2PM', 'Kaung Myat Htet', 'Mental Health', 4),
+(64, 5, 1, 'thantzinmoe893@gmail.com', '2025-02-28', '3PM', '5PM', 'Thant Zin Moe', 'Headache', 0),
+(65, 5, 1, 'thantzinmoe893@gmail.com', '2025-03-03', '10AM', '12PM', 'သန့်ဇင်မိုး', 'ခေါင်းကိုက်', 0),
+(66, 41, 5, 'thantzinmoe893@gmail.com', '2025-03-02', '1PM', '11PM', 'သန့်ဇင်မိုး', 'နှလုံးသားလေး ခံစားရ', 0),
+(98, 36, 14, 'shwe104410441044@gmail.com', '2025-03-12', '4PM', '6PM', 'Shwe Shwe', 'nay ma kg', 1),
+(99, 35, 2, 'shwe104410441044@gmail.com', '2025-03-27', '12PM', '2PM', 'hh', 'hh', 0),
+(68, 2, 2, 'doctor@example.com', '2025-02-26', '4PM', '6PM', 'Thiha Zaw', 'Mental Health', 1),
+(69, 2, 2, 'doctor@example.com', '2025-02-26', '4PM', '6PM', 'Kaung Myat Htet', 'Mental Health', 2),
+(81, 2, 2, 'doctor@example.com', '2025-02-26', '4PM', '6PM', 'Kaung Myat Htet', 'mental Health', 4),
+(79, 2, 2, 'doctor@example.com', '2025-02-26', '4PM', '6PM', 'Kaung Myat Htet', 'Mental Health', 3),
+(86, 41, 27, 'lwannuuwatt@gmail.com', '2025-03-02', '1PM', '3PM', 'ကောင်းမြတ်ထက်', 'နှလုံးသားလေး ခံစားရ', 0),
+(88, 46, 20, 'zazawthz@gmail.com', '2025-03-02', '2PM', '4PM', 'ရဲနန္ဒထက်', 'စိတ်ဖောက်', 2),
+(89, 41, 28, 'yenandahtet@uit.edu.mm', '2025-03-04', '3PM', '5PM', 'ရဲနန္ဒထက်', 'နှလုံးအမောဖောက်', 1),
+(100, 18, 3, 'thantzinmoe893@gmail.com', '2025-03-07', '9AM', '11AM', 'သန့်ဇင်မိုး', 'ခေါင်းကိုက်', 0),
+(101, 6, 23, 'thantzinmoe893@gmail.com', '2025-03-08', '10AM', '12PM', 'Thant Zin Moe', 'Headache', 1),
+(104, 18, 3, 'yenandahtet@uit.edu.mm', '2025-03-07', '9AM', '11AM', 'Ye Nanda Htet', 'headache', 1),
+(105, 67, 11, '86khinmarwai86@gmail.com', '2025-03-06', '2PM', '4PM', 'Daw Khin Mar Wai', 'Headache', 1),
+(108, 67, 1, 'thantzinmoe893@gmail.com', '2025-03-05', '10AM', '12PM', 'Thant Zin Moe', 'Burn Out', 1),
+(107, 65, 1, '86khinmarwai86@gmail.com', '2025-03-10', '9AM', '11AM', 'Daw Khin Mar Wai', 'Headache', 1),
+(109, 68, 1, 'thantzinmoe893@gmail.com', '2025-03-06', '2PM', '4PM', 'Thant Zin Moe', 'Headache', 1),
+(110, 70, 1, 'thantzinmoe893@gmail.com', '2025-03-10', '1PM', '3PM', 'Thant Zin Moe', 'Headache', 1),
+(111, 69, 1, 'thantzinmoe893@gmail.com', '2025-03-07', '11AM', '1PM', 'Thant Zin Moe', 'Mental Health', 1),
+(112, 93, 5, 'thantzinmoe@uit.edu.mm', '2025-03-10', '1PM', '3PM', 'မင်းသန့်ဇော်', 'ဆစ်ဂမာ', 1);
 
 -- --------------------------------------------------------
 
@@ -170,83 +177,84 @@ CREATE TABLE IF NOT EXISTS `doctors` (
   `profile_image` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `experience` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`doctor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `doctors`
 --
 
 INSERT INTO `doctors` (`doctor_id`, `name`, `email`, `password`, `job_type`, `credential`, `gender`, `consultation_fee`, `profile`, `profile_image`, `experience`) VALUES
-(65, 'ဒေါက်တာ ထွန်းမြင့်', 'htunmyint-doctor@gmail.com', '$2y$10$yuGMgVLqvwMdTPpShxC/6et6UVycMVdlJDYS7b7n59J9dSxyGojL.', 'အထွေထွေရောဂါကု', 'MBBS, MD', 'Male', 30000.00, 'အထွေထွေရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-1.jpg', '15'),
-(66, 'ဒေါက်တာ ကိုကို', 'koko-doctor@gmail.com', '$2y$10$KokoUniqueHash1234567890ABCDEFGHIJKL', 'နှလုံးဆရာဝန်', 'MBBS, MRCP', 'Male', 40000.00, 'နှလုံးရောဂါအထူးကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-2.jpg', '18'),
-(67, 'ဒေါက်တာ မိုးဇင်', 'moezin-doctor@gmail.com', '$2y$10$MoezinUniqueHash1234567890ABCDEFG', 'အရိုးအကြောဆရာဝန်', 'MBBS, MS (Ortho)', 'Male', 44000.00, 'အရိုးနှင့် အကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-3.jpg', '20'),
-(68, 'ဒေါက်တာ နေထွန်း', 'naytun-doctor@gmail.com', '$2y$10$NaytunUniqueHash1234567890ABCDEFG', 'အာရုံကြောဆရာဝန်', 'MBBS, DM (Neuro)', 'Male', 32000.00, 'အာရုံကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-4.jpg', '10'),
-(69, 'ဒေါက်တာ မင်းသူ', 'minthu-doctor@gmail.com', '$2y$10$MinthuUniqueHash1234567890ABCDEFG', 'အသည်းနှင့်ဆေးပညာ', 'MBBS, MD (Gastro)', 'Male', 40000.00, 'အသည်းနှင့် အစာချေစနစ်ဆိုင်ရာ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-5.jpg', '17'),
-(70, 'ဒေါက်တာ အောင်ကျော်', 'aungkyaw-doctor@gmail.com', '$2y$10$AungkyawUniqueHash1234567890ABCDEF', 'ဆီးချိုနှင့်သည်းနှလုံးဆရာဝန်', 'MBBS, MD (Endo)', 'Male', 30000.00, 'ဆီးချိုနှင့်သည်းနှလုံးရောဂါ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-6.jpg', '9'),
-(71, 'ဒေါက်တာ ခင်မြင့်', 'khinmyint-doctor@gmail.com', '$2y$10$KhinmyintUniqueHash1234567890ABCDE', 'ပန်းနာအထူးကု', 'MBBS, DDV', 'Male', 32000.00, 'အရေပြားဆိုင်ရာပန်းနာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-7.jpg', '11'),
-(72, 'ဒေါက်တာ ခင်မောင်', 'khinmaung-doctor@gmail.com', '$2y$10$KhinmaungUniqueHash1234567890ABCD', 'ဆီးကြိတ်နှင့် ဆီးသွားစနစ်ဆရာဝန်', 'MBBS, MS (Uro)', 'Male', 35000.00, 'ဆီးကြိတ်နှင့် ဆီးသွားစနစ် အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-8.jpg', '13'),
-(73, 'ဒေါက်တာ မိုးမိုး', 'moemoe-doctor@gmail.com', '$2y$10$MoemoeUniqueHash1234567890ABCDEFG', 'အသည်းနှင့် ဆေးပညာ', 'MBBS, DM (Hepato)', 'Male', 40000.00, 'အသည်းနှင့် ဆေးပညာဆိုင်ရာ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-9.jpg', '20'),
-(74, 'ဒေါက်တာ တင်ထွန်း', 'tintun-doctor@gmail.com', '$2y$10$TintunUniqueHash1234567890ABCDEFG', 'သွားနှင့် အမြှေးဆရာဝန်', 'BDS, MDS', 'Male', 44000.00, 'သွားနှင့် အမြှေးရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-10.jpg', '19'),
-(75, 'ဒေါက်တာ ထွန်းအောင်', 'tunaung-doctor@gmail.com', '$2y$10$TunaungUniqueHash1234567890ABCDEF', 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆရာဝန်', 'MBBS, MD (Pulmo)', 'Male', 35000.00, 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-11.jpg', '17'),
-(76, 'ဒေါက်တာ ကိုထွန်း', 'kotun-doctor@gmail.com', '$2y$10$KotunUniqueHash1234567890ABCDEFGH', 'အရိုးအကြောဆရာဝန်', 'MBBS, MS (Ortho)', 'Male', 40000.00, 'အရိုးနှင့် အကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-12.jpg', '25'),
-(77, 'ဒေါက်တာ မိုးညို', 'moenyo-doctor@gmail.com', '$2y$10$MoenyoUniqueHash1234567890ABCDEFG', 'အရေးပေါ်ဆရာဝန်', 'MBBS, MD (Emerg)', 'Male', 30000.00, 'အရေးပေါ်ဆေးကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-13.jpg', '11'),
-(78, 'ဒေါက်တာ စိုးမိုး', 'soemoe-doctor@gmail.com', '$2y$10$SoemoeUniqueHash1234567890ABCDEFG', 'ကင်ဆာဆရာဝန်', 'MBBS, DM (Onco)', 'Male', 40000.00, 'ကင်ဆာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-14.jpg', '15'),
-(79, 'ဒေါက်တာ သန်းအောင်', 'thanaung-doctor@gmail.com', '$2y$10$ThanaungUniqueHash1234567890ABCDE', 'သွားနှင့် အမြှေးဆရာဝန်', 'BDS, MDS', 'Male', 35000.00, 'သွားနှင့် အမြှေးဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-15.jpg', '10'),
-(80, 'ဒေါက်တာ ခင်မောင်', 'khinmaung-doctor@gmail.com', '$2y$10$Khinmaung2UniqueHash1234567890ABC', 'အမျိုးသမီးဆရာဝန်', 'MBBS, MD (Obst/Gyn)', 'Male', 32000.00, 'မီးယပ်နှင့် အမျိုးသမီးဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-16.jpg', '12'),
-(81, 'ဒေါက်တာ ထွန်းအောင်', 'tunaung-doctor@gmail.com', '$2y$10$Tunaung2UniqueHash1234567890ABCDE', 'ဆီးချိုနှင့်သည်းနှလုံးဆရာဝန်', 'MBBS, MD (Endo)', 'Male', 30000.00, 'ဆီးချိုနှင့်သည်းနှလုံးရောဂါ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-17.jpg', '9'),
-(82, 'ဒေါက်တာ တင်ထွန်း', 'tintun-doctor@gmail.com', '$2y$10$Tintun2UniqueHash1234567890ABCDEF', 'ပန်းနာအထူးကု', 'MBBS, DDV', 'Male', 40000.00, 'အရေပြားဆိုင်ရာပန်းနာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-18.jpg', '14'),
-(83, 'ဒေါက်တာ မိုးသိင်္ဂ', 'moetheingi-doctor@gmail.com', '$2y$10$MoetheingiUniqueHash1234567890ABC', 'စိတ်ကျန်းမာရေးဆရာဝန်', 'MBBS, MD (Psych)', 'Male', 32000.00, 'စိတ်ကျန်းမာရေးဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-19.jpg', '11'),
-(84, 'ဒေါက်တာ မြင့်အောင်', 'myintaung-doctor@gmail.com', '$2y$10$MyintaungUniqueHash1234567890ABCD', 'နားနှင့် လျှာအထူးကု', 'MBBS, MS (ENT)', 'Male', 30000.00, 'နားနှင့် လျှာဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-20.jpg', '9'),
-(85, 'ဒေါက်တာ ကိုကို', 'koko-doctor@gmail.com', '$2y$10$Koko2UniqueHash1234567890ABCDEFGH', 'ကင်ဆာဆရာဝန်', 'MBBS, DM (Onco)', 'Male', 35000.00, 'ကင်ဆာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-21.jpg', '17'),
-(86, 'ဒေါက်တာ သန်းထွန်း', 'thantun-doctor@gmail.com', '$2y$10$ThantunUniqueHash1234567890ABCDEF', 'အသည်းနှင့် ဆေးပညာ', 'MBBS, MD (Gastro)', 'Male', 44000.00, 'အသည်းနှင့် အစာချေစနစ်ဆိုင်ရာ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-22.jpg', '20'),
-(87, 'ဒေါက်တာ မင်းထက်', 'minhtet-doctor@gmail.com', '$2y$10$MinhtetUniqueHash1234567890ABCDEF', 'အရိုးအကြောဆရာဝန်', 'MBBS, MS (Ortho)', 'Male', 32000.00, 'အရိုးနှင့် အကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-23.jpg', '12'),
-(88, 'ဒေါက်တာ ခင်စိုး', 'khinsoe-doctor@gmail.com', '$2y$10$KhinsoeUniqueHash1234567890ABCDEF', 'သွားနှင့် အမြှေးဆရာဝန်', 'BDS, MDS', 'Male', 30000.00, 'သွားနှင့် အမြှေးရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-24.jpg', '11'),
-(89, 'ဒေါက်တာ ဇေယျာ', 'zeya-doctor@gmail.com', '$2y$10$ZeyaUniqueHash1234567890ABCDEFGHI', 'အာရုံကြောဆရာဝန်', 'MBBS, DM (Neuro)', 'Male', 40000.00, 'အာရုံကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-25.jpg', '18'),
-(90, 'ဒေါက်တာ ကိုသန်း', 'kothan-doctor@gmail.com', '$2y$10$KothanUniqueHash1234567890ABCDEFG', 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆရာဝန်', 'MBBS, MD (Pulmo)', 'Male', 44000.00, 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-26.jpg', '22'),
-(91, 'ဒေါက်တာ တင်စိုး', 'tinsoe-doctor@gmail.com', '$2y$10$TinsoeUniqueHash1234567890ABCDEFG', 'နားနှင့် လျှာအထူးကု', 'MBBS, MS (ENT)', 'Male', 30000.00, 'နားနှင့် လျှာဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-27.jpg', '9'),
-(92, 'ဒေါက်တာ သူရိယရဲနိုင်', 'thuriya-doctor@gmail.com', '$2y$10$ThuriyaUniqueHash1234567890ABCDEF', 'နှလုံးဆရာဝန်', 'MBBS, MRCP', 'Male', 40000.00, 'နှလုံးရောဂါအထူးကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-28.jpg', '18'),
-(93, 'ဒေါက်တာ ဟန်သာထက်အောင်', 'hanthara-doctor@gmail.com', '$2y$10$HantharaUniqueHash1234567890ABCDE', 'အရိုးအကြောဆရာဝန်', 'MBBS, MS (Ortho)', 'Male', 44000.00, 'အရိုးနှင့် အကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-29.jpg', '20'),
-(94, 'ဒေါက်တာ သန့်သီဟ', 'thantthiha-doctor@gmail.com', '$2y$10$ThantthihaUniqueHash1234567890ABC', 'အာရုံကြောဆရာဝန်', 'MBBS, DM (Neuro)', 'Male', 35000.00, 'အာရုံကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-30.jpg', '15'),
-(95, 'ဒေါက်တာ ထက်ဝဏ္ဏ', 'htetwunna-doctor@gmail.com', '$2y$10$HtetwunnaUniqueHash1234567890ABCD', 'မျက်စိအထူးကု', 'MBBS, MS (Ophthal)', 'Male', 30000.00, 'မျက်စိရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-31.jpg', '9'),
-(96, 'ဒေါက်တာ သန့်ပြည့်စုံထူး', 'thantpyae-doctor@gmail.com', '$2y$10$ThantpyaeUniqueHash1234567890ABCD', 'အသည်းနှင့် ဆေးပညာ', 'MBBS, MD (Gastro)', 'Male', 40000.00, 'အသည်းနှင့် အစာချေစနစ်ဆိုင်ရာ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-32.jpg', '17'),
-(97, 'ဒေါက်တာ သည်းနှင်းဇော်', 'theinnyunt-doctor@gmail.com', '$2y$10$TheinnyuntUniqueHash1234567890ABC', 'ဆီးချိုနှင့်သည်းနှလုံးဆရာဝန်', 'MBBS, MD (Endo)', 'Male', 32000.00, 'ဆီးချိုနှင့်သည်းနှလုံးရောဂါ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-33.jpg', '10'),
-(98, 'ဒေါက်တာ ဝင်းပြည့်သျှန်ထက်', 'winpyae-doctor@gmail.com', '$2y$10$WinpyaeUniqueHash1234567890ABCDEF', 'ရုခိုးဆရာဝန်', 'MBBS, MD (Rehab)', 'Male', 35000.00, 'ရုခိုးဆေးပညာဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-34.jpg', '15'),
-(99, 'ဒေါက်တာ ညွှန်းဝတီလွင်မြင့်', 'nyuntwati-doctor@gmail.com', '$2y$10$NyuntwatiUniqueHash1234567890ABCD', 'အရေးပေါ်ဆရာဝန်', 'MBBS, MD (Emerg)', 'Male', 44000.00, 'အရေးပေါ်ဆေးကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-35.jpg', '21'),
-(100, 'ဒေါက်တာ နန်းစန္ဒီ', 'nansandi-doctor@gmail.com', '$2y$10$NansandiUniqueHash1234567890ABCDE', 'ကလေးအထူးကု', 'MBBS, DCH', 'Female', 35000.00, 'ကလေးနဲ့ပတ်သက်သော ရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-1.jpg', '12'),
-(101, 'ဒေါက်တာ သက်မြင့်', 'thetmyint-doctor@gmail.com', '$2y$10$ThetmyintUniqueHash1234567890ABCD', 'မျက်စိအထူးကု', 'MBBS, MS (Ophthal)', 'Female', 35000.00, 'မျက်စိရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-2.jpg', '8'),
-(102, 'ဒေါက်တာ မေထွန်း', 'maytun-doctor@gmail.com', '$2y$10$MaytunUniqueHash1234567890ABCDEFG', 'အမျိုးသမီးဆရာဝန်', 'MBBS, MD (Obst/Gyn)', 'Female', 44000.00, 'မီးယပ်နှင့် အမျိုးသမီးဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-3.jpg', '22'),
-(103, 'ဒေါက်တာ သန်းသန်း', 'thanthan-doctor@gmail.com', '$2y$10$ThanthanUniqueHash1234567890ABCDE', 'စိတ်ကျန်းမာရေးဆရာဝန်', 'MBBS, MD (Psych)', 'Female', 32000.00, 'စိတ်ကျန်းမာရေးကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-4.jpg', '15'),
-(104, 'ဒေါက်တာ မြင့်မြင့်', 'myintmyint-doctor@gmail.com', '$2y$10$MyintmyintUniqueHash1234567890ABC', 'နားနှင့် လျှာအထူးကု', 'MBBS, MS (ENT)', 'Female', 30000.00, 'နားနှင့် လျှာဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-5.jpg', '12'),
-(105, 'ဒေါက်တာ နန်းသက်', 'nanthet-doctor@gmail.com', '$2y$10$NanthetUniqueHash1234567890ABCDEF', 'ဆီးချိုနှင့်သည်းနှလုံးဆရာဝန်', 'MBBS, MD (Endo)', 'Female', 44000.00, 'ဆီးချိုနှင့်သည်းနှလုံးရောဂါ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-6.jpg', '18'),
-(106, 'ဒေါက်တာ ထင်ထင်', 'thinthin-doctor@gmail.com', '$2y$10$ThinthinUniqueHash1234567890ABCDE', 'ရုခိုးဆရာဝန်', 'MBBS, MD (Rehab)', 'Female', 32000.00, 'ရုခိုးဆေးပညာဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-7.jpg', '10'),
-(107, 'ဒေါက်တာ နန်းမြင့်', 'nanmyint-doctor@gmail.com', '$2y$10$NanmyintUniqueHash1234567890ABCDE', 'အာရုံကြောဆရာဝန်', 'MBBS, DM (Neuro)', 'Female', 44000.00, 'အာရုံကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-8.jpg', '22'),
-(108, 'ဒေါက်တာ မေသန်း', 'maythan-doctor@gmail.com', '$2y$10$MaythanUniqueHash1234567890ABCDEF', 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆရာဝန်', 'MBBS, MD (Pulmo)', 'Female', 35000.00, 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-9.jpg', '18'),
-(109, 'ဒေါက်တာ နန်းထွေး', 'nantway-doctor@gmail.com', '$2y$10$NantwayUniqueHash1234567890ABCDEF', 'ရုခိုးဆရာဝန်', 'MBBS, MD (Rehab)', 'Female', 44000.00, 'ရုခိုးဆေးပညာဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-10.jpg', '21'),
-(110, 'ဒေါက်တာ မေမြင့်', 'maymyint-doctor@gmail.com', '$2y$10$MaymyintUniqueHash1234567890ABCDE', 'မျက်စိဆရာဝန်', 'MBBS, MS (Ophthal)', 'Female', 40000.00, 'မျက်စိရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-11.jpg', '15'),
-(111, 'ဒေါက်တာ နွယ်နွယ်', 'nwenwe-doctor@gmail.com', '$2y$10$NwenweUniqueHash1234567890ABCDEFG', 'အမျိုးသမီးဆရာဝန်', 'MBBS, MD (Obst/Gyn)', 'Female', 35000.00, 'မီးယပ်နှင့် အမျိုးသမီးဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-12.jpg', '15'),
-(112, 'ဒေါက်တာ မိုးမြင့်', 'moemyint-doctor@gmail.com', '$2y$10$MoemyintUniqueHash1234567890ABCDE', 'စိတ်ကျန်းမာရေးဆရာဝန်', 'MBBS, MD (Psych)', 'Female', 32000.00, 'စိတ်ကျန်းမာရေးကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-13.jpg', '10'),
-(113, 'ဒေါက်တာ ဇွဲညီညာ', 'zweyinya-doctor@gmail.com', '$2y$10$ZweyinyaUniqueHash1234567890ABCDE', 'အမျိုးသမီးဆရာဝန်', 'MBBS, MD (Obst/Gyn)', 'Female', 32000.00, 'မီးယပ်နှင့် အမျိုးသမီးဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-14.jpg', '12'),
-(114, 'ဒေါက်တာ ငယ်ရည်မွန်သွေး', 'ngaryimon-doctor@gmail.com', '$2y$10$NgaryimonUniqueHash1234567890ABCD', 'အရေပြားဆရာဝန်', 'MBBS, DDV', 'Female', 44000.00, 'အရေပြားဆိုင်ရာပန်းနာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-15.jpg', '22'),
-(115, 'ဒေါက်တာ စောယွန်းနွယ်', 'sawyun-doctor@gmail.com', '$2y$10$SawyunUniqueHash1234567890ABCDEFG', 'ပန်းနာအထူးကု', 'MBBS, DDV', 'Female', 40000.00, 'အရေပြားဆိုင်ရာပန်းနာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-16.jpg', '14'),
-(116, 'ဒေါက်တာ ပြည့်မှူးရတီ', 'pyaemu-doctor@gmail.com', '$2y$10$PyaemuUniqueHash1234567890ABCDEFG', 'သွားနှင့် အမြှေးဆရာဝန်', 'BDS, MDS', 'Female', 30000.00, 'သွားနှင့် အမြှေးရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-17.jpg', '11'),
-(117, 'ဒေါက်တာ အေးချမ်းမြေ့', 'ayechammyay-doctor@gmail.com', '$2y$10$AyechammyayUniqueHash1234567890AB', 'စိတ်ကျန်းမာရေးဆရာဝန်', 'MBBS, MD (Psych)', 'Female', 32000.00, 'စိတ်ကျန်းမာရေးကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-18.jpg', '10'),
-(118, 'ဒေါက်တာ မိမိခိုင်', 'mimikhaing-doctor@gmail.com', '$2y$10$MimikhaingUniqueHash1234567890ABC', 'ကလေးအထူးကု', 'MBBS, DCH', 'Female', 35000.00, 'ကလေးနဲ့ပတ်သက်သော ရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-19.jpg', '12'),
-(119, 'ဒေါက်တာ ခင်နှင်းဝေ', 'khinnwe-doctor@gmail.com', '$2y$10$KhinnweUniqueHash1234567890ABCDEF', 'မျက်စိအထူးကု', 'MBBS, MS (Ophthal)', 'Female', 40000.00, 'မျက်စိရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-20.jpg', '15'),
-(120, 'ဒေါက်တာ စန္ဒာထွန်း', 'sandatun-doctor@gmail.com', '$2y$10$SandatunUniqueHash1234567890ABCDE', 'အမျိုးသမီးဆရာဝန်', 'MBBS, MD (Obst/Gyn)', 'Female', 44000.00, 'မီးယပ်နှင့် အမျိုးသမီးဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-21.jpg', '20'),
-(121, 'ဒေါက်တာ နှင်းဝါဝင်း', 'nwewarwin-doctor@gmail.com', '$2y$10$NwewarwinUniqueHash1234567890ABCD', 'အာရုံကြောဆရာဝန်', 'MBBS, DM (Neuro)', 'Female', 32000.00, 'အာရုံကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-22.jpg', '10'),
-(122, 'ဒေါက်တာ ဖြူဖြူသင်း', 'phyuphyuthin-doctor@gmail.com', '$2y$10$PhyuphyuthinUniqueHash1234567890A', 'နားနှင့် လျှာအထူးကု', 'MBBS, MS (ENT)', 'Female', 30000.00, 'နားနှင့် လျှာဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-23.jpg', '11'),
-(123, 'ဒေါက်တာ မြတ်မွန်', 'myatmon-doctor@gmail.com', '$2y$10$MyatmonUniqueHash1234567890ABCDEF', 'ဆီးချိုနှင့်သည်းနှလုံးဆရာဝန်', 'MBBS, MD (Endo)', 'Female', 35000.00, 'ဆီးချိုနှင့်သည်းနှလုံးရောဂါ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-24.jpg', '14'),
-(124, 'ဒေါက်တာ အိအိစန်', 'eieisan-doctor@gmail.com', '$2y$10$EieisanUniqueHash1234567890ABCDEF', 'ရုခိုးဆရာဝန်', 'MBBS, MD (Rehab)', 'Female', 40000.00, 'ရုခိုးဆေးပညာဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-25.jpg', '16'),
-(125, 'ဒေါက်တာ သဇင်နွယ်', 'thazin-doctor@gmail.com', '$2y$10$ThazinUniqueHash1234567890ABCDEFG', 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆရာဝန်', 'MBBS, MD (Pulmo)', 'Female', 44000.00, 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-26.jpg', '18'),
-(126, 'ဒေါက်တာ ခင်မျိုးမြတ်', 'khinmyomyat-doctor@gmail.com', '$2y$10$KhinmyomyatUniqueHash1234567890AB', 'ပန်းနာအထူးကု', 'MBBS, DDV', 'Female', 32000.00, 'အရေပြားဆိုင်ရာပန်းနာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-27.jpg', '12'),
-(127, 'ဒေါက်တာ မြတ်နိုး', 'myatnoe-doctor@gmail.com', '$2y$10$MyatnoeUniqueHash1234567890ABCDEF', 'သွားနှင့် အမြှေးဆရာဝန်', 'BDS, MDS', 'Female', 30000.00, 'သွားနှင့် အမြှေးရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-28.jpg', '9'),
-(128, 'ဒေါက်တာ ဝတ်မြတ်မွန်', 'watmyatmon-doctor@gmail.com', '$2y$10$WatmyatmonUniqueHash1234567890ABC', 'အရေးပေါ်ဆရာဝန်', 'MBBS, MD (Emerg)', 'Female', 35000.00, 'အရေးပေါ်ဆေးကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-29.jpg', '13'),
-(129, 'ဒေါက်တာ နှင်းဧဝရီ', 'nweeiwari-doctor@gmail.com', '$2y$10$NweeiwariUniqueHash1234567890ABCD', 'ကင်ဆာဆရာဝန်', 'MBBS, DM (Onco)', 'Female', 40000.00, 'ကင်ဆာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-30.jpg', '17'),
-(130, 'ဒေါက်တာ မေသဥ္ဇာ', 'mayuizar-doctor@gmail.com', '$2y$10$MayuizarUniqueHash1234567890ABCDE', 'အသည်းနှင့် ဆေးပညာ', 'MBBS, MD (Gastro)', 'Female', 44000.00, 'အသည်းနှင့် အစာချေစနစ်ဆိုင်ရာ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-31.jpg', '20'),
-(131, 'ဒေါက်တာ ခင်မြတ်မွန်', 'khinmyatmon-doctor@gmail.com', '$2y$10$KhinmyatmonUniqueHash1234567890AB', 'အရိုးအကြောဆရာဝန်', 'MBBS, MS (Ortho)', 'Female', 32000.00, 'အရိုးနှင့် အကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-32.jpg', '11'),
-(132, 'ဒေါက်တာ သက်ထားဝေ', 'thettharway-doctor@gmail.com', '$2y$10$ThettharwayUniqueHash1234567890AB', 'အာရုံကြောဆရာဝန်', 'MBBS, DM (Neuro)', 'Female', 35000.00, 'အာရုံကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-33.jpg', '14'),
-(133, 'ဒေါက်တာ ပြည့်ဖြိုးရှင်', 'pyaephyo-doctor@gmail.com', '$2y$10$PyaephyoUniqueHash1234567890ABCDE', 'စိတ်ကျန်းမာရေးဆရာဝန်', 'MBBS, MD (Psych)', 'Female', 40000.00, 'စိတ်ကျန်းမာရေးကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-34.jpg', '16'),
-(134, 'ဒေါက်တာ မြတ်သဇင်', 'myathazin-doctor@gmail.com', '$2y$10$MyathazinUniqueHash1234567890ABCD', 'နားနှင့် လျှာအထူးကု', 'MBBS, MS (ENT)', 'Female', 30000.00, 'နားနှင့် လျှာဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-35.jpg', '12');
+(65, 'ဒေါက်တာ ထွန်းမြင့်', 'htunmyint-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အထွေထွေရောဂါကု', 'MBBS, MD', 'Male', 30000.00, 'အထွေထွေရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-1.jpg', '15'),
+(66, 'ဒေါက်တာ ကိုကို', 'koko-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'နှလုံးဆရာဝန်', 'MBBS, MRCP', 'Male', 40000.00, 'နှလုံးရောဂါအထူးကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-2.jpg', '18'),
+(67, 'ဒေါက်တာ မိုးဇင်', 'moezin-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အရိုးအကြောဆရာဝန်', 'MBBS, MS (Ortho)', 'Male', 44000.00, 'အရိုးနှင့် အကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-3.jpg', '20'),
+(68, 'ဒေါက်တာ နေထွန်း', 'naytun-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အာရုံကြောဆရာဝန်', 'MBBS, DM (Neuro)', 'Male', 32000.00, 'အာရုံကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-4.jpg', '10'),
+(69, 'ဒေါက်တာ မင်းသူ', 'minthu-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အသည်းနှင့်ဆေးပညာ', 'MBBS, MD (Gastro)', 'Male', 40000.00, 'အသည်းနှင့် အစာချေစနစ်ဆိုင်ရာ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-5.jpg', '17'),
+(70, 'ဒေါက်တာ အောင်ကျော်', 'aungkyaw-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ဆီးချိုနှင့်သည်းနှလုံးဆရာဝန်', 'MBBS, MD (Endo)', 'Male', 30000.00, 'ဆီးချိုနှင့်သည်းနှလုံးရောဂါ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-6.jpg', '9'),
+(71, 'ဒေါက်တာ ခင်မြင့်', 'khinmyint-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ပန်းနာအထူးကု', 'MBBS, DDV', 'Male', 32000.00, 'အရေပြားဆိုင်ရာပန်းနာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-7.jpg', '11'),
+(72, 'ဒေါက်တာ ခင်မောင်', 'khinmaung-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ဆီးကြိတ်နှင့် ဆီးသွားစနစ်ဆရာဝန်', 'MBBS, MS (Uro)', 'Male', 35000.00, 'ဆီးကြိတ်နှင့် ဆီးသွားစနစ် အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-8.jpg', '13'),
+(73, 'ဒေါက်တာ မိုးမိုး', 'moemoe-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အသည်းနှင့် ဆေးပညာ', 'MBBS, DM (Hepato)', 'Male', 40000.00, 'အသည်းနှင့် ဆေးပညာဆိုင်ရာ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-9.jpg', '20'),
+(74, 'ဒေါက်တာ တင်ထွန်း', 'tintun-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'သွားနှင့် အမြှေးဆရာဝန်', 'BDS, MDS', 'Male', 44000.00, 'သွားနှင့် အမြှေးရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-10.jpg', '19'),
+(75, 'ဒေါက်တာ ထွန်းအောင်', 'tunaung-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆရာဝန်', 'MBBS, MD (Pulmo)', 'Male', 35000.00, 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-11.jpg', '17'),
+(76, 'ဒေါက်တာ ကိုထွန်း', 'kotun-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အရိုးအကြောဆရာဝန်', 'MBBS, MS (Ortho)', 'Male', 40000.00, 'အရိုးနှင့် အကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-12.jpg', '25'),
+(77, 'ဒေါက်တာ မိုးညို', 'moenyo-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အရေးပေါ်ဆရာဝန်', 'MBBS, MD (Emerg)', 'Male', 30000.00, 'အရေးပေါ်ဆေးကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-13.jpg', '11'),
+(78, 'ဒေါက်တာ စိုးမိုး', 'soemoe-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ကင်ဆာဆရာဝန်', 'MBBS, DM (Onco)', 'Male', 40000.00, 'ကင်ဆာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-14.jpg', '15'),
+(79, 'ဒေါက်တာ သန်းအောင်', 'thanaung-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'သွားနှင့် အမြှေးဆရာဝန်', 'BDS, MDS', 'Male', 35000.00, 'သွားနှင့် အမြှေးဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-15.jpg', '10'),
+(80, 'ဒေါက်တာ ခင်မောင်', 'khinmaung-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အမျိုးသမီးဆရာဝန်', 'MBBS, MD (Obst/Gyn)', 'Male', 32000.00, 'မီးယပ်နှင့် အမျိုးသမီးဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-16.jpg', '12'),
+(81, 'ဒေါက်တာ ထွန်းအောင်', 'tunaung-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ဆီးချိုနှင့်သည်းနှလုံးဆရာဝန်', 'MBBS, MD (Endo)', 'Male', 30000.00, 'ဆီးချိုနှင့်သည်းနှလုံးရောဂါ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-17.jpg', '9'),
+(82, 'ဒေါက်တာ တင်ထွန်း', 'tintun-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ပန်းနာအထူးကု', 'MBBS, DDV', 'Male', 40000.00, 'အရေပြားဆိုင်ရာပန်းနာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-18.jpg', '14'),
+(83, 'ဒေါက်တာ မိုးသိင်္ဂ', 'moetheingi-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'စိတ်ကျန်းမာရေးဆရာဝန်', 'MBBS, MD (Psych)', 'Male', 32000.00, 'စိတ်ကျန်းမာရေးဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-19.jpg', '11'),
+(84, 'ဒေါက်တာ မြင့်အောင်', 'myintaung-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'နားနှင့် လျှာအထူးကု', 'MBBS, MS (ENT)', 'Male', 30000.00, 'နားနှင့် လျှာဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-20.jpg', '9'),
+(85, 'ဒေါက်တာ ကိုကို', 'koko-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ကင်ဆာဆရာဝန်', 'MBBS, DM (Onco)', 'Male', 35000.00, 'ကင်ဆာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-21.jpg', '17'),
+(86, 'ဒေါက်တာ သန်းထွန်း', 'thantun-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အသည်းနှင့် ဆေးပညာ', 'MBBS, MD (Gastro)', 'Male', 44000.00, 'အသည်းနှင့် အစာချေစနစ်ဆိုင်ရာ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-22.jpg', '20'),
+(87, 'ဒေါက်တာ မင်းထက်', 'minhtet-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အရိုးအကြောဆရာဝန်', 'MBBS, MS (Ortho)', 'Male', 32000.00, 'အရိုးနှင့် အကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-23.jpg', '12'),
+(88, 'ဒေါက်တာ ခင်စိုး', 'khinsoe-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'သွားနှင့် အမြှေးဆရာဝန်', 'BDS, MDS', 'Male', 30000.00, 'သွားနှင့် အမြှေးရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-24.jpg', '11'),
+(89, 'ဒေါက်တာ ဇေယျာ', 'zeya-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အာရုံကြောဆရာဝန်', 'MBBS, DM (Neuro)', 'Male', 40000.00, 'အာရုံကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-25.jpg', '18'),
+(90, 'ဒေါက်တာ ကိုသန်း', 'kothan-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆရာဝန်', 'MBBS, MD (Pulmo)', 'Male', 44000.00, 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-26.jpg', '22'),
+(91, 'ဒေါက်တာ တင်စိုး', 'tinsoe-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'နားနှင့် လျှာအထူးကု', 'MBBS, MS (ENT)', 'Male', 30000.00, 'နားနှင့် လျှာဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-27.jpg', '9'),
+(92, 'ဒေါက်တာ သူရိယရဲနိုင်', 'thuriya-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'နှလုံးဆရာဝန်', 'MBBS, MRCP', 'Male', 40000.00, 'နှလုံးရောဂါအထူးကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-28.jpg', '18'),
+(93, 'ဒေါက်တာ ဟန်သာထက်အောင်', 'hanthara-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အရိုးအကြောဆရာဝန်', 'MBBS, MS (Ortho)', 'Male', 44000.00, 'အရိုးနှင့် အကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-29.jpg', '20'),
+(94, 'ဒေါက်တာ သန့်သီဟ', 'thantthiha-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အာရုံကြောဆရာဝန်', 'MBBS, DM (Neuro)', 'Male', 35000.00, 'အာရုံကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-30.jpg', '15'),
+(95, 'ဒေါက်တာ ထက်ဝဏ္ဏ', 'htetwunna-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'မျက်စိအထူးကု', 'MBBS, MS (Ophthal)', 'Male', 30000.00, 'မျက်စိရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-31.jpg', '9'),
+(96, 'ဒေါက်တာ သန့်ပြည့်စုံထူး', 'thantpyae-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အသည်းနှင့် ဆေးပညာ', 'MBBS, MD (Gastro)', 'Male', 40000.00, 'အသည်းနှင့် အစာချေစနစ်ဆိုင်ရာ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-32.jpg', '17'),
+(97, 'ဒေါက်တာ သည်းနှင်းဇော်', 'theinnyunt-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ဆီးချိုနှင့်သည်းနှလုံးဆရာဝန်', 'MBBS, MD (Endo)', 'Male', 32000.00, 'ဆီးချိုနှင့်သည်းနှလုံးရောဂါ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-33.jpg', '10'),
+(98, 'ဒေါက်တာ ဝင်းပြည့်သျှန်ထက်', 'winpyae-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ရုခိုးဆရာဝန်', 'MBBS, MD (Rehab)', 'Male', 35000.00, 'ရုခိုးဆေးပညာဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-34.jpg', '15'),
+(99, 'ဒေါက်တာ ညွှန်းဝတီလွင်မြင့်', 'nyuntwati-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အရေးပေါ်ဆရာဝန်', 'MBBS, MD (Emerg)', 'Male', 44000.00, 'အရေးပေါ်ဆေးကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor2-35.jpg', '21'),
+(100, 'ဒေါက်တာ နန်းစန္ဒီ', 'nansandi-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ကလေးအထူးကု', 'MBBS, DCH', 'Female', 35000.00, 'ကလေးနဲ့ပတ်သက်သော ရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-1.jpg', '12'),
+(101, 'ဒေါက်တာ သက်မြင့်', 'thetmyint-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'မျက်စိအထူးကု', 'MBBS, MS (Ophthal)', 'Female', 35000.00, 'မျက်စိရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-2.jpg', '8'),
+(102, 'ဒေါက်တာ မေထွန်း', 'maytun-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အမျိုးသမီးဆရာဝန်', 'MBBS, MD (Obst/Gyn)', 'Female', 44000.00, 'မီးယပ်နှင့် အမျိုးသမီးဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-3.jpg', '22'),
+(103, 'ဒေါက်တာ သန်းသန်း', 'thanthan-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'စိတ်ကျန်းမာရေးဆရာဝန်', 'MBBS, MD (Psych)', 'Female', 32000.00, 'စိတ်ကျန်းမာရေးကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-4.jpg', '15'),
+(104, 'ဒေါက်တာ မြင့်မြင့်', 'myintmyint-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'နားနှင့် လျှာအထူးကု', 'MBBS, MS (ENT)', 'Female', 30000.00, 'နားနှင့် လျှာဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-5.jpg', '12'),
+(105, 'ဒေါက်တာ နန်းသက်', 'nanthet-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ဆီးချိုနှင့်သည်းနှလုံးဆရာဝန်', 'MBBS, MD (Endo)', 'Female', 44000.00, 'ဆီးချိုနှင့်သည်းနှလုံးရောဂါ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-6.jpg', '18'),
+(106, 'ဒေါက်တာ ထင်ထင်', 'thinthin-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ရုခိုးဆရာဝန်', 'MBBS, MD (Rehab)', 'Female', 32000.00, 'ရုခိုးဆေးပညာဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-7.jpg', '10'),
+(107, 'ဒေါက်တာ နန်းမြင့်', 'nanmyint-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အာရုံကြောဆရာဝန်', 'MBBS, DM (Neuro)', 'Female', 44000.00, 'အာရုံကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-8.jpg', '22'),
+(108, 'ဒေါက်တာ မေသန်း', 'maythan-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆရာဝန်', 'MBBS, MD (Pulmo)', 'Female', 35000.00, 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-9.jpg', '18'),
+(109, 'ဒေါက်တာ နန်းထွေး', 'nantway-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ရုခိုးဆရာဝန်', 'MBBS, MD (Rehab)', 'Female', 44000.00, 'ရုခိုးဆေးပညာဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-10.jpg', '21'),
+(110, 'ဒေါက်တာ မေမြင့်', 'maymyint-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'မျက်စိဆရာဝန်', 'MBBS, MS (Ophthal)', 'Female', 40000.00, 'မျက်စိရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-11.jpg', '15'),
+(111, 'ဒေါက်တာ နွယ်နွယ်', 'nwenwe-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အမျိုးသမီးဆရာဝန်', 'MBBS, MD (Obst/Gyn)', 'Female', 35000.00, 'မီးယပ်နှင့် အမျိုးသမီးဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-12.jpg', '15'),
+(112, 'ဒေါက်တာ မိုးမြင့်', 'moemyint-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'စိတ်ကျန်းမာရေးဆရာဝန်', 'MBBS, MD (Psych)', 'Female', 32000.00, 'စိတ်ကျန်းမာရေးကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-13.jpg', '10'),
+(113, 'ဒေါက်တာ ဇွဲညီညာ', 'zweyinya-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အမျိုးသမီးဆရာဝန်', 'MBBS, MD (Obst/Gyn)', 'Female', 32000.00, 'မီးယပ်နှင့် အမျိုးသမီးဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-14.jpg', '12'),
+(114, 'ဒေါက်တာ ငယ်ရည်မွန်သွေး', 'ngaryimon-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အရေပြားဆရာဝန်', 'MBBS, DDV', 'Female', 44000.00, 'အရေပြားဆိုင်ရာပန်းနာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-15.jpg', '22'),
+(115, 'ဒေါက်တာ စောယွန်းနွယ်', 'sawyun-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ပန်းနာအထူးကု', 'MBBS, DDV', 'Female', 40000.00, 'အရေပြားဆိုင်ရာပန်းနာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-16.jpg', '14'),
+(116, 'ဒေါက်တာ ပြည့်မှူးရတီ', 'pyaemu-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'သွားနှင့် အမြှေးဆရာဝန်', 'BDS, MDS', 'Female', 30000.00, 'သွားနှင့် အမြှေးရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-17.jpg', '11'),
+(117, 'ဒေါက်တာ အေးချမ်းမြေ့', 'ayechammyay-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'စိတ်ကျန်းမာရေးဆရာဝန်', 'MBBS, MD (Psych)', 'Female', 32000.00, 'စိတ်ကျန်းမာရေးကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-18.jpg', '10'),
+(118, 'ဒေါက်တာ မိမိခိုင်', 'mimikhaing-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ကလေးအထူးကု', 'MBBS, DCH', 'Female', 35000.00, 'ကလေးနဲ့ပတ်သက်သော ရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-19.jpg', '12'),
+(119, 'ဒေါက်တာ ခင်နှင်းဝေ', 'khinnwe-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'မျက်စိအထူးကု', 'MBBS, MS (Ophthal)', 'Female', 40000.00, 'မျက်စိရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-20.jpg', '15'),
+(120, 'ဒေါက်တာ စန္ဒာထွန်း', 'sandatun-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အမျိုးသမီးဆရာဝန်', 'MBBS, MD (Obst/Gyn)', 'Female', 44000.00, 'မီးယပ်နှင့် အမျိုးသမီးဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-21.jpg', '20'),
+(121, 'ဒေါက်တာ နှင်းဝါဝင်း', 'nwewarwin-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အာရုံကြောဆရာဝန်', 'MBBS, DM (Neuro)', 'Female', 32000.00, 'အာရုံကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-22.jpg', '10'),
+(122, 'ဒေါက်တာ ဖြူဖြူသင်း', 'phyuphyuthin-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'နားနှင့် လျှာအထူးကု', 'MBBS, MS (ENT)', 'Female', 30000.00, 'နားနှင့် လျှာဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-23.jpg', '11'),
+(123, 'ဒေါက်တာ မြတ်မွန်', 'myatmon-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ဆီးချိုနှင့်သည်းနှလုံးဆရာဝန်', 'MBBS, MD (Endo)', 'Female', 35000.00, 'ဆီးချိုနှင့်သည်းနှလုံးရောဂါ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-24.jpg', '14'),
+(124, 'ဒေါက်တာ အိအိစန်', 'eieisan-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ရုခိုးဆရာဝန်', 'MBBS, MD (Rehab)', 'Female', 40000.00, 'ရုခိုးဆေးပညာဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-25.jpg', '16'),
+(125, 'ဒေါက်တာ သဇင်နွယ်', 'thazin-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆရာဝန်', 'MBBS, MD (Pulmo)', 'Female', 44000.00, 'လေဖြတ်ခြင်းနှင့် အဆုတ်ဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-26.jpg', '18'),
+(126, 'ဒေါက်တာ ခင်မျိုးမြတ်', 'khinmyomyat-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ပန်းနာအထူးကု', 'MBBS, DDV', 'Female', 32000.00, 'အရေပြားဆိုင်ရာပန်းနာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-27.jpg', '12'),
+(127, 'ဒေါက်တာ မြတ်နိုး', 'myatnoe-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'သွားနှင့် အမြှေးဆရာဝန်', 'BDS, MDS', 'Female', 30000.00, 'သွားနှင့် အမြှေးရောဂါကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-28.jpg', '9'),
+(128, 'ဒေါက်တာ ဝတ်မြတ်မွန်', 'watmyatmon-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အရေးပေါ်ဆရာဝန်', 'MBBS, MD (Emerg)', 'Female', 35000.00, 'အရေးပေါ်ဆေးကု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-29.jpg', '13'),
+(129, 'ဒေါက်တာ နှင်းဧဝရီ', 'nweeiwari-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'ကင်ဆာဆရာဝန်', 'MBBS, DM (Onco)', 'Female', 40000.00, 'ကင်ဆာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-30.jpg', '17'),
+(130, 'ဒေါက်တာ မေသဥ္ဇာ', 'mayuizar-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အသည်းနှင့် ဆေးပညာ', 'MBBS, MD (Gastro)', 'Female', 44000.00, 'အသည်းနှင့် အစာချေစနစ်ဆိုင်ရာ အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-31.jpg', '20'),
+(131, 'ဒေါက်တာ ခင်မြတ်မွန်', 'khinmyatmon-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အရိုးအကြောဆရာဝန်', 'MBBS, MS (Ortho)', 'Female', 32000.00, 'အရိုးနှင့် အကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-32.jpg', '11'),
+(132, 'ဒေါက်တာ သက်ထားဝေ', 'thettharway-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'အာရုံကြောဆရာဝန်', 'MBBS, DM (Neuro)', 'Female', 35000.00, 'အာရုံကြောဆိုင်ရာကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-33.jpg', '14'),
+(133, 'ဒေါက်တာ ပြည့်ဖြိုးရှင်', 'pyaephyo-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'စိတ်ကျန်းမာရေးဆရာဝန်', 'MBBS, MD (Psych)', 'Female', 40000.00, 'စိတ်ကျန်းမာရေးကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-34.jpg', '16'),
+(134, 'ဒေါက်တာ မြတ်သဇင်', 'myathazin-doctor@gmail.com', '$2y$10$zN5owSqNTjgFDIO9QwAMNeNhCLy/Gi.dRQ/bwHn8kDabF/JgE7XrO', 'နားနှင့် လျှာအထူးကု', 'MBBS, MS (ENT)', 'Female', 30000.00, 'နားနှင့် လျှာဆိုင်ရာ ကုသမှု အတွေ့အကြုံရှိသော ဆရာဝန်', 'doctor1-35.jpg', '12'),
+(135, '‌ဒေါက်တာ ရဲနန္ဒထက်', 'yenanda-doctor@gmail.com', '$2y$10$5E2EYN5zc87zMrTj.WnUIubwKv27DSDbNCUCZYy3yb/K3LiEJZ4PK', 'နှလုံးဆရာဝန်', 'MBBS, MRCP', 'Male', 35000.00, 'နှလုံးရောဂါအထူးကု အတွေ့အကြုံရှိသော ဆရာဝန်', '/DAS/PHP/uploads/67c6b88a4f14f-doctor2-36.jpg', '6');
 
 -- --------------------------------------------------------
 
@@ -264,7 +272,7 @@ CREATE TABLE IF NOT EXISTS `doctor_hospital` (
   PRIMARY KEY (`id`),
   KEY `doctor_id` (`doctor_id`),
   KEY `hospital_id` (`hospital_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2521 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2523 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `doctor_hospital`
@@ -620,7 +628,9 @@ INSERT INTO `doctor_hospital` (`id`, `doctor_id`, `hospital_id`, `available_day`
 (2517, 131, 18, 'MON', '8AM-10AM'),
 (2518, 132, 19, 'TUE', '3PM-5PM'),
 (2519, 133, 21, 'WED', '11AM-1PM'),
-(2520, 134, 22, 'THU', '2PM-4PM');
+(2520, 134, 22, 'THU', '2PM-4PM'),
+(2521, 135, 32, 'WED', '1PM-3PM'),
+(2522, 135, 21, 'FRI', '3PM-5PM');
 
 -- --------------------------------------------------------
 
@@ -642,7 +652,7 @@ CREATE TABLE IF NOT EXISTS `emergency_requests` (
   `hospital_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `hospital_id` (`hospital_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `emergency_requests`
@@ -655,7 +665,11 @@ INSERT INTO `emergency_requests` (`id`, `patient_name`, `symptoms`, `division`, 
 (13, 'nge nge', 'Chest Pain', 'Yangon', 'Yangon City', 'Unknown Street', 16.95929850, 96.13066960, '2025-03-03 14:28:08', 22),
 (14, ' Ye Thiha Tun', 'Chest Pain', 'Yangon', 'Yangon City', 'Unknown Street', 16.95929850, 96.13066960, '2025-03-03 14:28:55', 14),
 (15, 'nge nge', 'Chest Pain', 'Yangon', 'Yangon City', 'Unknown Street', 16.95929850, 96.13066960, '2025-03-03 14:34:46', 32),
-(16, 'Thant Zin Moe', 'chest pain', 'Yangon', 'Yangon City', 'Thamaing College Road', 16.85671088, 96.13044964, '2025-03-03 15:38:09', 26);
+(16, 'Thant Zin Moe', 'chest pain', 'Yangon', 'Yangon City', 'Thamaing College Road', 16.85671088, 96.13044964, '2025-03-03 15:38:09', 26),
+(17, 'Thant Zin Moe', 'Headache', 'Yangon', 'Yangon City', 'Parami Road', 16.85551491, 96.13518542, '2025-03-04 05:44:43', 1),
+(18, 'Thant Zin Moe', 'Headache', 'Yangon', 'Yangon City', 'Parami Road', 16.85552352, 96.13518270, '2025-03-04 05:47:53', 32),
+(19, 'Thant Zin Moe', 'chest pain', 'Yangon', 'Yangon City', 'Parami Road', 16.85551361, 96.13523590, '2025-03-04 07:18:26', 4),
+(20, 'Kaung Myat Htet', 'chest pain', 'Yangon', 'Yangon City', 'Parami Road', 16.85552924, 96.13518557, '2025-03-04 07:19:13', 4);
 
 -- --------------------------------------------------------
 
@@ -787,7 +801,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `date` datetime DEFAULT CURRENT_TIMESTAMP,
   `profile_image` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
@@ -800,11 +814,12 @@ INSERT INTO `users` (`userID`, `username`, `email`, `password`, `otp`, `status`,
 (89, 'Kaung Myat Htet', 'thantzinmoe893@gmail.com', '$2y$10$nEK3OmcJtwAxImKyAOUj5uo4gTE1Px9IbgxvW/ZKuidnKxDSyP902', 0, 'verified', '2025-02-27 13:00:07', '1740891476_IMG_20250228_180845.jpg'),
 (92, 'Thiha Zaw', 'zazawthz@gmail.com', '$2y$10$WfAGdK1dA/GSudAY3ZcimOYAma2Q.c79lCNF/sxWlBzx/gJVaISkS', 0, 'verified', '2025-02-27 23:07:11', NULL),
 (93, 'Kaung Myat Htet', 'tmoe8123@gmail.com', '$2y$10$RsYKeWeyVXSKcO4.L1R5kuzRi9eq6YzC71HaRjTf8HGsELGXejUnG', 0, 'verified', '2025-02-28 17:50:42', '1740742739_IMG_20250228_180845.jpg'),
-(94, 'Min Thant Zaw', 'thantzinmoe@uit.edu.mm', '$2y$10$8wW.4/Xde7LPWKsjW1ED6uPJDAPQkT6uSUyjWC4YCPH/RlwZCnz7y', 0, 'verified', '2025-02-28 22:24:07', '1740758636_photo_2025-02-28_22-33-28.jpg'),
+(94, 'Min Thant Zaw', 'thantzinmoe@uit.edu.mm', '$2y$10$a6Qa8iCQDKhY.JWOyErpB.5FgLzw7wy/cPKuP7tWka8cRZh/rp1Lm', 0, 'verified', '2025-02-28 22:24:07', '1740758636_photo_2025-02-28_22-33-28.jpg'),
 (95, 'Khant Linn Htoo', 'ohmasan56@gmail.com', '$2y$10$9OJRm9/BPCm3WS5GivkZAOlP/SnjBgOKC5hkY69COLzzkEUH32.i6', 0, 'verified', '2025-02-28 22:35:11', '1740758831_photo_4_2025-02-27_21-09-27.jpg'),
 (96, 'Thu Thu', 'thuzin1124@gmail.com', '$2y$10$9M7iyz29Bd8w7RYXVniwF.Q9ks7IP68u5zhSREHb/O4t2fH2a0xfG', 615513, 'unverified', '2025-03-03 09:36:20', NULL),
 (97, 'Shwe Shwe', 'shwe104410441044@gmail.com', '$2y$10$zlUN0jGpdWMjEq3ULAZx8eF2FSgBTkeG6kYRqc8zgGXjWuf91zFZa', 0, 'verified', '2025-03-03 09:41:56', NULL),
-(98, 'Ye Nanda Htet', 'yenandahtet@uit.edu.mm', '$2y$10$enwaTZ5rYfTcfenMm3QDZOeQCMFUz7lwSX5PHWQoHmNpk5lIgX.MO', 0, 'verified', '2025-03-04 02:02:39', '1741030644_IMG_20250227_145457_512.jpg');
+(98, 'Ye Nanda Htet', 'yenandahtet@uit.edu.mm', '$2y$10$enwaTZ5rYfTcfenMm3QDZOeQCMFUz7lwSX5PHWQoHmNpk5lIgX.MO', 0, 'verified', '2025-03-04 02:02:39', '1741030644_IMG_20250227_145457_512.jpg'),
+(99, 'Daw KhinMar Wai', '86khinmarwai86@gmail.com', '$2y$10$IrHnNHSQKGAJU.bkkMiCfe8Qi1e.hkQdO7inpbRk9DUM.1bEzikW2', 0, 'verified', '2025-03-04 12:22:01', NULL);
 
 --
 -- Indexes for dumped tables

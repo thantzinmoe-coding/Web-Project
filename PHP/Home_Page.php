@@ -234,7 +234,7 @@ session_start();
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="/DAS/Home">ပင်မ</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/DAS/Home">ပင်မစာမျက်နှာ</a></li>
                     <li class="nav-item"><a class="nav-link" href="/DAS/doctor">ဆရာဝန်ရှာရန်</a></li>
                     <li class="nav-item"><a class="nav-link" href="/DAS/hospital">ဆေးရုံရှာရန်</a></li>
                     <?php
@@ -382,9 +382,9 @@ session_start();
             </div>
         </div>
     </section>
-    <div class="container text-center my-5 p-4 bg-white rounded shadow">
-        <p class="mb-4">For emergencies, click the button below to get immediate assistance:</p>
-        <a href="emergency_case.php" class="btn btn-emergency btn-lg text-white">Go to Emergency Page</a>
+    <div class="container text-center my-5 p-4 bg-white rounded shadow" data-aos="fade-right" data-aos-duration="1000">
+        <p class="mb-4">အရေးပေါ်ဝန်ဆောင်မှုများအတွက် အောက်ဖော်ပြပါခလုတ်ကိုနှိပ်၍ဆက်သွယ်နိုင်ပါသည်</p>
+        <a href="emergency_case.php" class="btn btn-emergency btn-lg text-white">အရေးပေါ်ဝန်ဆောင်မှုအတွက် Emergency Page သိုဆက်သွယ်ပါ</a>
     </div>
     <!-- Footer -->
     <footer class="text-center py-4" data-aos="fade-up" data-aos-duration="1000">

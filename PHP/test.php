@@ -18,7 +18,7 @@
 </body>
 
 </html> -->
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -154,7 +154,6 @@
     </script>
 </body>
 </html>
-<?php
 
 // $filename = "Report.txt";
 
@@ -194,18 +193,7 @@
 // // Passing the object to function
 // sendAppointmentEmail($patient);
 
-// $passwords = [
-//     "DrJohn123",
-//     "DrSarah123",
-//     "DrEmily123",
-//     "DrMichael123",
-//     "DrRachel123"
-// ];
 
-// foreach ($passwords as $password) {
-//     echo "Plain: $password<br>";
-//     echo "Hashed: " . password_hash($password, PASSWORD_DEFAULT) . "<br><br>";
-// }
 
 // $dsn = "mysql:host=localhost;dbname=project";
 // $username = "root";
@@ -315,5 +303,22 @@
 // $password = "Doctor@123";
 // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 // echo $hashedPassword;
+
+?> -->
+
+<?php
+
+$passwords = [
+    "Doctor@123",
+    "DrSarah123",
+    "DrEmily123",
+    "DrMichael123",
+    "DrRachel123"
+];
+
+foreach ($passwords as $password) {
+    echo "Plain: $password<br>";
+    echo "Hashed: " . password_hash($password, PASSWORD_DEFAULT) . "<br><br>";
+}
 
 ?>

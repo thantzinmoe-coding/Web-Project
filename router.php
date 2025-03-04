@@ -65,6 +65,9 @@ switch ($request) {
     case '/DAS/emergency_case.php':
         require __DIR__ . '/PHP/emergency_case.php';
         break;
+    case '/DAS/test':
+        require __DIR__ . '/PHP/test.php';
+        break;
     default:
         http_response_code(404);
         require __DIR__ . '/404.php';

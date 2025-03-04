@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,47 +83,54 @@
         }
     </style>
 </head>
+
 <body>
     <form id="admin">
         <h2>Admin Registration</h2>
+        <label for="email">Name:</label>
+        <input type="email" id="name" name="name" required>
+
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
-        
+
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
-        
+
         <label for="hospitalID">Hospital ID:</label>
         <input type="text" name="hospitalID" id="hospitalID">
-        
+
         <label for="role">Role:</label>
         <input type="text" name="role" id="role">
-        
+
         <button id="submit" type="submit">Submit</button>
     </form>
 
     <script>
-        document.getElementById('submit').addEventListener('click', function(e) {
+        document.getElementById('submit').addEventListener('click', function (e) {
             e.preventDefault();
             let email = document.getElementById('email').value;
             let password = document.getElementById('password').value;
             let hospitalID = document.getElementById('hospitalID').value;
             let role = document.getElementById('role').value;
+            let name = document.getElementById('name').value;
 
             console.log(email);
             console.log(password);
             console.log(hospitalID);
             console.log(role);
+            console.log(name);
 
             let formData = new FormData();
             formData.append('email', email);
             formData.append('password', password);
             formData.append('hospitalID', hospitalID);
             formData.append('role', role);
+            formData.append('name', name);
 
             fetch('/DAS/PHP/add_admin.php', {
-                    method: 'POST',
-                    body: formData
-                })
+                method: 'POST',
+                body: formData
+            })
                 .then(response => response.text())
                 .then(data => {
                     console.log(data);
@@ -133,4 +141,5 @@
         });
     </script>
 </body>
+
 </html>

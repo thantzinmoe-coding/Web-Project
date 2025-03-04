@@ -290,18 +290,20 @@ document.addEventListener('DOMContentLoaded', function () {
             method: "POST",
             body: formData
         })
-            .then(response => response.json())
+            .then(response => response.text())
             .then(data => {
+                console.log(data);
+                const jsonData = JSON.parse(data);
                 Notiflix.Loading.remove(); // Always remove the loading indicator after the response
 
-                if (data.error) {
-                    messageBox.innerHTML = `<p style='color:red;'>${data.error}</p>`;
+                if (jsonData.error) {
+                    messageBox.innerHTML = `<p style='color:red;'>${jsonData.error}</p>`;
                 } else {
                     const timeElement = document.createElement('div');
                     document.getElementById("booking-form").reset();
                     dateBox.innerHTML = '';
                     timeBox.innerHTML = '';
-                    messageBox.innerHTML = `<p style='color:green;'>${data.message}</p>`;
+                    messageBox.innerHTML = `<p style='color:green;'>${jsonData.message}</p>`;
                 }
             })
             .catch(error => {

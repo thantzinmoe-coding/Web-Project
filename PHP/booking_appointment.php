@@ -18,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $patient_name = htmlspecialchars($_POST['patient_name']);
     $symptoms = htmlspecialchars($_POST['symptoms']);
     $token_number = intval($_POST['token_number']);
-    $doctor_hospital_id = intval($_POST['doctor_hospital_id']);
 
     // Split time into start and end
     list($start_time, $end_time) = explode("-", $time);
@@ -42,11 +41,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert booking
     $sql = "INSERT INTO booking (doctor_id, hospital_id, useremail, appointment_date, 
-            appointment_start_time, appointment_end_time, patient_name, symptoms, token_number, doctor_hospital_id) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            appointment_start_time, appointment_end_time, patient_name, symptoms, token_number) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iissssssis", $doctor_id, $hospital_id, $useremail, $date, 
-                      $start_time, $end_time, $patient_name, $symptoms, $token_number, $doctor_hospital_id);
+    $stmt->bind_param("iissssssi", $doctor_id, $hospital_id, $useremail, $date, 
+                      $start_time, $end_time, $patient_name, $symptoms, $token_number);
 
     if ($stmt->execute()) {
         $appointment_id = $stmt->insert_id;
@@ -78,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $symptoms,                  // symptoms
             date('d M Y', strtotime($date)), // appointmentDate (formatted as "03 Mar 2025")
             "$start_time-$end_time",    // appointment_time (e.g., "12pm-2pm")
-            $token_number               // token_number
+            $token_number          // token_number
         );
 
         // Send email using the function from patient.php
